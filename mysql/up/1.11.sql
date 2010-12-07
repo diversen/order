@@ -1,0 +1,1 @@
+ALTER TABLE `order_items` ADD COLUMN `item_name_alt` varchar(255) DEFAULT NULL;

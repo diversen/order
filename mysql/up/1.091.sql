@@ -1,0 +1,1 @@
+RENAME TABLE `cart_items` TO `order_items`;

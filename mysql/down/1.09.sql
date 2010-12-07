@@ -1,0 +1,1 @@
+ALTER TABLE `cart_items` DROP COLUMN `content_type`;
