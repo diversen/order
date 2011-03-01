@@ -48,3 +48,4 @@ $_INSTALL['MAIN_MENU_ITEMS'][] = array (
 );
 
 $_INSTALL['PUBLIC_CLONE_URL'] = 'git://github.com/diversen/order.git';
+$_INSTALL['PRIVATE_CLONE_URL'] = 'git@github.com:diversen/order.git';
