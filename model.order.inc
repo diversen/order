@@ -322,9 +322,14 @@ class cart extends db {
             $add_order = 1;
         }
 
-        
-
+       
         $val = $this->getItem($id);
+
+        if (empty($val)){
+            header ("HTTP/1.1 301 Moved Permanently");
+            header ("Location: /order/cart");
+
+        }
         
         $title = lang::translate('View Product') . " :: " . $val['item_name'];
         //$title.= substr2();
