@@ -380,7 +380,7 @@ class cart extends db {
         $options['width'] = get_module_ini('cart_image_size');
 
         if (!empty($val['file'])){
-          print $link = create_image_link("/order/item/$val[id]", "/order/download/$val[id]/full", $options);
+          print $link = create_image_link("/order/item/$val[id]/" . rawurlencode($val['item_name']), "/order/download/$val[id]/full", $options);
         }
         
         print "</td><td>\n";
