@@ -24,12 +24,16 @@ function block_right_info(){
     $fb_share = <<<EOT
 <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Del</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 EOT;
+
     $info.=$fb_share ."<hr />";
+    /*
     $info.= <<<EOT
 <form action="http://www.facebook.com/addfriend.php"><input type="hidden" name="id" value="178272478878935" /><input type="submit" value="Connect with me on Facebook!" /></form>
 EOT;
+     
+     
     $info.= "<br />\n";
-
+*/
     $info.= <<<EOT
 <b>JMS & Co.</b>
 Valbygårdsvej 8
