@@ -95,13 +95,13 @@ class orderView {
             print "<tr>\n";
             print "<td>";
             if (!empty($item['file'])){
-                print $link = create_image_link("/order/item/$item[id]", "/order/download/$item[id]", $options);
+                print $link = create_image_link("/order/item/$item[id]/"  . rawurlencode($val['item_name']), "/order/download/$item[id]", $options);
             }
 
             
             print "</td>";
             print "<td>";
-            print $link = create_link("/order/item/$key/" . urlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
+            print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
             print lang::translate('locale.amount') . ': ' . $item['price']; // . "<br />";
             print "</td><td>\n";
             print $val;
@@ -183,13 +183,13 @@ class orderView {
             $options['width'] = get_module_ini('cart_image_size_thumb');
 
             if (!empty($item['file'])){
-                print $link = create_image_link("/order/item/$key", "/order/download/$key", $options);
+                print $link = create_image_link("/order/item/$key/"  . rawurlencode($item['item_name']), "/order/download/$key", $options);
             } else {
                 print "&nbsp;";
             }
             print "</td>";
             print "<td>";
-            print $link = create_link("/order/item/$key/" . urlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
+            print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
             print lang::translate('locale.amount') . ': ' . $item['price']; // . "<br />";
             print "</td><td>\n";
             print "<form name=\"checkout\" method =\"post\" action=\"\">";
@@ -293,11 +293,11 @@ class orderView {
             $options['width'] = get_module_ini('cart_image_size_thumb');
 
             if (!empty($item['file'])){
-                print $link = create_image_link("/order/item/$item[id]", "/order/download/$item[id]", $options);
+                print $link = create_image_link("/order/item/$item[id]/" . rawurlencode($item['item_name']), "/order/download/$item[id]", $options);
             }
             print "</td>";
             print "<td>";
-            print $link = create_link("/order/item/$item[id]/" . urlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
+            print $link = create_link("/order/item/$item[id]/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
             print lang::translate('locale.amount') . ': ' . $item['price']; // . "<br />";
             print "</td><td>\n";
             print "<form name=\"checkout\" method =\"post\" action=\"\">";

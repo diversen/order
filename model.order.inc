@@ -269,12 +269,12 @@ class cart extends db {
             $options['width'] = get_module_ini('cart_image_size_thumb');
             
             if (!empty($val['file'])){
-                print create_image_link("/order/item/$val[id]", "/order/download/$val[id]", $options);
+                print create_image_link("/order/item/$val[id]/" . rawurlencode($val['item_name']), "/order/download/$val[id]", $options);
             }
             print "</td>\n";
             print "<td>\n";
             //print "<br />\n";
-            print create_link("/order/item/$val[id]/" . urlencode($val['item_name']), $val['item_name'])  . "<br />";
+            print create_link("/order/item/$val[id]/" . rawurlencode($val['item_name']), $val['item_name'])  . "<br />";
             //print substr2($val['item_description'], 50);
             print "<br />";
             print
@@ -329,6 +329,15 @@ class cart extends db {
             header ("HTTP/1.1 301 Moved Permanently");
             header ("Location: /order/cart");
 
+        }
+
+        $url = "/order/item/$val[id]/" . $val['item_name'];
+        if (rawurldecode($_SERVER['REQUEST_URI']) != $url) {
+            header("HTTP/1.1 301 Moved Permanently");
+            //$url = contentArticle::getArticleUrl($article_row['id'], rawurlencode($article_row['title']));
+            //$url = html::getUrl($url);
+            $url = "/order/item/$val[id]/" . rawurlencode($val['item_name']);
+            header("Location: $url");
         }
         
         $title = lang::translate('View Product') . " :: " . $val['item_name'];
