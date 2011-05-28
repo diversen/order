@@ -113,6 +113,8 @@ class cart extends db {
         $options = array();
 
         $values = self::prepareToPost();
+        $values['item_name'] = cos_sanitize_url($values['item_name']);
+        $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
         if (!empty($_FILES['file']['tmp_name'])){
 
 
@@ -461,9 +463,12 @@ class cart extends db {
     // {{{ updateItem($id)
     public function updateItem($id){
         $values = self::prepareToPost();
+        $values['item_name'] = cos_sanitize_url($values['item_name']);
+        $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
         if (!empty($_FILES['file']['tmp_name'])){
             $options['filename'] = 'file';
             $options['maxsize'] = 4000000;
+            
 
             $cart_image_size = get_module_ini('cart_image_size');
             $this->scaleImage($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name'], $cart_image_size);
