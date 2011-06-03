@@ -343,8 +343,11 @@ class cart extends db {
         }
         
         $title = lang::translate('View Product') . " :: " . $val['item_name'];
-        //$title.= substr2();
-        template::setTitle($title);
+        template::setTitle(html::specialEncode($title));
+
+        $meta_desc = cos_remove_extra_ws(html::specialEncode(substr2($val['item_description'], 155, 3, false)));
+        template::setMeta(array('description' => $meta_desc));
+
 
         //include_once 'modules/filters_default/simple.php';
 
