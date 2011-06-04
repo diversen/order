@@ -333,8 +333,8 @@ class cart extends db {
 
         }
 
-        $url = "/order/item/$val[id]/" . $val['item_name'];
-        if (rawurldecode($_SERVER['REQUEST_URI']) != $url) {
+        $url = "/order/item/$val[id]/" . rawurlencode($val['item_name']);
+        if ($_SERVER['REQUEST_URI'] != $url) {
             header("HTTP/1.1 301 Moved Permanently");
             //$url = contentArticle::getArticleUrl($article_row['id'], rawurlencode($article_row['title']));
             //$url = html::getUrl($url);
