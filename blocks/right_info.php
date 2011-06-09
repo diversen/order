@@ -26,6 +26,14 @@ function block_right_info(){
 EOT;
 
     $info.=$fb_share ."<hr />";
+
+        $fb_link = <<<EOT
+<iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fmandlen&amp;width=292&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:62px;" allowTransparency="true"></iframe>
+EOT;
+
+    $info.=$fb_link;
+
+
     /*
     $info.= <<<EOT
 <form action="http://www.facebook.com/addfriend.php"><input type="hidden" name="id" value="178272478878935" /><input type="submit" value="Connect with me on Facebook!" /></form>
