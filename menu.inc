@@ -1,7 +1,5 @@
 <?php
 
-// for adding top level menu items
-// we just add arrays to $_MODULE_MENU array
 
 $_MODULE_MENU = array (
     /*
@@ -22,8 +20,13 @@ $_MODULE_MENU = array (
     ),*/
 
     array(
-        'title' => lang::translate('Admin'),
-        'url' => '/order/admin/index',
+        'title' => lang::translate('order_products_admin_main_menu'),
+        'url' => '/order/products/index',
+        'auth' => 'admin'
+    ),
+    array(
+        'title' => lang::translate('order_shipping_admin_main_menu'),
+        'url' => '/order/shipping/index',
         'auth' => 'admin'
     ),
 );

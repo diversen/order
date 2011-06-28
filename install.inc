@@ -1,22 +1,6 @@
 <?php
 
-/**
- * @ignore
- */
-
-
-/**
- * All modules which print to the screen has run_level set to 0 in module
- * registry. Any other modules shold be set to a run level.
- * If you module needs to run a special levels you need to set:
- * $_INSTALL['RUN_LEVEL'] = "1,7";
- * This will make the module run at level 1 (beginning) and 7 (last level)
- */
-
-/**
- * We set a version, so we can control if there are any upgrades etc.
- */
-$_INSTALL['VERSION'] = 1.11;
+$_INSTALL['VERSION'] = 1.31;
 
 /**
  * We also create a menu item to be added to the main menu placed in database

@@ -1,11 +1,5 @@
 <?php
 
-
-/**
- * view file for adnministration of events
- *
- * @package    event
- */
 if (!session::checkAccessControl('allow_edit_cart')){
     return;
 }

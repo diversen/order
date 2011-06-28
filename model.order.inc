@@ -18,7 +18,7 @@ template::setInlineJs(_COS_PATH . '/modules/order/order.js');
  * @param id    used when we update or delete
  */
 function create_item_form($method, $id = null, $values = array()){
-    $tf = new mySqlForm('order_items', array('id',  'item_name',   'item_name_alt', 'item_description', 'price', 'stock', 'file'), $values);
+    $tf = new mySqlForm('order_items', array('id',  'item_name',   'item_name_alt', 'item_description', 'price', 'stock', 'weight', 'file'), $values);
     $tf->setLabels(array(
         'id' => 'Id is a hidden field',
         'item_name' => lang::translate('Enter title of cart item'),
@@ -26,6 +26,7 @@ function create_item_form($method, $id = null, $values = array()){
         'item_description' => lang::translate('Enter description of cart_item'),
         'stock' => lang::translate('Stock'),
         'price' => lang::translate('Price'),
+        'weight' => lang::translate('order_item_weight'),
         'file' => lang::translate('Upload item image'),
         )
     );
@@ -247,8 +248,21 @@ class cart extends db {
 
     }
     // }}}
+
+    function getCurrencySymbol () {
+        static $local = null;
+        if (!isset($localeconv)){
+            $local = localeconv();
+        }
+        return $currency = $local['int_curr_symbol'];
+    }
+
     // {{{ displayCart
     public function displayCart (){
+
+        $local = localeconv();
+            /*print_r($local); */
+                $currency = $local['int_curr_symbol'];
         //$this->select('order_items', null, array('stock'))
         //$this->displayItemsInBlock();
         if (session::isAdmin()){
@@ -263,6 +277,7 @@ class cart extends db {
         $i = 0;
         print "<tr>\n";
 
+        
         foreach ($all_items as $key => $val){            
             print "<td>";
 
@@ -282,9 +297,11 @@ class cart extends db {
             print
                 //lang::translate('Price') . ' ' .
                 //lang::translate('price_per_unit') . ' ' .
-                lang::translate('locale.amount') . ' ' .
+                
+                $this->getCurrencySymbol() . ' ' .
                 $val['price'] . ',-' .
                 "<br />\n";
+
             
             if (session::isAdmin()){
                 print $link = create_link("/order/edit/$val[id]", lang::translate('Edit'));
