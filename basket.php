@@ -10,6 +10,6 @@ if (isset($_GET['start_prg'])){
 
 
 template::setTitle(lang::translate('View Basket'));
-$cart = new cart();
+$cart = new order();
 $cart->addToBasket();
 orderView::basket();

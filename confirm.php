@@ -2,7 +2,7 @@
 
 template::setTitle(lang::translate('Checkout'));
 
-$cart = new cart();
+$cart = new order();
 orderView::confirmOrder();
 load_post('order_form');
 

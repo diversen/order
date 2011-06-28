@@ -4,5 +4,5 @@
 
 template::setTitle(lang::translate('Checkout'));
 
-$cart = new cart();
+$cart = new order();
 $cart->checkout();

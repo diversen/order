@@ -22,7 +22,7 @@ if (!session::checkAccessControl('allow_edit_cart')){
     return;
 }
 
-$sort = new orderAdmin();
+$sort = new orderProducts();
 $sort->displaySortItems();
 
 ?>

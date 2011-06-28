@@ -7,6 +7,6 @@ $id = URI::getInstance()->fragment(2);
 //$type = $uri->fragment(3);
 //print_r($_POST); die;
 
-$cart = new cart ();
+$cart = new order ();
 $cart->displayItem($id);
 $cart->addToBasket();

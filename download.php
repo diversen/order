@@ -10,7 +10,7 @@
 
 
 include_module('order');
-$cart = new cart();
+$cart = new order();
 
 $uri = URI::getInstance();
 $id = $uri->fragment(2);

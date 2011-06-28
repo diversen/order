@@ -12,7 +12,7 @@ if (!session::checkAccessControl('allow_edit_cart')){
 $id = URI::getInstance()->fragment(2);
 
 template::setTitle(lang::translate('Edit Product'));
-$cart = new cart();
+$cart = new order();
 if (isset($_POST['submit'])){
     $cart->validate();
     $cart->sanitize();

@@ -54,9 +54,7 @@ class orderShipping {
         //echo $query = "SELECT * FROM " . self::$table . " ORDER BY CAST(`weight` AS DECIMAL)";
         $query = "Select * from " .  self::$table . " order by 0+weight asc;";
         $rows = $db->selectQuery($query);
-         //$rows = $db->selectAll(self::$table, null, $search, $from, $limit, $order_by, $asc)
         return $rows;
-        //print_r($rows);
     }
 
     static function displayAll ($type) {
@@ -75,7 +73,7 @@ class orderShipping {
 
     static function showForm () {
         html::$autoLoadTrigger = 'submit';
-        html::init($vars);
+        html::init();
         html::formStart('order_shipping_form');
         html::legend(lang::translate('order_shipping_legend'));
         html::label('weight', lang::translate('order_shipping_weight_label'));
@@ -86,6 +84,20 @@ class orderShipping {
         html::submit('submit', lang::translate('order_shipping_submit_button'));
         html::formEnd();
         echo html::$formStr;
+    }
+
+    static function adminOptions ($id) {
+
+        echo html::createLink(
+            "/order/shipping/edit/$id",
+            lang::translate('order_shipping_edit')
+        );
+        echo MENU_SUB_SEPARATOR . lang::translate('order_delete');
+        echo html::createLink(
+            "/order/shipping/delete/$id",
+            lang::translate('order_shipping_delete')
+        );
+
     }
 }
 

@@ -46,7 +46,7 @@ function create_item_form($method, $id = null, $values = array()){
 }
 
 // }}}
-class cart extends db {
+class order extends db {
     public static $errors = array();
     static $options = array();
     // {{{ valiedate () method for validating insert and edit of items.
@@ -169,7 +169,7 @@ class cart extends db {
             print lang::translate('No Items in basket');
             return;
         }
-        $order_items = cart::getBasketItems();
+        $order_items = order::getBasketItems();
         if (empty($order_items)){
             print lang::translate('No Items in basket');
             return;
@@ -177,8 +177,8 @@ class cart extends db {
 
         if (isset($_POST['submit'])){
             $this->validateOrderForm();
-            if (!empty(cart::$errors)){
-                view_form_errors(cart::$errors);
+            if (!empty(order::$errors)){
+                view_form_errors(order::$errors);
             } else {
                 save_post('order_form');
                 header("Location: /order/confirm");
@@ -347,7 +347,6 @@ class cart extends db {
         if (empty($val)){
             header ("HTTP/1.1 301 Moved Permanently");
             header ("Location: /order/cart");
-
         }
 
         $url = "/order/item/$val[id]/" . rawurlencode($val['item_name']);
@@ -409,7 +408,7 @@ class cart extends db {
         //print $link = create_link('/order/item', $val['item_name']);
         if (isset($_SESSION['admin'])){
             print "<br />" . $link = create_link("/order/edit/$val[id]", lang::translate('Edit'));
-            print " | " . $link = create_link("/order/delete/$val[id]", lang::translate('Delete'));
+            print MENU_SUB_SEPARATOR . $link = create_link("/order/delete/$val[id]", lang::translate('Delete'));
         }
         print "</td></tr>\n";
         print "</table>\n";
@@ -489,7 +488,6 @@ class cart extends db {
             $options['filename'] = 'file';
             $options['maxsize'] = 4000000;
             
-
             $cart_image_size = get_module_ini('cart_image_size');
             $this->scaleImage($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name'], $cart_image_size);
 

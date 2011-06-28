@@ -11,7 +11,7 @@ if (!session::checkAccessControl('allow_edit_cart')){
 template::setTitle(lang::translate('Delete Product'));
 $id = URI::getInstance()->fragment(2);
 
-$cart = new cart();
+$cart = new order();
 if (isset($_POST['submit'])){
     $res = $cart->deleteItem($id);
     

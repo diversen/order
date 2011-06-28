@@ -3,7 +3,7 @@
 
 include_model ("order");
 
-class orderAdmin extends cart {
+class orderAdmin extends order {
 
     public function displaySortItems(){
 

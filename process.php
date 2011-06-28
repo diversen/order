@@ -1,6 +1,6 @@
 <?php
 
-$cart = new cart();
+$cart = new order();
 $cart->process();
 
 

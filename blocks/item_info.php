@@ -14,7 +14,7 @@
 include_model ('order');
 
 function block_item_info(){
-    $cart = new cart ();
+    $cart = new order ();
     //$str = '<div id ="block_menu">';
     $str = '';
     $str.="<h3>" . lang::translate ('Varer') . "</h3>\n";

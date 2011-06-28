@@ -10,7 +10,7 @@ class orderView {
             //print lang::translate('No Items in basket');
             return 0;
         }
-        $order_items = cart::getBasketItems();
+        $order_items = order::getBasketItems();
         if (empty($order_items)){
             print lang::translate('No Items in basket');
             return;
@@ -21,7 +21,7 @@ class orderView {
         $total = $sub_total = 0;
         foreach ($order_items as $key => $val){
             if ($val == 0) continue;
-            $item = cart::getItem($key);
+            $item = order::getItem($key);
             if (empty($item)) {
                 unset($order_items[$key]);
                 continue;
@@ -55,7 +55,7 @@ class orderView {
             print lang::translate('No Items in basket');
             return;
         }
-        $order_items = cart::getBasketItems();
+        $order_items = order::getBasketItems();
         if (empty($order_items)){
             print lang::translate('No Items in basket');
             return;
@@ -82,7 +82,7 @@ class orderView {
         $total = $sub_total = 0;
         foreach ($order_items as $key => $val){
             if ($val == 0) continue;
-            $item = cart::getItem($key);
+            $item = order::getItem($key);
             if (empty($item)) {
                 unset($order_items[$key]);
                 continue;
@@ -146,7 +146,7 @@ class orderView {
             print lang::translate('No Items in basket');
             return;
         }
-        $order_items = cart::getBasketItems();
+        $order_items = order::getBasketItems();
         if (empty($order_items)){
             print lang::translate('No Items in basket');
             return;
@@ -170,7 +170,7 @@ class orderView {
         $total = $sub_total = 0;
         foreach ($order_items as $key => $val){
             if ($val == 0) continue;
-            $item = cart::getItem($key);
+            $item = order::getItem($key);
             if (empty($item)) {
                 unset($order_items[$key]);
                 continue;
@@ -256,7 +256,7 @@ class orderView {
     // {{{ displayBasket ()
     public static function quickBasket (){
         
-        $order_items = cart::getBasketItems();
+        $order_items = order::getBasketItems();
               
         print "<table class=\"order_cart\">\n";
         print "<tr>";
@@ -274,11 +274,11 @@ class orderView {
         //print "<td>&nbsp;</td>";
         print "</tr>\n";
         $total = $sub_total = 0;
-        $all_items = cart::getItemsInBlock();
+        $all_items = order::getItemsInBlock();
 
         foreach ($all_items as $key => $val){
 
-            $item = cart::getItem($val['id']);
+            $item = order::getItem($val['id']);
 
             if (isset($order_items[$item['id']])){
                 $val = $order_items[$item['id']];
@@ -353,5 +353,5 @@ class orderView {
         
         print "<table>\n";
     }
-    // }}}
+
 }
