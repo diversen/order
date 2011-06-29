@@ -5,10 +5,10 @@
  *
  * @package    event
  */
-if (!session::checkAccessControl('allow_edit_cart')){
+if (!session::checkAccessControl('order_allow')){
     return;
 }
-template::setTitle(lang::translate('Delete Product'));
+template::setTitle(lang::translate('order_delete_html_title'));
 $id = URI::getInstance()->fragment(2);
 
 $cart = new order();

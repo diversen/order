@@ -3,11 +3,11 @@
 echo "<table>\n";
 echo "<tr>\n";
 
-$weight = lang::translate('order_shipping_td_weight');
+$weight = lang::translate('order_shipping_weight');
 
 echo "<td>" . $weight  . "</td>";
 
-echo "<td>" . lang::translate('order_shipping_td_cost') . "</td>";
+echo "<td>" . lang::translate('order_shipping_cost') . "</td>";
 echo "<td>&nbsp;</td>\n";
 
 echo "</tr>\n";

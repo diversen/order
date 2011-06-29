@@ -17,7 +17,7 @@ function block_item_info(){
     $cart = new order ();
     //$str = '<div id ="block_menu">';
     $str = '';
-    $str.="<h3>" . lang::translate ('Varer') . "</h3>\n";
+    $str.="<h3>" . lang::translate ('order_item_info_block_header') . "</h3>\n";
     $str.="<ul>\n";
     $items = $cart->getItemsInBlock();
     foreach ($items as $key => $val){
@@ -26,5 +26,3 @@ function block_item_info(){
     $str.="</ul>\n";
     return $str;
 }
-
-

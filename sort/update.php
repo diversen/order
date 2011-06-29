@@ -5,7 +5,7 @@
  *
  * @package    event
  */
-if (!session::checkAccessControl('allow_edit_cart')){
+if (!session::checkAccessControl('order_allow')){
     return;
 }
 

@@ -5,13 +5,13 @@
  *
  * @package    event
  */
-if (!session::checkAccessControl('allow_edit_cart')){
+if (!session::checkAccessControl('order_allow')){
     return;
 }
 
 $id = URI::getInstance()->fragment(2);
 
-template::setTitle(lang::translate('Edit Product'));
+template::setTitle(lang::translate('order_edit_html_title'));
 $cart = new order();
 if (isset($_POST['submit'])){
     $cart->validate();

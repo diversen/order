@@ -5,7 +5,7 @@
  *
  * @package    event
  */
-if (!session::checkAccessControl('allow_edit_cart')){
+if (!session::checkAccessControl('order_allow')){
     return;
 }
 
@@ -19,7 +19,7 @@ if ($_POST['update'] == "update"){
         $db->update('order_items', $values, $val);
         $count++;
     }
-    echo lang::translate('Order saved');
+    echo lang::translate('order_sort_order_saved');
 }
 
 die;

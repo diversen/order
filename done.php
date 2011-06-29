@@ -1,4 +1,4 @@
 <?php
 
-echo lang::translate('process_confirm_message') . "\n\n";
-echo lang::translate('cheers') . " $_SERVER[SERVER_NAME]";
+echo lang::translate('order_process_confirm_message') . "\n\n";
+echo lang::translate('order_process_greetings') . " $_SERVER[SERVER_NAME]";

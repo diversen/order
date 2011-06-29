@@ -21,5 +21,3 @@ if (isset($_POST['submit'])) {
 
 orderShipping::showForm();
 orderShipping::displayAll('company');
-
-

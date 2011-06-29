@@ -1,10 +1,10 @@
 <?php
 
-if (!session::checkAccessControl('allow_edit_cart')){
+if (!session::checkAccessControl('order_allow')){
     return;
 }
 
-template::setTitle(lang::translate('Add Product'));
+template::setTitle(lang::translate('order_add_product_html_title'));
 $cart = new order ();
 if (isset($_POST['submit'])){
     $cart->validate();

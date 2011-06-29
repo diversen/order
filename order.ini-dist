@@ -1,14 +1,14 @@
-allow_edit_cart = admin
-cart_image_size = 250
-cart_image_size_thumb = 100
+order_allow = admin
+order_image_size = 250
+order_image_size_thumb = 100
 checkout_module = paypal
-; duration from now!: time() + cookie_time
-cookie_time = 360000
-value_added_tax = "0.20"
-reply_to = mail@mandlen.dk
-invoice_to = mail@mandlen.dk
-debug = 0
+; duration from now!: time() + order_cookie_time
+order_cookie_time = 360000
+order_added_tax = "0.20"
+order_reply_to = mail@mandlen.dk
+order_invoice_to = mail@mandlen.dk
+order_debug = 0
 [development]
-debug = 0
-reply_to = dennisbech@yahoo.dk
-invoice_to = dennis.iversen@gmail.com
+order_debug = 0
+order_reply_to = dennisbech@yahoo.dk
+order_invoice_to = dennis.iversen@gmail.com

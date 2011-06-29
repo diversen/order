@@ -176,7 +176,7 @@ $(document).ready(function(){
             $("#list ul").sortable({
                 opacity: 0.8, cursor: 'move', update: function() {
                     var order = $(this).sortable("serialize") + '&update=update';
-                    $.post("/order/admin/update", order, function(theResponse){
+                    $.post("/order/products/update", order, function(theResponse){
                         $("#response").html(theResponse);
                         $("#response").slideDown('slow');
 			slideout();

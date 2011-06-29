@@ -52,7 +52,9 @@ class orderShipping {
         $db = new db();
 
         //echo $query = "SELECT * FROM " . self::$table . " ORDER BY CAST(`weight` AS DECIMAL)";
-        $query = "Select * from " .  self::$table . " order by 0+weight asc;";
+        $query = "Select * from " .  self::$table . " ";
+        $query.= "WHERE type = " . db::$dbh->quote($type);
+        $query.= "ORDER BY 0+weight ASC";
         $rows = $db->selectQuery($query);
         return $rows;
     }
@@ -71,6 +73,12 @@ class orderShipping {
         return $res;
     }
 
+    static function getOne ($id) {
+        $db = new db ();
+        $row = $db->selectOne(self::$table, null, array('id' => $id));
+        return $row;
+    }
+
     static function showForm () {
         html::$autoLoadTrigger = 'submit';
         html::init();
@@ -86,16 +94,31 @@ class orderShipping {
         echo html::$formStr;
     }
 
-    static function adminOptions ($id) {
+    static function showEditForm ($row) {
+        html::$autoLoadTrigger = 'submit';
+        html::init($row);
+        html::formStart('order_shipping_form');
+        html::legend(lang::translate('order_shipping_legend'));
+        html::label('weight', lang::translate('order_shipping_weight_label'));
+        html::text('weight');
+        html::label('cost', lang::translate('order_shipping_cost_label'));
+        html::text('cost');
+        html::label('submit', '');
+        html::submit('submit', lang::translate('order_shipping_submit_button'));
+        html::formEnd();
+        echo html::$formStr;
+    }
+
+    static function adminOptions ($id, $type) {
 
         echo html::createLink(
             "/order/shipping/edit/$id",
-            lang::translate('order_shipping_edit')
+            lang::translate('order_edit')
         );
-        echo MENU_SUB_SEPARATOR . lang::translate('order_delete');
+        echo MENU_SUB_SEPARATOR;
         echo html::createLink(
             "/order/shipping/delete/$id",
-            lang::translate('order_shipping_delete')
+            lang::translate('order_delete')
         );
 
     }

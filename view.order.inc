@@ -2,21 +2,20 @@
 
 class orderView {
 
-
     // {{{ displayConfirmOrder ()
     public static function detailsEmail (){
 
         if (!isset($_COOKIE['order_items'])){
-            //print lang::translate('No Items in basket');
             return 0;
         }
         $order_items = order::getBasketItems();
         if (empty($order_items)){
-            print lang::translate('No Items in basket');
+            print lang::translate('order_no_items_in_basket');
             return;
         }
 
-        print lang::translate("order_details") . "\n\n";
+        print lang::translate("order_order_details");
+        print "\n\n";
 
         $total = $sub_total = 0;
         foreach ($order_items as $key => $val){
@@ -28,36 +27,34 @@ class orderView {
             }
 
             print $item['item_name'] . " ";
-            print lang::translate('locale.amount') . ': ' . $item['price'];
+            print order::getCurrencySymbol() . ': ' . $item['price'];
             print " * " . $val;
-            //print lang::translate('locale.amount') . ' ';
+
             $sub_total = $val * $item['price'];
-            print " = " . lang::translate('locale.amount') . " " . $sub_total . "\n";
+            print " = " . order::getCurrencySymbol() . " " . $sub_total . "\n";
             $total = $sub_total + $total;
-
-
         }
 
-        print lang::translate('amount_total');
+        print lang::translate('order_amount_total');
         print ' = ';
-        print lang::translate('locale.amount') . " " . $total . "\n";
+        print order::getCurrencySymbol() . " " . $total . "\n";
 
-        print lang::translate('amount_value_added_tax');
+        print lang::translate('order_amount_value_added_tax');
         print ' = ';
-        print lang::translate('locale.amount') . ' ';
-        print $total * get_module_ini('value_added_tax') . "\n";
-        print lang::translate('amount_added_shipping_cost') . "\n\n";
+        print order::getCurrencySymbol() . ' ';
+        print $total * get_module_ini('order_added_tax') . "\n";
+        print lang::translate('order_amount_added_shipping_cost') . "\n\n";
     }
     // }}}
     // {{{ displayConfirmOrder ()
     public static function confirmOrder (){
         if (!isset($_COOKIE['order_items'])){
-            print lang::translate('No Items in basket');
+            print lang::translate('order_no_items_in_basket');
             return;
         }
         $order_items = order::getBasketItems();
         if (empty($order_items)){
-            print lang::translate('No Items in basket');
+            print lang::translate('order_no_items_in_basket');
             return;
         }
 
@@ -71,11 +68,11 @@ class orderView {
         print "<tr>";
         print "<td colspan=\"2\">";
         print "</td><td>\n";
-        print lang::translate('Quantity');
+        print lang::translate('order_quantity');
         print "</td><td>\n";
-        print lang::translate('sub_total');
+        print lang::translate('order_sub_total');
         print "</td><td>\n";
-        print lang::translate('amount_total');
+        print lang::translate('order_amount_total');
         print "</td>";
         print "</tr>\n";
 
@@ -90,7 +87,7 @@ class orderView {
 
             $options = array ();
             $options['alt'] = $val['item_name_alt'];
-            $options['width'] = get_module_ini('cart_image_size_thumb');
+            $options['width'] = get_module_ini('order_image_size_thumb');
             
             print "<tr>\n";
             print "<td>";
@@ -102,11 +99,11 @@ class orderView {
             print "</td>";
             print "<td>";
             print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
-            print lang::translate('locale.amount') . ': ' . $item['price']; // . "<br />";
+            print order::getCurrencySymbol() . ': ' . $item['price']; // . "<br />";
             print "</td><td>\n";
             print $val;
             print "</td><td>\n";
-            print lang::translate('locale.amount') . ' ';
+            print order::getCurrencySymbol() . ' ';
             $sub_total = $val * $item['price'];
             print $sub_total;
             $total = $sub_total + $total;
@@ -115,27 +112,31 @@ class orderView {
             print "</tr>\n";
         }
         print "<tr>\n";
-        print "<td colspan=\"3\">" . lang::translate('amount_total');
+        print "<td colspan=\"3\">";
+        print lang::translate('order_amount_total');
         print "</td>";
         print "<td>&nbsp;</td>\n";
         print "<td>";
 
-        print lang::translate('locale.amount') . ' ';
+        print order::getCurrencySymbol() . ' ';
         print $total;
         print "</td>\n";
         print "</tr>\n";
 
         print "<tr>\n";
-        print "<td colspan=\"4\">" . lang::translate('amount_value_added_tax');
+        print "<td colspan=\"4\">";
+        print lang::translate('order_amount_value_added_tax');
         print "</td>";
         print "<td>";
-        print lang::translate('locale.amount') . ' ';
-        print $total * get_module_ini('value_added_tax');
+        print order::getCurrencySymbol() . ' ';
+        print $total * get_module_ini('order_added_tax');
         print "</td>\n";
         print "</tr>\n";
 
         print "<tr>\n";
-        print "<td  colspan=5>" . lang::translate('amount_added_shipping_cost') . "</td>\n";
+        print "<td  colspan=5>";
+        print lang::translate('order_amount_added_shipping_cost');
+        print "</td>\n";
         print "</tr>\n";
         print "<table>\n";
     }
@@ -143,12 +144,12 @@ class orderView {
     // {{{ displayBasket ()
     public static function basket (){
         if (!isset($_COOKIE['order_items'])){
-            print lang::translate('No Items in basket');
+            print lang::translate('order_no_items_in_basket');
             return;
         }
         $order_items = order::getBasketItems();
         if (empty($order_items)){
-            print lang::translate('No Items in basket');
+            print lang::translate('order_no_items_in_basket');
             return;
         }
 
@@ -156,16 +157,15 @@ class orderView {
         print "<tr>";
         print "<td colspan=\"2\"></td>\n";
         print "<td>";
-        print lang::translate('Quantity');
+        print lang::translate('order_quantity');
         print "</td>";
         print "<td>\n";
-        print lang::translate('sub_total');
+        print lang::translate('order_sub_total');
         print "</td>";
         print "<td>\n";
-        print lang::translate('amount_total');
+        print lang::translate('order_amount_total');
         print "</td>";
         print "<td>&nbsp;</td>";
-        //print "<td>&nbsp;</td>";
         print "</tr>\n";
         $total = $sub_total = 0;
         foreach ($order_items as $key => $val){
@@ -180,17 +180,24 @@ class orderView {
 
             $options = array ();
             $options['alt'] = $val['item_name_alt'];
-            $options['width'] = get_module_ini('cart_image_size_thumb');
+            $options['width'] = get_module_ini('order_image_size_thumb');
 
             if (!empty($item['file'])){
-                print $link = create_image_link("/order/item/$key/"  . rawurlencode($item['item_name']), "/order/download/$key", $options);
+                $link = 
+                    create_image_link(
+                        "/order/item/$key/"  .
+                        rawurlencode($item['item_name']),
+                        "/order/download/$key", $options);
+                print $link;
+
             } else {
                 print "&nbsp;";
             }
             print "</td>";
             print "<td>";
             print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
-            print lang::translate('locale.amount') . ': ' . $item['price']; // . "<br />";
+            print order::getCurrencySymbol();
+            print ': ' . $item['price'];
             print "</td><td>\n";
             print "<form name=\"checkout\" method =\"post\" action=\"\">";
             print "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
@@ -198,47 +205,43 @@ class orderView {
             print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('Update') . "\" /> ";
             print "</form>\n";
             print "</td><td>\n";
-            print lang::translate('locale.amount') . '';
+            print order::getCurrencySymbol() . '';
             $sub_total = $val * $item['price'];
             print $sub_total;
             $total = $sub_total + $total;
             print "</td>\n";
             print "<td>&nbsp;</td>";
             print "<td>&nbsp;</td>\n";
-            //print "<td>&nbsp;</td>\n";
             print "</tr>\n";
 
         }
         print "<tr>\n";
-        print "<td colspan=\"4\">" . lang::translate('amount_total');
+        print "<td colspan=\"4\">";
+        print lang::translate('order_amount_total');
         print "</td>";
-        //print "<td>&nbsp;</td>\n";
         print "<td>";
-        print lang::translate('locale.amount') . ' ';
+        print order::getCurrencySymbol() . ' ';
         print $total;
         print "</td>\n";
         print "<td>&nbsp;</td>\n";
-        //print "<td>&nbsp;</td>\n";
         print "</tr>\n";
 
         print "<tr>\n";
-        print "<td colspan=\"4\">" . lang::translate('amount_value_added_tax');
+        print "<td colspan=\"4\">";
+        print lang::translate('order_amount_value_added_tax');
         print "</td>";
-        //print "<td>&nbsp;</td>\n";
         print "<td>";
-        print lang::translate('locale.amount') . ' ';
-        print $total * get_module_ini('value_added_tax');
+        print order::getCurrencySymbol() . ' ';
+        print $total * get_module_ini('order_added_tax');
         print "</td>\n";
         print "<td>&nbsp;</td>\n";
-        //print "<td>&nbsp;</td>\n";
         print "</tr>\n";
 
         print "<tr>\n";
-        print "<td colspan=6>" . lang::translate('amount_added_shipping_cost') . "</td>\n";
-        //print "<td>&nbsp;</td>";
+        print "<td colspan=6>";
+        print lang::translate('order_amount_added_shipping_cost');
+        print "</td>\n";
         print "</tr>\n";
-        //print "<td>&nbsp;</td>";
-        //print "<td>&nbsp;</td>";
         print "<td colspan=5>";
         print "&nbsp;";
         print "</td>";
@@ -247,8 +250,6 @@ class orderView {
         print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('Buy') . "\" /> ";
         print "</form>\n";
         print "</td>\n";
-        //print "<td>&nbsp;</td>";
-        //print "<td>&nbsp;</td>";
         print "</tr>\n";
         print "<table>\n";
     }
@@ -262,16 +263,15 @@ class orderView {
         print "<tr>";
         print "<td colspan=\"2\"></td>\n";
         print "<td>";
-        print lang::translate('Quantity');
+        print lang::translate('order_quantity');
         print "</td>";
         print "<td>\n";
-        print lang::translate('sub_total');
+        print lang::translate('order_sub_total');
         print "</td>";
         print "<td>\n";
-        print lang::translate('amount_total');
+        print lang::translate('order_amount_total');
         print "</td>";
         print "<td>&nbsp;</td>";
-        //print "<td>&nbsp;</td>";
         print "</tr>\n";
         $total = $sub_total = 0;
         $all_items = order::getItemsInBlock();
@@ -290,15 +290,22 @@ class orderView {
 
             $options = array ();
             $options['alt'] = $val['item_name_alt'];
-            $options['width'] = get_module_ini('cart_image_size_thumb');
+            $options['width'] = get_module_ini('order_image_size_thumb');
 
             if (!empty($item['file'])){
-                print $link = create_image_link("/order/item/$item[id]/" . rawurlencode($item['item_name']), "/order/download/$item[id]", $options);
+                $link =
+                    create_image_link(
+                        "/order/item/$item[id]/" . rawurlencode($item['item_name']),
+                        "/order/download/$item[id]", $options);
             }
             print "</td>";
             print "<td>";
-            print $link = create_link("/order/item/$item[id]/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
-            print lang::translate('locale.amount') . ': ' . $item['price']; // . "<br />";
+            $link = create_link(
+                "/order/item/$item[id]/" . rawurlencode ($item['item_name']) ,
+                $item['item_name']);
+            print $link;
+            print "<br />\n";
+            print order::getCurrencySymbol() . ': ' . $item['price'];
             print "</td><td>\n";
             print "<form name=\"checkout\" method =\"post\" action=\"\">";
             print "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
@@ -306,7 +313,7 @@ class orderView {
             print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('Update') . "\" /> ";
             print "</form>\n";
             print "</td><td>\n";
-            print lang::translate('locale.amount') . ' ';
+            print order::getCurrencySymbol() . ' ';
             $sub_total = $val * $item['price'];
             print $sub_total;
             $total = $sub_total + $total;
@@ -317,29 +324,31 @@ class orderView {
 
         }
         print "<tr>\n";
-        print "<td colspan=\"4\">" . lang::translate('amount_total');
+        print "<td colspan=\"4\">";
+        print lang::translate('order_amount_total');
         print "</td>";
-        //print "<td>&nbsp;</td>\n";
         print "<td>";
-        print lang::translate('locale.amount') . ' ';
+        print order::getCurrencySymbol() . ' ';
         print $total;
         print "</td>\n";
         print "<td>&nbsp;</td>\n";
         print "</tr>\n";
 
         print "<tr>\n";
-        print "<td colspan=\"4\">" . lang::translate('amount_value_added_tax');
+        print "<td colspan=\"4\">";
+        print lang::translate('order_amount_value_added_tax');
         print "</td>";
         print "<td>";
-        print lang::translate('locale.amount') . ' ';
-        print $total * get_module_ini('value_added_tax');
+        print order::getCurrencySymbol() . ' ';
+        print $total * get_module_ini('order_added_tax');
         print "</td>\n";
         print "<td>&nbsp;</td>\n";
         print "</tr>\n";
 
         print "<tr>\n";
-        print "<td colspan=\"6\">" . lang::translate('amount_added_shipping_cost') . "</td>\n";
-        //print "<td>&nbsp;</td>";
+        print "<td colspan=\"6\">";
+        print lang::translate('order_amount_added_shipping_cost');
+        print "</td>\n";
         print "</tr>\n";
         print "<tr>\n";
         print "<td colspan=\"5\">";
@@ -350,7 +359,6 @@ class orderView {
         print "</form>\n";
         print "</td>\n";
         print "</tr>\n";
-        
         print "<table>\n";
     }
 
