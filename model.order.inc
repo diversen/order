@@ -41,7 +41,6 @@ function create_item_form($method, $id = null, $values = array()){
         $tf->setMethod($method);
         $caption = lang::translate('order_item_form_delete_button');
     }
-    echo $caption;
     $tf->createForm('', 'post',  'test', '',
                        true,  $caption);
 }
