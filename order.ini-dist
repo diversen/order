@@ -1,14 +1,9 @@
-order_allow = admin
+order_allow = "admin"
 order_image_size = 250
 order_image_size_thumb = 100
-checkout_module = paypal
-; duration from now!: time() + order_cookie_time
+order_checkout_module = "paypal"
 order_cookie_time = 360000
-order_added_tax = "0.20"
-order_reply_to = mail@mandlen.dk
-order_invoice_to = mail@mandlen.dk
+order_added_tax = 0.20
+order_reply_to = "mail@mandlen.dk"
+order_invoice_to = "mail@mandlen.dk"
 order_debug = 0
-[development]
-order_debug = 0
-order_reply_to = dennisbech@yahoo.dk
-order_invoice_to = dennis.iversen@gmail.com
