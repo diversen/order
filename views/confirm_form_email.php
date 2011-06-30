@@ -28,7 +28,7 @@ $_POST = str_replace_ary('&amp;', '&', $_POST);
 <?php if (isset($_POST['checkme'])){ ?>
 
 
-<?=lang::translate('order_diffent_shipping')?>:
+<?=lang::translate('order_different_shipping')?>:
 
 <?=lang::translate('order_name')?>: <?=@$_POST['diff_name']?>
 

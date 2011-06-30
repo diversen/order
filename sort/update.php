@@ -19,7 +19,7 @@ if ($_POST['update'] == "update"){
         $db->update('order_items', $values, $val);
         $count++;
     }
-    echo lang::translate('Order saved');
+    echo lang::translate('order_sort_saved_confirm');
 }
 
 die;

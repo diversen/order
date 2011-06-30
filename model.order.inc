@@ -33,13 +33,13 @@ function create_item_form($method, $id = null, $values = array()){
 
     if ($method == 'update'){
         $tf->setMethod($method, $id);
-        $caption = lang::translate('order_item_form_edit_button');
+        $caption = lang::translate('order_item_form_edit_legend');
     } else if ($method== 'insert') {
         $tf->setMethod($method);
-        $caption = lang::translate('order_item_form_insert_button');
+        $caption = lang::translate('order_item_form_insert_legend');
     } else {
         $tf->setMethod($method);
-        $caption = lang::translate('order_item_form_delete_button');
+        $caption = lang::translate('order_item_form_delete_legend');
     }
     $tf->createForm('', 'post',  'test', '',
                        true,  $caption);

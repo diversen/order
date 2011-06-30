@@ -1,88 +1,130 @@
 <?php
 
-$_COS_LANG_MODULE = array();
-$_COS_LANG_MODULE['Add To Cart'] = 'Tlføj til kruv';
-$_COS_LANG_MODULE['Shop'] =  'Butik';
-$_COS_LANG_MODULE['Products'] = 'Sortiment';
-$_COS_LANG_MODULE['Basket'] = 'Din Kurv';
-$_COS_LANG_MODULE['Add Item'] = 'Tilføj';
-$_COS_LANG_MODULE['Price'] = 'Pris';
-$_COS_LANG_MODULE['locale.amount'] = 'DKK';
-$_COS_LANG_MODULE['price_per_unit'] = 'per enhed: ';
-$_COS_LANG_MODULE['Quantity'] = 'Antal';
-$_COS_LANG_MODULE['sub_total'] = 'Del af total';
-$_COS_LANG_MODULE['No Items in basket'] = 'Kurven er tom';
-$_COS_LANG_MODULE['Enter title of cart item'] = 'Indtast varens titel';
-$_COS_LANG_MODULE['Enter description of cart_item'] = 'Indtast beskrivelse af varen';
-$_COS_LANG_MODULE['Upload item image'] = 'Tilføj et billede';
-$_COS_LANG_MODULE['View Basket'] = 'Vis kurv';
-$_COS_LANG_MODULE['Add Product'] = 'Inslæt vare';
-$_COS_LANG_MODULE['View Product'] = 'Vis vare';
-$_COS_LANG_MODULE['Checkout'] = 'Fuldfør ordre';
-$_COS_LANG_MODULE['Edit Product'] = 'Redigere vare';
-$_COS_LANG_MODULE['Delete Product'] = 'Slet vare';
-$_COS_LANG_MODULE['Product Deleted'] = 'Vare slettet';
-$_COS_LANG_MODULE['Product Updated'] = 'Vare opdateret';
-$_COS_LANG_MODULE['Product Inserted'] = 'Vare indsat';
-$_COS_LANG_MODULE['amount_total'] = 'Total pris';
-$_COS_LANG_MODULE['Buy'] = 'Til bestilling';
-$_COS_LANG_MODULE['Update Cart'] = 'Opdatere kurv';
+// Translation of file /home/dennis/www/mandlen/modules/order/sort/update.php
 
-$_COS_LANG_MODULE['back_to_cart'] = 'Fortsænt med at handle';
-$_COS_LANG_MODULE['checkout_legend'] = 'Indtast ordre oplysninger';
-$_COS_LANG_MODULE['name'] = 'Navn';
-$_COS_LANG_MODULE['adresse'] = 'Adresse';
-$_COS_LANG_MODULE['city'] = 'By';
-$_COS_LANG_MODULE['postal_code'] = 'Postnummer';
-$_COS_LANG_MODULE['email'] = 'email';
-$_COS_LANG_MODULE['diffent_shipping'] = 'Anden leverings adresse';
-$_COS_LANG_MODULE['add_order'] = 'Gå til bekræftelse af ordre';
-$_COS_LANG_MODULE['confirm_order'] = 'Bekræft ordre';
-$_COS_LANG_MODULE['enter_amount'] = 'Indtast antal';
+$_COS_LANG_MODULE['order_sort_saved_confirm'] = 'Ny sortering gemt';
+// Translation of file /home/dennis/www/mandlen/modules/order/view.order.inc
 
-$_COS_LANG_MODULE['error_name'] = 'Du skal indtast et navn';
-$_COS_LANG_MODULE['error_adresse'] = 'Du skal indtaste en adresse';
-$_COS_LANG_MODULE['error_city'] = 'Du skal indtast en by';
-$_COS_LANG_MODULE['error_zip_code'] = 'Du skal indtaste et postnummer';
-$_COS_LANG_MODULE['error_email'] = 'Du skal indtaste en email';
-$_COS_LANG_MODULE['error_diff_name'] = 'Du skal indtaste anden leveringsnavn';
-$_COS_LANG_MODULE['error_diff_adresse'] = 'Du skal indtaste anden leverings adresse';
-$_COS_LANG_MODULE['diff_error_city'] = 'Du skal indtaste anden leverings by';
-$_COS_LANG_MODULE['error_diff_zip_code'] = 'Du skal indtaste anden leverings by';
+$_COS_LANG_MODULE['order_no_items_in_basket'] = 'Antal';
+$_COS_LANG_MODULE['order_amount_total'] = 'Total beløb';
+$_COS_LANG_MODULE['order_amount_value_added_tax'] = 'Heraf moms';
+$_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'Fragt omkostninger';
+$_COS_LANG_MODULE['order_quantity'] = 'Antal';
+$_COS_LANG_MODULE['order_sub_total'] = 'Sub total';
+$_COS_LANG_MODULE['order_item_update'] = 'Opdater';
+$_COS_LANG_MODULE['order_buy'] = 'Køb';
+// Translation of file /home/dennis/www/mandlen/modules/order/shipping/model.shipping.inc
 
-$_COS_LANG_MODULE['confirm_legend'] = 'Leverings oplysninger';
-$_COS_LANG_MODULE['amount_value_added_tax'] = 'Heraf Moms';
-$_COS_LANG_MODULE['amount_added_shipping_cost'] = 'Tillægges forsendelses omkostninger';
-$_COS_LANG_MODULE['company'] = 'Firma';
+$_COS_LANG_MODULE['order_shipping_form_cost_float_empty'] = 'Ugyldig fragt pris ';
+$_COS_LANG_MODULE['order_shipping_form_cost_float_less_than_zero'] = 'Ugyldig fragt pris';
+$_COS_LANG_MODULE['order_shipping_form_cost_incorrect_float_value'] = 'Ugyldig fragt pris';
+$_COS_LANG_MODULE['order_shipping_form_weight_float_empty'] = 'Ugyldig vægt';
+$_COS_LANG_MODULE['order_shipping_form_weight_float_less_than_zero'] = 'Ugyldig vægt';
+$_COS_LANG_MODULE['order_shipping_form_weight_incorrect_float_value'] = 'Ugyldig vægt';
+$_COS_LANG_MODULE['order_shipping_legend'] = 'Tilføj fragt omkostning';
+$_COS_LANG_MODULE['order_shipping_weight_label'] = 'Vægt (decimaler tilladt) angives i kilo';
+$_COS_LANG_MODULE['order_shipping_cost_label'] = 'Pris (decimaler tilladt) angives i';
+$_COS_LANG_MODULE['order_shipping_submit_button'] = 'Gem';
+$_COS_LANG_MODULE['order_edit'] = 'Ret';
+$_COS_LANG_MODULE['order_delete'] = 'Slet';
+// Translation of file /home/dennis/www/mandlen/modules/order/shipping/private.php
 
-$_COS_LANG_MODULE['out_of_stock'] = 'Udgået!';
-$_COS_LANG_MODULE['Stock'] = 'Beholdning';
-$_COS_LANG_MODULE['phone'] = 'Telefon';
+$_COS_LANG_MODULE['order_shipping_add_action_message'] = 'Tilføjet til tabel';
+$_COS_LANG_MODULE['order_shipping_add_action_error_message'] = 'Fejl: Kunne ikke tilføje';
+// Translation of file /home/dennis/www/mandlen/modules/order/shipping/company.php
 
-$_COS_LANG_MODULE['No Item'] = 'Ingen titel';
-$_COS_LANG_MODULE['order_details'] = 'Ordrer oversigt';
-$_COS_LANG_MODULE['invoice_details'] = 'Faktura oplysninger';
+// Translation of file /home/dennis/www/mandlen/modules/order/model.order.inc
 
-$_COS_LANG_MODULE['different_shipping'] = 'Leverings adresse';
+$_COS_LANG_MODULE['order_item_form_title'] = 'Title';
+$_COS_LANG_MODULE['order_item_form_title_alt'] = 'Alternativ titel';
+$_COS_LANG_MODULE['order_item_form_desc'] = 'Beskrivelse';
+$_COS_LANG_MODULE['order_item_form_stock'] = 'Antal i beholdning';
+$_COS_LANG_MODULE['order_item_form_price'] = 'Pris';
+$_COS_LANG_MODULE['order_item_form_weight'] = 'Vægt';
+$_COS_LANG_MODULE['order_item_form_upload_image'] = 'Tilføj evt billede';
+$_COS_LANG_MODULE['order_item_form_edit_legend'] = 'Ret produkt';
+$_COS_LANG_MODULE['order_item_form_insert_legend'] = 'Tiløj produkt';
+$_COS_LANG_MODULE['order_item_form_delete_legend'] = 'Slet produkt';
+$_COS_LANG_MODULE['order_item_form_error_no_title'] = 'Ingen titel';
+$_COS_LANG_MODULE['order_item_form_error_no_valid_price'] = 'Ugyldig pris';
+$_COS_LANG_MODULE['order_order_form_error_name'] = 'Intet navn';
+$_COS_LANG_MODULE['order_order_form_error_adresse'] = 'Ingen adresse';
+$_COS_LANG_MODULE['order_order_form_error_city'] = 'Ingen by';
+$_COS_LANG_MODULE['order_order_form_error_zip_code'] = 'Ugyldig postnummer';
+$_COS_LANG_MODULE['order_order_form_error_email'] = 'Ugyldig email';
+$_COS_LANG_MODULE['order_order_form_error_diff_name'] = 'Intet alternativt navn';
+$_COS_LANG_MODULE['order_order_form_error_diff_adresse'] = 'Ingen alternativ adresse';
+$_COS_LANG_MODULE['order_order_form_diff_error_city'] = 'Ingen by';
+$_COS_LANG_MODULE['order_order_form_error_diff_zip_code'] = 'Ugyldig postnummer';
+$_COS_LANG_MODULE['order_confirm_product_inserted'] = 'Produkt tilføjet';
+$_COS_LANG_MODULE['order_checkout_no_items_in_basket'] = 'Din kurv er tom';
+$_COS_LANG_MODULE['order_checkout_invoice_email_message'] = "Tak for din bestilling. Vi sender en ordrebekræftelse inkl. fragtomkostninger. Her fremgår det også hvilket kontonummer, du skal indsætte betaling på. Bestillingen afsendes, når betalingen er registreret.\n\n";
+$_COS_LANG_MODULE['order_checkout_greeting'] = 'Vh';
+$_COS_LANG_MODULE['order_out_of_stock'] = 'Udgået';
+$_COS_LANG_MODULE['order_view_single_product'] = 'Vis vare';
+$_COS_LANG_MODULE['order_price'] = 'Pris';
+$_COS_LANG_MODULE['order_item_enter_amount'] = 'Antal';
+$_COS_LANG_MODULE['order_update_cart_item'] = 'Opdater ';
+$_COS_LANG_MODULE['order_action_message_product_updated'] = 'Vare opdateret';
+$_COS_LANG_MODULE['order_product_action_message_product_deleted'] = 'Vare slettet';
+// Translation of file /home/dennis/www/mandlen/modules/order/products/update.php
 
-$_COS_LANG_MODULE['invoice_email_message'] =  "Tak for din bestilling. Vi sender en ordrebekræftelse inkl. fragtomkostninger. Her fremgår det også hvilket kontonummer, du skal indsætte betaling på. Bestillingen afsendes, når betalingen er registreret.\n\n";
-$_COS_LANG_MODULE['cheers'] = 'Vh';
+$_COS_LANG_MODULE['order_sort_order_saved'] = 'Sortering gemt';
+// Translation of file /home/dennis/www/mandlen/modules/order/cart.php
 
-$_COS_LANG_MODULE['process_confirm_message'] = 'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura tillagt ordreomkostninger samt indbetalingsoplysninger. Når betalingen er modtaget vil vi sende varene snarest muligt';
+$_COS_LANG_MODULE['order_cart_html_title'] = 'Din kurv';
+// Translation of file /home/dennis/www/mandlen/modules/order/checkout.php
 
-$_COS_LANG_MODULE['quick_order'] = 'Hurtig bestilling';
+$_COS_LANG_MODULE['order_checkout_html_title'] = 'Indtast leverings oplysninger';
+// Translation of file /home/dennis/www/mandlen/modules/order/confirm.php
 
-$_COS_LANG_MODULE['item_name_alt'] = 'Alternativ titel';
-$_COS_LANG_MODULE['Varer'] = 'Varer';
+// Translation of file /home/dennis/www/mandlen/modules/order/quick_order.php
 
-$_COS_LANG_MODULE['Order saved'] = 'Ny rækkefølge gemt';
-$_COS_LANG_MODULE['sort_products'] = 'Sortere produkterne';
+$_COS_LANG_MODULE['order_quick_order_title'] = 'Hurtig bestilling';
+// Translation of file /home/dennis/www/mandlen/modules/order/views/shipping_list_all.inc
 
+$_COS_LANG_MODULE['order_shipping_weight'] = 'Vægt';
+$_COS_LANG_MODULE['order_shipping_cost'] = 'Pris';
+// Translation of file /home/dennis/www/mandlen/modules/order/views/confirm_form_email.php
 
-$_COS_LANG_MODULE['No valid Price'] = 'Ingen gyldig pris';
-$_COS_LANG_MODULE['Edit'] = 'Ret';
-$_COS_LANG_MODULE['Delete'] = 'Slet';
+$_COS_LANG_MODULE['order_invoice_details'] = 'Faktura oplysninger';
+$_COS_LANG_MODULE['order_company'] = 'Firma';
+$_COS_LANG_MODULE['order_name'] = 'Navn';
+$_COS_LANG_MODULE['order_adresse'] = 'Adresse';
+$_COS_LANG_MODULE['order_postal_code'] = 'Post nummer';
+$_COS_LANG_MODULE['order_city'] = 'By';
+$_COS_LANG_MODULE['order_email'] = 'Email';
+$_COS_LANG_MODULE['order_phone'] = 'Telefon';
+// Translation of file /home/dennis/www/mandlen/modules/order/views/confirm_form.php
 
+$_COS_LANG_MODULE['order_different_shipping'] = 'Anden leverings adresse';
+$_COS_LANG_MODULE['order_confirm_order'] = 'Bekræft';
+// Translation of file /home/dennis/www/mandlen/modules/order/views/order_form.php
 
-$_COS_LANG_MODULE['Update'] = 'Opdater';
+$_COS_LANG_MODULE['order_checkout_legend'] = 'Indtast leverings oplysninger';
+$_COS_LANG_MODULE['order_legend_company'] = 'Firma';
+$_COS_LANG_MODULE['order_legend_name'] = 'Name';
+$_COS_LANG_MODULE['order_legend_adresse'] = 'Adresse';
+$_COS_LANG_MODULE['order_legend_postal_code'] = 'Postnummer';
+$_COS_LANG_MODULE['order_legend_city'] = 'By';
+$_COS_LANG_MODULE['order_legend_email'] = 'Email';
+$_COS_LANG_MODULE['order_legend_phone'] = 'Telefon';
+$_COS_LANG_MODULE['order_legend_diffent_shipping'] = 'Anden leverings adresse';
+$_COS_LANG_MODULE['order_legend_add_order_button'] = 'Gå til bekræftelse af bestilling';
+// Translation of file /home/dennis/www/mandlen/modules/order/add.php
 
+$_COS_LANG_MODULE['order_add_product_html_title'] = 'Tilføj vare';
+// Translation of file /home/dennis/www/mandlen/modules/order/edit.php
+
+$_COS_LANG_MODULE['order_edit_html_title'] = 'Ret vare';
+// Translation of file /home/dennis/www/mandlen/modules/order/done.php
+
+$_COS_LANG_MODULE['order_process_confirm_message'] = 'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura tillagt ordreomkostninger samt indbetalingsoplysninger. Når betalingen er modtaget vil vi sende varene snarest muligt';
+$_COS_LANG_MODULE['order_process_greetings'] = 'Vh';
+// Translation of file /home/dennis/www/mandlen/modules/order/delete.php
+
+$_COS_LANG_MODULE['order_delete_html_title'] = 'Slet vare';
+// Translation of file /home/dennis/www/mandlen/modules/order/basket.php
+
+$_COS_LANG_MODULE['order_view_basket_html_title'] = 'Vis vare';
+$_COS_LANG_MODULE['order_test'] = 'her er en sætning %1% og endnu en %2%';

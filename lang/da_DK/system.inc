@@ -1,11 +1,20 @@
 <?php
 
-$_COS_LANG_MODULE['Shop'] =  'Butik';
-$_COS_LANG_MODULE['Basket'] =  'Din Kurv';
-$_COS_LANG_MODULE['quick_order'] = 'Hurtig bestilling';
-$_COS_LANG_MODULE['Varer'] = 'Varer';
+// manual added
+$_COS_LANG_MODULE['order_quick_order'] = 'Hurtig Bestilling';
+$_COS_LANG_MODULE['order_basket'] = 'Din Kurv';
+$_COS_LANG_MODULE['order_shop'] = 'Butik';
 
-$_COS_LANG_MODULE['sort_products'] = 'Sortere produkterne';
-$_COS_LANG_MODULE['content_article_simple_tree_block_header'] = 'Menu';
+// Translation of menu file /home/dennis/www/mandlen/modules/order/shipping/menu.inc
 
+$_COS_LANG_MODULE['order_shipping_main_menu'] = 'Fragt';
+$_COS_LANG_MODULE['order_shipping_private_menu'] = 'Private';
+$_COS_LANG_MODULE['order_shipping_company_menu'] = 'Firmaer';
+// Translation of menu file /home/dennis/www/mandlen/modules/order/products/menu.inc
 
+$_COS_LANG_MODULE['order_add_product_menu_item'] = 'Tilføj';
+$_COS_LANG_MODULE['order_sort_products_menu_item'] = 'Sorter';
+// Translation of menu file /home/dennis/www/mandlen/modules/order/menu.inc
+
+$_COS_LANG_MODULE['order_products_admin_main_menu'] = 'Produkter';
+$_COS_LANG_MODULE['order_shipping_admin_main_menu'] = 'Fragt';

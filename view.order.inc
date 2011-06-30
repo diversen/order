@@ -202,7 +202,7 @@ class orderView {
             print "<form name=\"checkout\" method =\"post\" action=\"\">";
             print "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
             print "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val\" />";// . "<br />";
-            print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('Update') . "\" /> ";
+            print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
             print "</form>\n";
             print "</td><td>\n";
             print order::getCurrencySymbol() . '';
@@ -247,7 +247,7 @@ class orderView {
         print "</td>";
         print "<td>";
         print "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
-        print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('Buy') . "\" /> ";
+        print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
         print "</form>\n";
         print "</td>\n";
         print "</tr>\n";
@@ -310,7 +310,7 @@ class orderView {
             print "<form name=\"checkout\" method =\"post\" action=\"\">";
             print "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
             print "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val\" />";// . "<br />";
-            print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('Update') . "\" /> ";
+            print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
             print "</form>\n";
             print "</td><td>\n";
             print order::getCurrencySymbol() . ' ';
@@ -355,7 +355,7 @@ class orderView {
         print "&nbsp;</td>";
         print "<td>";
         print "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
-        print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('Buy') . "\" /> ";
+        print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
         print "</form>\n";
         print "</td>\n";
         print "</tr>\n";
