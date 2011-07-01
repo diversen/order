@@ -207,8 +207,12 @@ class orderView {
             print "</td><td>\n";
             print order::getCurrencySymbol() . '';
             $sub_total = $val * $item['price'];
+            $sub_total_weight = $val * $item['weight'];
+
+
             print $sub_total;
             $total = $sub_total + $total;
+            $total_weight = $sub_total_weight + $total_weight;
             print "</td>\n";
             print "<td>&nbsp;</td>";
             print "<td>&nbsp;</td>\n";
@@ -226,6 +230,19 @@ class orderView {
         print "<td>&nbsp;</td>\n";
         print "</tr>\n";
 
+        /*
+        print "<tr>\n";
+        print "<td colspan=\"4\">";
+        print lang::translate('order_amount_value_added_tax');
+        print "</td>";
+        print "<td>";
+        print order::getCurrencySymbol() . ' ';
+        //print $total * get_module_ini('order_added_tax');
+        print "total vægt  = $total_weight";
+        print "</td>\n";
+        print "<td>&nbsp;</td>\n";
+        print "</tr>\n";
+            */
         print "<tr>\n";
         print "<td colspan=\"4\">";
         print lang::translate('order_amount_value_added_tax');
@@ -238,10 +255,22 @@ class orderView {
         print "</tr>\n";
 
         print "<tr>\n";
-        print "<td colspan=6>";
+        print "<td colspan=\"4\">\n";
         print lang::translate('order_amount_added_shipping_cost');
+        print "<br />\n";
+        print lang::translate('order_shipping_basket_info');
         print "</td>\n";
+        print "<td>\n";
+        //print order::getCurrencySymbol() . ' ';
+        //print $total * get_module_ini('order_added_tax');
+        //print order::getWeightToCost($total_weight);
+        
+        print "</td>\n";
+        print "<td>&nbsp;</td>\n";
         print "</tr>\n";
+        print "</tr>\n";
+
+
         print "<td colspan=5>";
         print "&nbsp;";
         print "</td>";

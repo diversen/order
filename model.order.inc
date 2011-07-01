@@ -10,7 +10,7 @@ template::setInlineCss(_COS_PATH . '/modules/order/order.css');
 template::setJs('/js/jquery.validate.js', 30);
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 
-
+include_model('order/shipping');
 
 // {{{ create_item_form
 /**
@@ -255,6 +255,13 @@ class order extends db {
             $local = localeconv();
         }
         return $currency = $local['int_curr_symbol'];
+    }
+
+    static function getWeightToCost($type, $weight) {
+        $db = new db();
+
+        
+
     }
 
     // {{{ displayCart

@@ -22,8 +22,8 @@ $_COS_LANG_MODULE['order_shipping_form_weight_float_empty'] = 'Ugyldig vægt';
 $_COS_LANG_MODULE['order_shipping_form_weight_float_less_than_zero'] = 'Ugyldig vægt';
 $_COS_LANG_MODULE['order_shipping_form_weight_incorrect_float_value'] = 'Ugyldig vægt';
 $_COS_LANG_MODULE['order_shipping_legend'] = 'Tilføj fragt omkostning';
-$_COS_LANG_MODULE['order_shipping_weight_label'] = 'Vægt (decimaler tilladt) angives i kilo';
-$_COS_LANG_MODULE['order_shipping_cost_label'] = 'Pris (decimaler tilladt) angives i';
+$_COS_LANG_MODULE['order_shipping_weight_label'] = 'Vægt (decimaler tilladt) angives i kilo (fx 10.50)';
+$_COS_LANG_MODULE['order_shipping_cost_label'] = 'Pris (decimaler tilladt) angives i kroner (fx 100.50)';
 $_COS_LANG_MODULE['order_shipping_submit_button'] = 'Gem';
 $_COS_LANG_MODULE['order_edit'] = 'Ret';
 $_COS_LANG_MODULE['order_delete'] = 'Slet';
@@ -39,8 +39,8 @@ $_COS_LANG_MODULE['order_item_form_title'] = 'Title';
 $_COS_LANG_MODULE['order_item_form_title_alt'] = 'Alternativ titel';
 $_COS_LANG_MODULE['order_item_form_desc'] = 'Beskrivelse';
 $_COS_LANG_MODULE['order_item_form_stock'] = 'Antal i beholdning';
-$_COS_LANG_MODULE['order_item_form_price'] = 'Pris';
-$_COS_LANG_MODULE['order_item_form_weight'] = 'Vægt';
+$_COS_LANG_MODULE['order_item_form_price'] = 'Pris i kroner';
+$_COS_LANG_MODULE['order_item_form_weight'] = 'Vægt i kilo';
 $_COS_LANG_MODULE['order_item_form_upload_image'] = 'Tilføj evt billede';
 $_COS_LANG_MODULE['order_item_form_edit_legend'] = 'Ret produkt';
 $_COS_LANG_MODULE['order_item_form_insert_legend'] = 'Tiløj produkt';
@@ -83,8 +83,8 @@ $_COS_LANG_MODULE['order_checkout_html_title'] = 'Indtast leverings oplysninger'
 $_COS_LANG_MODULE['order_quick_order_title'] = 'Hurtig bestilling';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/shipping_list_all.inc
 
-$_COS_LANG_MODULE['order_shipping_weight'] = 'Vægt';
-$_COS_LANG_MODULE['order_shipping_cost'] = 'Pris';
+$_COS_LANG_MODULE['order_shipping_weight'] = 'Vægt i kilo op til';
+$_COS_LANG_MODULE['order_shipping_cost'] = 'Koster i kroner';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/confirm_form_email.php
 
 $_COS_LANG_MODULE['order_invoice_details'] = 'Faktura oplysninger';
@@ -132,3 +132,30 @@ $_COS_LANG_MODULE['order_test'] = 'her er en sætning %1% og endnu en %2%';
 $_COS_LANG_MODULE['order_checkout_order_details'] = 'Ordre oversigt';
 $_COS_LANG_MODULE['order_order_details'] = 'Ordre oversigt';
 $_COS_LANG_MODULE['order_details'] = 'Ordre oversigt';
+
+
+$_COS_LANG_MODULE['order_shipping_help'] = <<<EOD
+Du kan indtaste oplysninger til beregning af fragt pris
+under private og firmaer. Fragt tabellen udregner 
+ud fra disse oplysninger hvor meget
+givne varers fragt vil koste. Når du
+fx angiver pris for vægten til 10,00 kilo, da vil enhver
+total fragt
+der vejer til og med 10,00 kilo bliver bregnet i henhold
+til prisen for 10,00 kilo fragt. Fx 100,50 kroner.
+
+Hvis vægten overgår den højeste enhed i tabellen, da
+vil fragten blive beregnet i henhold til højeste vægt
+og pris. 
+
+
+
+EOD;
+
+$_COS_LANG_MODULE['order_insert'] = 'Tilføj';
+$_COS_LANG_MODULE['order_update'] = 'Opdater';
+$_COS_LANG_MODULE['order_shipping_legend_form_delete'] = 'Slet fragt tabel felt';
+
+$_COS_LANG_MODULE['order_shipping_legend_edit'] = 'Rediger fragt tabel felt';
+
+$_COS_LANG_MODULE['order_shipping_basket_info'] = 'Udregnes senere efter hvovidt der er tale om privat eller firma forsendelse';

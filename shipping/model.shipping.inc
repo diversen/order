@@ -73,51 +73,82 @@ class orderShipping {
         return $res;
     }
 
+    static function update ($id) {
+        $db = new db();
+        $values = db::prepareToPost();
+        //$values['type'] = $type;
+        $res = $db->update(self::$table, $values, $id);
+        return $res;
+    }
+
+    static function delete ($id) {
+        $db = new db();
+        $values = db::prepareToPost();
+        //$values['type'] = $type;
+        $res = $db->delete(self::$table, 'id', $id);
+        return $res;
+    }
+
     static function getOne ($id) {
         $db = new db ();
         $row = $db->selectOne(self::$table, null, array('id' => $id));
         return $row;
     }
 
-    static function showForm () {
+    static function showForm ($method = 'insert', $row = null) {
         html::$autoLoadTrigger = 'submit';
-        html::init();
+        if ($method == 'insert') {
+            html::init();
+        } else {
+            html::init($row);
+        }
         html::formStart('order_shipping_form');
-        html::legend(lang::translate('order_shipping_legend'));
+        if ($method == 'insert') {
+            html::legend(lang::translate('order_shipping_legend'));
+        } else {
+            html::legend(lang::translate('order_shipping_legend_edit'));
+        }
+
         html::label('weight', lang::translate('order_shipping_weight_label'));
         html::text('weight');
         html::label('cost', lang::translate('order_shipping_cost_label'));
         html::text('cost');
         html::label('submit', '');
-        html::submit('submit', lang::translate('order_shipping_submit_button'));
+        
+        if ($method == 'insert') {
+            html::submit('submit', lang::translate('order_insert'));
+        } else {
+            html::submit('submit', lang::translate('order_update'));
+        }
+
         html::formEnd();
         echo html::$formStr;
     }
 
-    static function showEditForm ($row) {
+    static function showDeleteForm () {
         html::$autoLoadTrigger = 'submit';
-        html::init($row);
+        
         html::formStart('order_shipping_form');
-        html::legend(lang::translate('order_shipping_legend'));
-        html::label('weight', lang::translate('order_shipping_weight_label'));
-        html::text('weight');
-        html::label('cost', lang::translate('order_shipping_cost_label'));
-        html::text('cost');
+        html::legend(lang::translate('order_shipping_legend_form_delete'));
         html::label('submit', '');
-        html::submit('submit', lang::translate('order_shipping_submit_button'));
+        html::submit('submit', lang::translate('order_delete'));
         html::formEnd();
         echo html::$formStr;
     }
 
-    static function adminOptions ($id, $type) {
+    static function adminOptions ($id) {
+
+        $row = self::getOne($id);
+
+
 
         echo html::createLink(
-            "/order/shipping/edit/$id",
+            "/order/shipping/edit/$id/$row[type]",
             lang::translate('order_edit')
         );
         echo MENU_SUB_SEPARATOR;
         echo html::createLink(
-            "/order/shipping/delete/$id",
+            "/order/shipping/delete/$id/$row[type]",
             lang::translate('order_delete')
         );
 
