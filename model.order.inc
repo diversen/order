@@ -198,7 +198,7 @@ class order extends db {
             return;
         }
 
-        $subject = lang::translate("order_checkout_order_details");
+        $subject = lang::translate('order_checkout_order_details');
 
         // load $_POST values
         load_post('order_form');

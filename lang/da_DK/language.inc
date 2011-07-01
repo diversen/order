@@ -12,7 +12,7 @@ $_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'Fragt omkostninger';
 $_COS_LANG_MODULE['order_quantity'] = 'Antal';
 $_COS_LANG_MODULE['order_sub_total'] = 'Sub total';
 $_COS_LANG_MODULE['order_item_update'] = 'Opdater';
-$_COS_LANG_MODULE['order_buy'] = 'Køb';
+$_COS_LANG_MODULE['order_buy'] = 'Til bestilling';
 // Translation of file /home/dennis/www/mandlen/modules/order/shipping/model.shipping.inc
 
 $_COS_LANG_MODULE['order_shipping_form_cost_float_empty'] = 'Ugyldig fragt pris ';
@@ -98,7 +98,7 @@ $_COS_LANG_MODULE['order_phone'] = 'Telefon';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/confirm_form.php
 
 $_COS_LANG_MODULE['order_different_shipping'] = 'Anden leverings adresse';
-$_COS_LANG_MODULE['order_confirm_order'] = 'Bekræft';
+$_COS_LANG_MODULE['order_confirm_order'] = 'Bekræft ordre';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/order_form.php
 
 $_COS_LANG_MODULE['order_checkout_legend'] = 'Indtast leverings oplysninger';
@@ -128,3 +128,7 @@ $_COS_LANG_MODULE['order_delete_html_title'] = 'Slet vare';
 
 $_COS_LANG_MODULE['order_view_basket_html_title'] = 'Vis vare';
 $_COS_LANG_MODULE['order_test'] = 'her er en sætning %1% og endnu en %2%';
+
+$_COS_LANG_MODULE['order_checkout_order_details'] = 'Ordre oversigt';
+$_COS_LANG_MODULE['order_order_details'] = 'Ordre oversigt';
+$_COS_LANG_MODULE['order_details'] = 'Ordre oversigt';

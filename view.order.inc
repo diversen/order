@@ -14,7 +14,7 @@ class orderView {
             return;
         }
 
-        print lang::translate("order_order_details");
+        print lang::translate('order_order_details');
         print "\n\n";
 
         $total = $sub_total = 0;
