@@ -46,7 +46,7 @@ function create_item_form($method, $id = null, $values = array()){
 }
 
 // }}}
-class order extends db {
+class order  {
     public static $errors = array();
     static $options = array();
     // {{{ valiedate () method for validating insert and edit of items.
@@ -152,19 +152,19 @@ class order extends db {
 
     public static function getItemsInBlock (){
         $db = new db();
-        if (session::isAdmin()){
-            $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), null, null, null, 'weight', true);
+        //if (session::isAdmin()){
+        //    $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), null, null, null, 'item_order', true);
             //$all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'));
-        } else {
-            $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0', null, null, 'weight', true);
+        //} else {
+            $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0', null, null, 'item_order', true);
             //$all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0');
-        }
+        //}
         return $all_items;
     }
 
     // }}}
 
-    public function checkout(){
+    public function displayCheckout(){
         if (!isset($_COOKIE['order_items'])){
             print lang::translate('order_checkout_no_items_in_basket');
             return;
@@ -231,9 +231,9 @@ class order extends db {
         $res_consumer = mail_utf8($_POST['email'], $subject, $message, $from, $order_reply_to);
         $res_invoice = mail_utf8($order_invoice_to, $subject, $message, $from, $order_reply_to);
 
-        if (get_module_ini('order_debug') == 0){
+        //if (get_module_ini('order_debug') == 0){
             setcookie ("order_items", "", time() - 3600, "/");
-        }
+        //}
         header("Location: /order/done");
         die;
         // add to db
@@ -266,92 +266,18 @@ class order extends db {
 
     // {{{ displayCart
     public function displayCart (){
-
-        $local = localeconv();
-            /*print_r($local); */
-                $currency = $local['int_curr_symbol'];
-        //$this->select('order_items', null, array('stock'))
-        //$this->displayItemsInBlock();
-        if (session::isAdmin()){
-            $all_items = $this->selectAll('order_items', null, null, null, null, 'weight', true);
-            //$all_items = $this->selectAll('order_items');
-        } else {
-            //$all_items = $this->selectAll('order_items', null, 'stock > 0');
-            $all_items = $this->selectAll('order_items', null, 'stock > 0', null, null, 'weight', true);
-        }
-        //$all_items = $this->selectAll('order_items');
-        print "<table class = \"order_cart\">\n";
-        $i = 0;
-        print "<tr>\n";
-
-        
-        foreach ($all_items as $key => $val){            
-            print "<td>";
-
-            $options = array ();
-            $options['alt'] = $val['item_name_alt'];
-            $options['width'] = get_module_ini('order_image_size_thumb');
-            
-            if (!empty($val['file'])){
-                print create_image_link(
-                    "/order/item/$val[id]/" . rawurlencode($val['item_name']),
-                    "/order/download/$val[id]", $options
-                );
-            }
-            print "</td>\n";
-            print "<td>\n";
-            //print "<br />\n";
-            print create_link(
-                    "/order/item/$val[id]/" . rawurlencode($val['item_name']),
-                    $val['item_name'])  .
-                    "<br />";
-            print "<br />";
-            print $this->getCurrencySymbol() . ' ' .
-                  $val['price'] . ',-' .
-                  "<br />\n";
-           
-            if (session::isAdmin()){
-                $link = create_link(
-                    "/order/edit/$val[id]",
-                    lang::translate('order_edit')
-                );
-                print $link;
-                print MENU_SUB_SEPARATOR_SEC;
-                $link = create_link(
-                    "/order/delete/$val[id]",
-                    lang::translate('order_delete')
-                );
-                
-                print $link;
-                if ($val['stock'] == 0){
-                    print "<div id=\"form_error\">";
-                    print lang::translate('order_out_of_stock');
-                    print "</div>";
-                }
-            }
-            print "</td>\n";
-            $i++;
-            $t = $i % 2;
-            if (!$t){
-                print "</tr><tr>\n";
-                $i = 0;
-            }
-
-        }
-        print "</tr>\n";
-        print "<table>\n";
+        $db = new db();
+        $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
+        templateView::includeModuleView('order', 'display_cart', $all_items);
     }
-
     // }}}
-
-
     // {{{ displayItem ($id)
     public function displayItem ($id){
         if (isset($_POST['add_order'])){
             $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
         } else if (isset($_COOKIE['order_items'][$id])){
             $order_items = unserialize($_COOKIE['order_items']);
-            if(isset($order_items[$id]) && $order_items[$id] != 0) {
+            if(isset($order_items[$id]) && $order_items[$id] != '0') {
                 $add_order = $order_items[$id];
             } else {
                 $add_order = 1;
@@ -359,9 +285,9 @@ class order extends db {
         } else {
             $add_order = 1;
         }
-
-       
+      
         $val = $this->getItem($id);
+        $val['add_order'] = $add_order;
 
         if (empty($val)){
             header ("HTTP/1.1 301 Moved Permanently");
@@ -388,56 +314,8 @@ class order extends db {
         template::setMeta(array('description' => $meta_desc));
 
         $val['item_description'] = get_filtered_content('simple', $val['item_description']);
-        print "<table class=\"order_cart\">";
-        print "<tr><td colspan=2>\n";
-        print $val['item_name'] . " ";
-        print '(' . lang::translate('order_price') . ' ' .
-            $this->getCurrencySymbol() . ' ' .
-            $val['price'] . ')';
-        print "</td></tr>\n";
-        print "<tr><td colspan=2>\n";
-        print "<form name=\"view_item\" method =\"post\">\n";
-        print lang::translate('order_item_enter_amount') . " <input id=\"order_amount\" maxlength=\"2\" name=\"add_order\" align=\"left\" size=\"2\" value=\"$add_order\" />\n";
-        print "<input type=\"hidden\" name=\"item_id\" value=\"$id\" />\n";
-        print "<input type =\"submit\" name = \"order_submit\" value=\"" . 
-            lang::translate('order_update_cart_item') .
-            "\" /> ";
 
-        $total = $val['price'] * $add_order;
-        print
-            lang::translate('order_price') . ': ' .
-            $total . ' ' .
-            $this->getCurrencySymbol();
-        print "</form>\n";
-        print "</td></tr>";
-        print "<tr><td>\n";
-
-        $options = array();
-        $options['alt'] = $val['item_name_alt'];
-        $options['width'] = get_module_ini('order_image_size');
-
-        if (!empty($val['file'])){
-          print $link = create_image_link("/order/item/$val[id]/" . rawurlencode($val['item_name']), "/order/download/$val[id]/full", $options);
-        }
-        
-        print "</td><td>\n";
-        print $val['item_description'];
-
-        //print $link = create_link('/order/item', $val['item_name']);
-        if (isset($_SESSION['admin'])){
-            print "<br />" . 
-            $link = create_link(
-                "/order/edit/$val[id]",
-                lang::translate('order_edit')
-            );
-            print MENU_SUB_SEPARATOR; 
-            print create_link(
-                "/order/delete/$val[id]",
-                lang::translate('order_delete')
-            );
-        }
-        print "</td></tr>\n";
-        print "</table>\n";
+        print templateView::includeModuleView('order', 'display_item', $val);
     }
     // }}}
     // {{{ setBasketCookie ($order_items = array())
@@ -487,8 +365,8 @@ class order extends db {
         if (!is_array($order_items)) self::setBasketCookie ();
 
         foreach ($order_items as $key => $val){
-            if ($val == 0 || $val == '') unset($order_items[$key]);
-            if ($key == 0 || $key == '') unset($order_items[$key]);
+            if ($val == '0' || $val == '') unset($order_items[$key]);
+            if ($key == '0' || $key == '') unset($order_items[$key]);
         }
 
         if (empty($order_items)){
@@ -550,12 +428,6 @@ class order extends db {
         }
     }
     // }}}
-    // {{{ viewConfirm()
-    public function viewConfirm (){
-        $file = _COS_PATH . "/modules/order/views/view_confirm.php";
-        print simple_template($file);        
-    }
-    // }}}
     // {{{ scaleImage 
     private function scaleImage ($image, $thumb, $length){
         require_once 'Image/Transform.php';
@@ -583,6 +455,55 @@ class order extends db {
         if (PEAR::isError($ret)) {
             die($ret->getMessage());
         }
+    }
+    // }}}
+        // {{{ displayBasket ()
+    public static function displayQuickBasket (){
+
+        $order_items = order::getBasketItems();
+        $all_items = order::getItemsInBlock();
+
+        $vars['order_items'] = order::getBasketItems();
+        $vars['all_items'] = order::getItemsInBlock();
+
+        templateView::includeModuleView('order', 'display_quick_basket', $vars);
+        return;
+
+    }
+
+        // {{{ displayBasket ()
+    public static function displayBasket (){
+        if (empty($_COOKIE['order_items'])){
+            print lang::translate('order_no_items_in_basket');
+            return;
+        }
+
+        $vars['order_items'] = order::getBasketItems();
+        if (empty($vars['order_items'])){
+            print lang::translate('order_no_items_in_basket');
+            return;
+        }
+
+        templateView::includeModuleView('order', 'display_basket', $vars);
+
+    }
+    // }}}
+        // {{{ displayConfirmOrder ()
+    public static function displayConfirm (){
+        if (!isset($_COOKIE['order_items'])){
+            print lang::translate('order_no_items_in_basket');
+            return;
+        }
+        $order_items = order::getBasketItems();
+        if (empty($order_items)){
+            print lang::translate('order_no_items_in_basket');
+            return;
+        }
+
+        $vars['order_items'] = $order_items;
+
+        templateView::includeModuleView('order', 'display_confirm_order', $vars);
+
     }
     // }}}
 }

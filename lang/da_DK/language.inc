@@ -5,7 +5,7 @@
 $_COS_LANG_MODULE['order_sort_saved_confirm'] = 'Ny sortering gemt';
 // Translation of file /home/dennis/www/mandlen/modules/order/view.order.inc
 
-$_COS_LANG_MODULE['order_no_items_in_basket'] = 'Antal';
+$_COS_LANG_MODULE['order_no_items_in_basket'] = 'Ingen varer i din kurv!';
 $_COS_LANG_MODULE['order_amount_total'] = 'Total beløb';
 $_COS_LANG_MODULE['order_amount_value_added_tax'] = 'Heraf moms';
 $_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'Fragt omkostninger';

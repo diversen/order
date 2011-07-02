@@ -19,9 +19,7 @@ if (isset($_POST['submit'])) {
                 lang::translate('order_shipping_add_action_message'));
             header("Location: /order/shipping/$type");
         } else {
-            // should not happen
-            $str = 'Could not delete!';
-            //view_error($str);
+            $str = "Could not edit in " . __FILE__;
             error_log($str);
         }
     }

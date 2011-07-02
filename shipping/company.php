@@ -4,6 +4,9 @@ if (!session::checkAccessControl('order_allow')){
     return;
 }
 
+//$id = URI::$fragments[3];
+$type = URI::$fragments[2];
+
 if (isset($_POST['submit'])) {
     orderShipping::sanitize();
     if (!empty(orderShipping::$errors)) {
@@ -13,11 +16,10 @@ if (isset($_POST['submit'])) {
         if ($res) {
             session::setActionMessage(
                 lang::translate('order_shipping_add_action_message'));
-            header("Location: /order/shipping/company");
+            header("Location: /order/shipping/$type");
         } else {
-            session::setActionMessage(
-                lang::translate('order_shipping_add_action_error_message'));
-            header("Location: /order/shipping/company");
+            $str = "Could not edit in " . __FILE__;
+            error_log($str);
         }
     }
 }

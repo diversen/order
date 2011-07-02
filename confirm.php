@@ -3,7 +3,7 @@
 template::setTitle(lang::translate('order_checkout_html_title'));
 
 $cart = new order();
-orderView::confirmOrder();
+order::displayConfirm();
 load_post('order_form');
 
 if (@!empty($_COOKIE['order_items'])){
