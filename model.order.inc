@@ -152,13 +152,7 @@ class order  {
 
     public static function getItemsInBlock (){
         $db = new db();
-        //if (session::isAdmin()){
-        //    $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), null, null, null, 'item_order', true);
-            //$all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'));
-        //} else {
-            $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0', null, null, 'item_order', true);
-            //$all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0');
-        //}
+        $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0', null, null, 'item_order', true);
         return $all_items;
     }
 
@@ -188,7 +182,7 @@ class order  {
         } else {
             load_post('order_form');
         }
-        include_once _COS_PATH . '/modules/order/views/order_form.php';
+        templateView::includeModuleView('order', 'order_form');
     }
     // }}}
     // {{{
@@ -205,12 +199,9 @@ class order  {
         $order_reply_to = get_module_ini('order_reply_to');
         $order_invoice_to = get_module_ini('order_invoice_to');
 
-
         ob_start();
 
         order::displayOrderEmail();
-
-        
         $message = ob_get_contents();
 
         ob_end_clean();
@@ -218,9 +209,8 @@ class order  {
         $res_consumer = mail_utf8($_POST['email'], $subject, $message, $from, $order_reply_to);
         $res_invoice = mail_utf8($order_invoice_to, $subject, $message, $from, $order_reply_to);
 
-        //if (get_module_ini('order_debug') == 0){
-            setcookie ("order_items", "", time() - 3600, "/");
-        //}
+        setcookie ("order_items", "", time() - 3600, "/");
+
         header("Location: /order/done");
         die;
         // add to db
