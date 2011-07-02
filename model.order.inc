@@ -199,31 +199,18 @@ class order  {
         }
 
         $subject = lang::translate('order_checkout_order_details');
-
-        // load $_POST values
         load_post('order_form');
 
-        // from
         $from = get_main_ini('site_email');
-
-        // reply-to and invoice email
         $order_reply_to = get_module_ini('order_reply_to');
         $order_invoice_to = get_module_ini('order_invoice_to');
 
-        // create email message
+
         ob_start();
 
-        // print order details
-        orderView::detailsEmail();
+        order::displayOrderEmail();
 
-        // print email
-        include _COS_PATH . "/modules/order/views/confirm_form_email.php";
-
-        echo "\n\n";
-        echo lang::translate('order_checkout_invoice_email_message');
-
-        echo lang::translate('order_checkout_greeting') . " $_SERVER[SERVER_NAME]";
-        // flush message
+        
         $message = ob_get_contents();
 
         ob_end_clean();
@@ -504,6 +491,30 @@ class order  {
 
         templateView::includeModuleView('order', 'display_confirm_order', $vars);
 
+    }
+    // }}}
+        // {{{ displayConfirmOrder ()
+    public static function displayOrderEmail (){
+
+        if (!isset($_COOKIE['order_items'])){
+            return 0;
+        }
+        $order_items = order::getBasketItems();
+
+        if (empty($order_items)){
+            print lang::translate('order_no_items_in_basket');
+            return;
+        }
+
+        $vars['order_items'] = $order_items;
+        templateView::includeModuleView('order', 'display_email', $vars);
+        templateView::includeModuleView ('order', 'confirm_form_email');
+
+        echo "\n\n";
+
+        echo lang::translate('order_checkout_invoice_email_message');
+        echo lang::translate('order_checkout_greeting') . " $_SERVER[SERVER_NAME]";
+        return;
     }
     // }}}
 }

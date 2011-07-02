@@ -1,20 +1,8 @@
 <?php
 
-class orderView {
+$order_items = $vars['order_items'];
 
-    // {{{ displayConfirmOrder ()
-    public static function detailsEmail (){
-
-        if (!isset($_COOKIE['order_items'])){
-            return 0;
-        }
-        $order_items = order::getBasketItems();
-        if (empty($order_items)){
-            print lang::translate('order_no_items_in_basket');
-            return;
-        }
-
-        print lang::translate('order_order_details');
+print lang::translate('order_order_details');
         print "\n\n";
 
         $total = $sub_total = 0;
@@ -44,10 +32,3 @@ class orderView {
         print order::getCurrencySymbol() . ' ';
         print $total * get_module_ini('order_added_tax') . "\n";
         print lang::translate('order_amount_added_shipping_cost') . "\n\n";
-    }
-    // }}}
-
-
-
-
-}
