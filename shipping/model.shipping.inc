@@ -153,6 +153,26 @@ class orderShipping {
         );
 
     }
+
+    
+    static function getWeightToCost($type, $weight) {
+        $rows = self::getAll($type);
+        $i = count($rows);
+        $res = 0;
+        foreach ($rows as $key => $val) {
+            if ($weight > $val['weight']) {
+                continue;
+            } else {
+                return $res = $val['cost'];
+            }
+        }
+
+        if ($res == '0'){
+            $row = array_pop($rows);
+            return $row['cost'];
+        }
+        return $res;
+    }
 }
 
 function locfloat_to_sysfloat($value)
