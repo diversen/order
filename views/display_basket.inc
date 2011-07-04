@@ -1,6 +1,7 @@
 <?php
 
 $order_items = $vars['order_items'];
+$total_weight = 0;
 
 print "<table class=\"order_cart\">\n";
 print "<tr>";
