@@ -111,9 +111,10 @@ class order  {
     // }}}
     // {{{ addItem
     public function addItem(){
+        $db = new db();
         $options = array();
 
-        $values = self::prepareToPost();
+        $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
         $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
         if (!empty($_FILES['file']['tmp_name'])){
@@ -129,7 +130,7 @@ class order  {
             $values['file'] = uploadBlob::getFP($options);
             $values['content_type'] = $_FILES['file']['type'];
             $bind = array('file' => PDO::PARAM_LOB);
-            $res = $this->insert('order_items', $values, $bind);
+            $res = $db->insert('order_items', $values, $bind);
 
             $last_insert_id = self::$dbh->lastInsertId();
 
@@ -139,10 +140,10 @@ class order  {
             $values = array();
             $values['file_thumb'] = uploadBlob::getFP($options);
             $bind = array('file_thumb' => PDO::PARAM_LOB);
-            $res = $this->update('order_items', $values, $last_insert_id, $bind);
+            $res = $db->update('order_items', $values, $last_insert_id, $bind);
 
         } else {
-            $res = $this->insert('order_items', $values);
+            $res = $db->insert('order_items', $values);
         }
         if ($res) {
             session::setActionMessage(lang::translate('order_confirm_product_inserted'));
@@ -174,14 +175,30 @@ class order  {
             if (!empty(order::$errors)){
                 view_form_errors(order::$errors);
             } else {
+                //print $cookie =
+                //serialize($_POST);
+                //setcookie('order_form', $cookie, time() + 3600, '/');
                 save_post('order_form');
+                //setcookie($name, $value, $expire)
                 header("Location: /order/confirm");
-            die();
-
+                die();
             }
         } else {
-            load_post('order_form');
+            
+            if (!load_post('order_form')) {
+                echo "bla";
+                print_r($_COOKIE);
+                if (isset($_COOKIE['order_form'])) {
+                    echo "er sat";
+                    $_POST = unserialize(stripslashes($_COOKIE['order_form']));
+                }
+            }
+
+            //$t =
+            //print_r($t);
+            //print $_POST = unserialize($_COOKIE['order_form']);
         }
+        //$_POST = unserialize($_COOKIE['order_form']);
         templateView::includeModuleView('order', 'order_form');
     }
     // }}}
@@ -193,8 +210,27 @@ class order  {
         }
 
         $subject = lang::translate('order_checkout_order_details');
-        load_post('order_form');
 
+        load_post('order_form');
+        //print_r($_POST);
+        //$_POST = unserialize($_COOKIE['order_form']);
+        //if (isset($_COOKIE['order_form'])) {
+
+          //  $_COOKIE['order_form'] = stripslashes($_COOKIE['order_form']);
+          //  $var = unserialize($_COOKIE['order_form']);
+          //  print_r($var);
+        //}
+
+
+        //print_r($_POST);
+
+        $cookie = serialize($_POST);
+        //print_r($_COOKIE['order_form']);
+        $res = setcookie(
+            'order_form',
+            $cookie, time() + 3600, "/");
+        //die($res);
+        //echo $res; die;
         $from = get_main_ini('site_email');
         $order_reply_to = get_module_ini('order_reply_to');
         $order_invoice_to = get_module_ini('order_invoice_to');
@@ -234,12 +270,7 @@ class order  {
         return $currency = $local['int_curr_symbol'];
     }
 
-    static function getWeightToCost($type, $weight) {
-        $db = new db();
 
-        
-
-    }
 
     // {{{ displayCart
     public function displayCart (){
@@ -362,7 +393,8 @@ class order  {
     // }}}
     // {{{ updateItem($id)
     public function updateItem($id){
-        $values = self::prepareToPost();
+        $db = new db();
+        $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
         $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
         if (!empty($_FILES['file']['tmp_name'])){
@@ -376,7 +408,7 @@ class order  {
             $values['content_type'] = $_FILES['file']['type'];
 
             $bind = array('file' => PDO::PARAM_LOB);
-            $res = $this->update('order_items', $values, $id, $bind);
+            $res = $db->update('order_items', $values, $id, $bind);
             
             $order_image_size_thumb = get_module_ini('order_image_size_thumb');
             $this->scaleImage($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name'], $order_image_size_thumb);
@@ -384,9 +416,9 @@ class order  {
             //$values = array();
             $values =   array('file_thumb' => uploadBlob::getFP($options));
             $bind =     array('file_thumb' => PDO::PARAM_LOB);
-            $res = $this->update('order_items', $values, $id, $bind);
+            $res = $db->update('order_items', $values, $id, $bind);
         } else {
-            $res = $this->update('order_items', $values, $id);
+            $res = $db->update('order_items', $values, $id);
         }
         if ($res) {
             session::setActionMessage(
@@ -478,9 +510,10 @@ class order  {
         }
 
         $vars['order_items'] = $order_items;
+        load_post('order_form');
 
         templateView::includeModuleView('order', 'display_confirm_order', $vars);
-
+        templateView::includeModuleView('order', 'confirm_form');
     }
     // }}}
         // {{{ displayConfirmOrder ()

@@ -16,7 +16,7 @@ print lang::translate('order_amount_total');
 print "</td>";
 print "<td>&nbsp;</td>";
 print "</tr>\n";
-$total = $sub_total = 0;
+$total = $sub_total = $weight = 0;
 foreach ($order_items as $key => $val){
     if ($val == 0) continue;
     $item = order::getItem($key);
@@ -46,7 +46,7 @@ foreach ($order_items as $key => $val){
     print "<td>";
     print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
     print order::getCurrencySymbol();
-    print ': ' . $item['price'];
+    print ' ' . $item['price'];
     print "</td><td>\n";
     print "<form name=\"checkout\" method =\"post\" action=\"\">";
     print "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
@@ -56,11 +56,11 @@ foreach ($order_items as $key => $val){
     print "</td><td>\n";
     print order::getCurrencySymbol() . '';
     $sub_total = $val * $item['price'];
-    $sub_total_weight = $val * $item['weight'];
+    //$sub_total_weight = $val * $item['weight'];
 
     print $sub_total;
     $total = $sub_total + $total;
-    $total_weight = $sub_total_weight + $total_weight;
+    $weight = $weight + ($val * $item['weight']);
     print "</td>\n";
     print "<td>&nbsp;</td>";
     print "<td>&nbsp;</td>\n";
@@ -103,19 +103,32 @@ print "<td>&nbsp;</td>\n";
 print "</tr>\n";
 
 print "<tr>\n";
-print "<td colspan=\"4\">\n";
+print "<td  colspan=\"4\">\n";
 print lang::translate('order_amount_added_shipping_cost');
-print "<br />\n";
-print lang::translate('order_shipping_basket_info');
-print "</td>\n";
-print "<td>\n";
-//print order::getCurrencySymbol() . ' ';
-//print $total * get_module_ini('order_added_tax');
-//print order::getWeightToCost($total_weight);
 
+print "<br />";
+print lang::translate('order_private') . ' ';
+print orderShipping::getWeightToCost('private', $weight) . ' ';
+print order::getCurrencySymbol();
+
+print "<br />";
+print lang::translate('order_company') . ' ';
+print orderShipping::getWeightToCost('company', $weight) . ' ';
+print order::getCurrencySymbol();
 print "</td>\n";
-print "<td>&nbsp;</td>\n";
-print "</tr>\n";
+print "<td>&nbsp</td>\n";
+print "<td>";
+
+/*
+$_POST['company'] = trim ($_POST['company']);
+if (isset($_POST['company']) && !empty($_POST['company'])) {
+    print orderShipping::getWeightToCost('company', $weight);
+} else {
+    print orderShipping::getWeightToCost('private', $weight);
+}
+*/
+//print "vægt " . $weight;
+print "</td>\n";
 print "</tr>\n";
 
 
