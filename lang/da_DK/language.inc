@@ -159,3 +159,18 @@ $_COS_LANG_MODULE['order_shipping_legend_form_delete'] = 'Slet fragt tabel felt'
 $_COS_LANG_MODULE['order_shipping_legend_edit'] = 'Rediger fragt tabel felt';
 
 $_COS_LANG_MODULE['order_shipping_basket_info'] = 'Udregnes senere efter hvovidt der er tale om privat eller firma forsendelse';
+
+$_COS_LANG_MODULE['order_private'] = 'Privat';
+
+
+$_COS_LANG_MODULE['order_shipping_free_float_error'] = 'Ikke en gyldig værdi (skal være 0 eller større)';
+$_COS_LANG_MODULE['order_shipping_free_legend_edit'] = 'Ret fri fragt beløbet';
+$_COS_LANG_MODULE['order_shipping_free_private_label'] = 'Private';
+$_COS_LANG_MODULE['order_shipping_free_company_label'] = 'Firma';
+$_COS_LANG_MODULE['order_shopping_free_html_title'] = 'Ret fri fragt beløb';
+$_COS_LANG_MODULE['order_shipping_free_info'] = <<<EOT
+Indtast et handels beløb der gør at kunden får gratis
+    fragt inkluderet. Hvis beløbet er 0 betyder det at
+    gratis fragt ikke kan opnåes uanset købets størrelse.
+EOT;
+$_COS_LANG_MODULE['order_shipping_free_update_confirm'] = 'Fri fragt tabel er opdateret';

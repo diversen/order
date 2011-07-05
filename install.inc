@@ -1,6 +1,6 @@
 <?php
 
-$_INSTALL['VERSION'] = 1.311;
+$_INSTALL['VERSION'] = 1.312;
 
 /**
  * We also create a menu item to be added to the main menu placed in database

@@ -186,10 +186,7 @@ class order  {
         } else {
             
             if (!load_post('order_form')) {
-                echo "bla";
-                print_r($_COOKIE);
                 if (isset($_COOKIE['order_form'])) {
-                    echo "er sat";
                     $_POST = unserialize(stripslashes($_COOKIE['order_form']));
                 }
             }

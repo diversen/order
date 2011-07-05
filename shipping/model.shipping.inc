@@ -6,8 +6,7 @@ class orderShipping {
 
     static $errors = array();
     static function validate () {
-        //$db = new db();
-        //$db->selectOne(self::$table, 'id', );
+
     }
 
     static function sanitize () {

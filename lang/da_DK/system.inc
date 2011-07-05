@@ -19,5 +19,8 @@ $_COS_LANG_MODULE['order_sort_products_menu_item'] = 'Sorter';
 $_COS_LANG_MODULE['order_products_admin_main_menu'] = 'Produkter';
 $_COS_LANG_MODULE['order_shipping_admin_main_menu'] = 'Fragt';
 
+$_COS_LANG_MODULE['order_shipping_max_admin_main_menu'] = 'Fri fragt';
+$_COS_LANG_MODULE['order_category_admin_main_menu'] = 'Kategorier';
+
 
 
