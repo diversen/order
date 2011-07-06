@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS `order_category`;
 CREATE TABLE `order_category` (
       `id` int(10) NOT NULL AUTO_INCREMENT,
       `name` varchar(255) NOT NULL,
+      `description` text NOT NULL DEFAULT '',
       `order` int(10) NOT NULL DEFAULT 0,
       `file` mediumblob DEFAULT NULL,
       `content_type` varchar(255) DEFAULT NULL,

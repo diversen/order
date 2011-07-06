@@ -17,10 +17,11 @@ $_SUB_MODULE_MENU = array (
         'url' => '/order/shipping/private',
         'auth' => 'admin'
     ),
+    /*
     array(
         'title' => lang::translate('order_shipping_company_menu'),
         'url' => '/order/shipping/company',
         'auth' => 'admin'
-    ),
+    ),*/
     
 );

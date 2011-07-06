@@ -1,7 +1,10 @@
 <?php
 
+include_once  "upload.php";
+
 class orderCategory {
     static $table = 'order_category';
+    static $errors = array();
     static function validate() {
         
     }
@@ -26,15 +29,14 @@ class orderCategory {
             $id = uri::$fragments[3];
             $row = self::getCategory($id);
 
-            $button_text = lang::translate('order_update');
-            $legend_text = lang::translate('order_category_legend_update');
-            $submit_label = lang::translate('order_delete_submit_label');
-            $submit_label.= $row['name'];
-            
             html::init($row);
-            html::legend($legend_text);
+            $button_text = lang::translate('order_update');
+            html::label('name', lang::translate('order_category_name_label'));
+            html::text('name');
+            html::label('file', lang::translate('order_category_file_label'));
+            html::file('file');
 
-            html::label('submit', $submit_label);
+            html::label('submit', '');
             html::submit('submit', $button_text);
             html::formEnd();
             echo html::$formStr;
@@ -50,7 +52,7 @@ class orderCategory {
         html::label('name', lang::translate('order_category_name_label'));
         html::text('name');
         html::label('file', lang::translate('order_category_file_label'));
-        html::file('file', $extra);
+        html::file('file');
         html::label('submit', '');
         html::submit('submit', $button_text);
         html::formEnd();
@@ -74,19 +76,37 @@ class orderCategory {
     }
 
     static function add () {
-        include_once  "upload.php";
+
         $db = new db();
+        db::$dbh->beginTransaction();
+      
         $values = db::prepareToPost();
         $db->insert(self::$table, $values);
-
-        //$id = db::$dbh->last_insert_id;
         $id = db::$dbh->lastInsertId();
 
+        return self::updateImage($id);
         
-        $res = uploadBlob::scaleImageToBlob(
-            'file',
-            'order_category', $id, 400);
-        return $res;
+    }
+
+    static function updateImage ($id) {
+        // scale image into blob
+
+        $length = get_module_ini('order_category_image_size');
+        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+            $res = uploadBlob::scaleImageToBlob(
+                'file',
+                self::$table, $id, $length);
+            if (!$res) {
+                self::$errors = uploadBlob::$errors;
+                db::$dbh->rollBack();
+                return false;
+            } else {
+                db::$dbh->commit();
+                return true;
+            }
+        }
+        db::$dbh->commit();
+        return true;
     }
 
     static function update() {
@@ -94,8 +114,10 @@ class orderCategory {
         $values = db::prepareToPost($_POST);
 
         $db = new db();
-        $res = $db->update(self::$table, $values, $id);
-        return $res;
+        db::$dbh->beginTransaction();
+        $db->update(self::$table, $values, $id);
+        //return $res;
+        return self::updateImage($id);
     }
 
     static function delete() {

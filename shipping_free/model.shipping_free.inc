@@ -26,7 +26,7 @@ class orderShippingFree {
             self::$errors[] = lang::translate('order_shipping_free_float_error');
             return;
         }
-
+        /*
         $_POST['company'] = locfloat_to_sysfloat($_POST['company']);
         if (!isset($_POST['company'])) {
             self::$errors[] = lang::translate('order_shipping_free_float_error');
@@ -41,7 +41,7 @@ class orderShippingFree {
         if(!is_float_val($_POST['company'], true)){
             self::$errors[] = lang::translate('order_shipping_free_float_error');
             return;
-        }
+        }*/
     }
 
     static function getShippingFreeTable () {
@@ -63,8 +63,8 @@ class orderShippingFree {
         html::legend(lang::translate('order_shipping_free_legend_edit'));
         html::label('private', lang::translate('order_shipping_free_private_label'));
         html::text('private');
-        html::label('company', lang::translate('order_shipping_free_company_label'));
-        html::text('company');
+        //html::label('company', lang::translate('order_shipping_free_company_label'));
+        //html::text('company');
         html::label('submit', '');
         html::submit('submit', lang::translate('order_update'));
         html::formEnd();

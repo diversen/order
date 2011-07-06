@@ -9,6 +9,7 @@ if (isset($_POST['submit'])) {
             session::setActionMessage($message);
             header("Location: /order/category/index");
         } else {
+            view_form_errors(orderCategory::$errors);
             $message = "Could not add category in: " . __FILE__;
             cos_error_log($message);
         }
