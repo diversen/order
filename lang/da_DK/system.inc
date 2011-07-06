@@ -24,3 +24,4 @@ $_COS_LANG_MODULE['order_category_admin_main_menu'] = 'Kategorier';
 
 
 
+

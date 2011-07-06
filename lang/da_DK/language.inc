@@ -174,3 +174,11 @@ Indtast et handels beløb der gør at kunden får gratis
     gratis fragt ikke kan opnåes uanset købets størrelse.
 EOT;
 $_COS_LANG_MODULE['order_shipping_free_update_confirm'] = 'Fri fragt tabel er opdateret';
+
+$_COS_LANG_MODULE['order_category_confirm_category_deleted'] = 'Kategori er blevet slettet';
+$_COS_LANG_MODULE['order_category_confirm_category_added'] = 'Kategori er blevet tilføjet';
+$_COS_LANG_MODULE['order_category_legend_delete'] = 'Slet kategori';
+$_COS_LANG_MODULE['order_category_name_label'] = 'Navn';
+$_COS_LANG_MODULE['order_category_file_label'] = 'Tilføj evt. Billede';
+$_COS_LANG_MODULE['order_category_legend_insert'] = 'Indæst ny kategori';
+$_COS_LANG_MODULE['order_category_confirm_category_updated'] = 'Kategori er blevet opdateret';
