@@ -1,3 +1,6 @@
+ALTER TABLE `order_items` MODIFY `weight` varchar(255) NOT NULL;
+ALTER TABLE `order_items` MODIFY `price` varchar(255) NOT NULL;
+
 DROP TABLE IF EXISTS `order_shipping_free`;
 
 CREATE TABLE `order_shipping_free` (

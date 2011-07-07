@@ -64,6 +64,12 @@ class order  {
         html::label('item_description', lang::translate('order_item_form_desc'));
         html::textarea('item_description');
 
+        html::label('category', 'category');
+
+        $rows = orderCategory::getAll();
+        //print_r($rows);
+        html::select('category', $rows, 'name', 'id');
+
         html::label('stock', lang::translate('order_item_form_stock'));
         html::text('stock');
 

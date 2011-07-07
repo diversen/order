@@ -10,6 +10,8 @@
 
 
 include_module('order');
+include_module('order/category');
+
 $cart = new order();
 
 $uri = URI::getInstance();
