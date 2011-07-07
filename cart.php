@@ -1,5 +1,12 @@
 <?php
 
 template::setTitle(lang::translate('order_cart_html_title'));
-$cart = new order ();
-$cart->displayCart();
+
+$display = get_module_ini('order_display_main');
+if ($display == 'all') {
+    $cart = new order ();
+    $cart->displayCart();
+    
+} else {
+    orderCategory::displayCatsFull();
+}

@@ -140,4 +140,9 @@ class orderCategory {
         $db = new db();
         return $db->delete(self::$table, 'id', $id);
     }
+
+    static function displayCatsFull () {
+        $vars = self::getAll();
+        templateView::includeModuleView('order', 'display_cats_full', $vars);
+    }
 }

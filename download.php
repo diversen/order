@@ -9,23 +9,33 @@
 // send cache headers
 
 
-include_module('order');
+
 include_module('order/category');
 
-$cart = new order();
+
 
 $uri = URI::getInstance();
 $id = $uri->fragment(2);
 $type = $uri->fragment(3);
+error_log($type);
+//http://mandlen/order/download/9
+//http://mandlen/order/download/9/full
 
-$item = $cart->getItem($id);
+$item = array();
+if (!$type || $type == 'full') {
+    include_module('order');
+    $item = order::getItem($id);
+} else if ( $type == 'category') {
+    include_module('order/category');
+    $item = orderCategory::getCategory($id);
+}
 
 if (empty($item['file'])) return;
 
 send_cache_headers();
 header("Content-Type: $item[content_type]");
 
-if ($type == 'full'){
+if ($type == 'full' || $type == 'category'){
     echo $item['file'];
 } else {
     echo $item['file_thumb'];
