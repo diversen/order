@@ -1,4 +1,5 @@
 order_allow = "admin"
+order_category_image_size = 250
 order_image_size = 250
 order_image_size_thumb = 100
 order_checkout_module = "paypal"

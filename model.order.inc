@@ -11,44 +11,81 @@ template::setJs('/js/jquery.validate.js', 30);
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 
 include_model('order/shipping');
+include_model('order/category');
 
 // {{{ create_item_form
-/**
- *
- * @param id    used when we update or delete
- */
-function create_item_form($method, $id = null, $values = array()){
-    $tf = new mySqlForm('order_items', array('id',  'item_name',   'item_name_alt', 'item_description', 'price', 'stock', 'weight', 'file'), $values);
-    $tf->setLabels(array(
-        'id' => 'Id is a hidden field',
-        'item_name' => lang::translate('order_item_form_title'),
-        'item_name_alt' => lang::translate('order_item_form_title_alt'),
-        'item_description' => lang::translate('order_item_form_desc'),
-        'stock' => lang::translate('order_item_form_stock'),
-        'price' => lang::translate('order_item_form_price'),
-        'weight' => lang::translate('order_item_form_weight'),
-        'file' => lang::translate('order_item_form_upload_image'),
-        )
-    );
 
-    if ($method == 'update'){
-        $tf->setMethod($method, $id);
-        $caption = lang::translate('order_item_form_edit_legend');
-    } else if ($method== 'insert') {
-        $tf->setMethod($method);
-        $caption = lang::translate('order_item_form_insert_legend');
-    } else {
-        $tf->setMethod($method);
-        $caption = lang::translate('order_item_form_delete_legend');
-    }
-    $tf->createForm('', 'post',  'test', '',
-                       true,  $caption);
-}
-
-// }}}
 class order  {
     public static $errors = array();
     static $options = array();
+    public static $table = 'order_items';
+
+    /**
+     *
+     * @param id    used when we update or delete
+     */
+    static function form($method){
+
+        html::$autoLoadTrigger = 'submit';
+        html::formStart('order_item_form');
+
+        if ($method == 'delete') {
+            html::legend(lang::translate('order_item_form_delete_legend'));
+            $button_text = lang::translate('order_delete');
+            html::label('submit', '');
+            html::submit('submit', $button_text);
+            html::formEnd();
+            echo html::$formStr;
+            return;
+        }
+
+        if ($method == 'update') {
+            html::legend(lang::translate('order_item_form_edit_legend'));
+
+            $id = uri::$fragments[2];
+            $row = order::getItem($id);
+
+            html::init($row);
+            $button_text = lang::translate('order_update');
+        }
+
+        if ($method == 'insert') {
+            html::init();
+            html::legend(lang::translate('order_item_form_insert_legend'));
+            $button_text = lang::translate('order_insert');
+        }
+
+        html::label('item_name', lang::translate('order_item_form_title'));
+        html::text('item_name');
+
+        html::label('item_name_alt', lang::translate('order_item_form_title_alt'));
+        html::text('item_name_alt');
+
+        html::label('item_description', lang::translate('order_item_form_desc'));
+        html::textarea('item_description');
+
+        html::label('stock', lang::translate('order_item_form_stock'));
+        html::text('stock');
+
+        html::label('price', lang::translate('order_item_form_price'));
+        html::text('price');
+
+        html::label('weight', lang::translate('order_item_form_weight'));
+        html::text('weight');
+
+        html::label('file', lang::translate('order_item_form_upload_image'));
+        html::file('file');
+
+        html::label('submit', '');
+        html::submit('submit', $button_text);
+        html::formEnd();
+        echo html::$formStr;
+        return;
+    }
+
+    // }}}
+
+
     // {{{ valiedate () method for validating insert and edit of items.
     public function validate(){
         if (isset($_POST['submit'])){
@@ -110,45 +147,50 @@ class order  {
     } 
     // }}}
     // {{{ addItem
-    public function addItem(){
+    public static function addItem(){
         $db = new db();
         $options = array();
 
+        db::$dbh->beginTransaction();
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
         $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
-        if (!empty($_FILES['file']['tmp_name'])){
 
+        $db->insert(self::$table, $values);
+        $id = db::$dbh->lastInsertId();
 
-            $options['filename'] = 'file';
-            $options['maxsize'] = 4000000;
-            // scale tmp image to tmp image
-
-            $order_image_size = get_module_ini('order_image_size');
-            $this->scaleImage($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name'], $order_image_size);
-
-            $values['file'] = uploadBlob::getFP($options);
-            $values['content_type'] = $_FILES['file']['type'];
-            $bind = array('file' => PDO::PARAM_LOB);
-            $res = $db->insert('order_items', $values, $bind);
-
-            $last_insert_id = self::$dbh->lastInsertId();
-
-            $order_image_size_thumb = get_module_ini('order_image_size_thumb');
-            $this->scaleImage($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name'], $order_image_size_thumb);
-
-            $values = array();
-            $values['file_thumb'] = uploadBlob::getFP($options);
-            $bind = array('file_thumb' => PDO::PARAM_LOB);
-            $res = $db->update('order_items', $values, $last_insert_id, $bind);
-
+        $res = self::updateImage($id);
+        if (!$res) {
+            db::$dbh->rollBack();
+            self::$errors = uploadBlob::$errors;
+            return false;
         } else {
-            $res = $db->insert('order_items', $values);
+            db::$dbh->commit();
+            return true;
         }
-        if ($res) {
-            session::setActionMessage(lang::translate('order_confirm_product_inserted'));
-            header("Location: /order/cart");
+    }
+
+    static function updateImage ($id) {
+
+        $order_image_size = get_module_ini('order_image_size');
+        $order_image_size_thumb = get_module_ini('order_image_size_thumb');
+
+        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+            $res = uploadBlob::scaleImageToBlob(
+                'file', self::$table, 'file', $id, $order_image_size);
+            if (!$res) {
+                self::$errors = uploadBlob::$errors;
+                return false;
+            }
+            $res = uploadBlob::scaleImageToBlob(
+                'file', self::$table, 'file_thumb', $id, $order_image_size_thumb);
+            
+            if (!$res) {
+                self::$errors = uploadBlob::$errors;
+                return false;
+            }
         }
+        return true;
     }
 
     public static function getItemsInBlock (){
@@ -175,11 +217,7 @@ class order  {
             if (!empty(order::$errors)){
                 view_form_errors(order::$errors);
             } else {
-                //print $cookie =
-                //serialize($_POST);
-                //setcookie('order_form', $cookie, time() + 3600, '/');
                 save_post('order_form');
-                //setcookie($name, $value, $expire)
                 header("Location: /order/confirm");
                 die();
             }
@@ -190,12 +228,7 @@ class order  {
                     $_POST = unserialize(stripslashes($_COOKIE['order_form']));
                 }
             }
-
-            //$t =
-            //print_r($t);
-            //print $_POST = unserialize($_COOKIE['order_form']);
         }
-        //$_POST = unserialize($_COOKIE['order_form']);
         templateView::includeModuleView('order', 'order_form');
     }
     // }}}
@@ -209,25 +242,12 @@ class order  {
         $subject = lang::translate('order_checkout_order_details');
 
         load_post('order_form');
-        //print_r($_POST);
-        //$_POST = unserialize($_COOKIE['order_form']);
-        //if (isset($_COOKIE['order_form'])) {
-
-          //  $_COOKIE['order_form'] = stripslashes($_COOKIE['order_form']);
-          //  $var = unserialize($_COOKIE['order_form']);
-          //  print_r($var);
-        //}
-
-
-        //print_r($_POST);
 
         $cookie = serialize($_POST);
-        //print_r($_COOKIE['order_form']);
         $res = setcookie(
             'order_form',
             $cookie, time() + 3600, "/");
-        //die($res);
-        //echo $res; die;
+
         $from = get_main_ini('site_email');
         $order_reply_to = get_module_ini('order_reply_to');
         $order_invoice_to = get_module_ini('order_invoice_to');
@@ -246,16 +266,6 @@ class order  {
 
         header("Location: /order/done");
         die;
-        // add to db
-        //if ()){
-            //db::$dbh->commit();
-        //    return 1;
-        //} else {
-            //db::$dbh->rollBack();
-        //    return 0;
-        //}
-
-
     }
     // }}}
 
@@ -331,9 +341,7 @@ class order  {
     }
     // }}}
     // {{{ addToBasket()
-    public function addToBasket ($options = null){
-        //$item_id = URI::getInstance()->fragment(2);
-        
+    public function addToBasket ($options = null){        
         if (isset($_POST['add_order'])){
             $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
             $item_id = $_POST['item_id'];
@@ -382,7 +390,7 @@ class order  {
     // }}}
     
     // {{{ getItem($id)
-    public function getItem ($id){
+    public static function getItem ($id){
         $db = new db();
         $item = $db->selectOne('order_items', 'id', $id);
         return $item;
@@ -394,39 +402,24 @@ class order  {
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
         $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
-        if (!empty($_FILES['file']['tmp_name'])){
-            $options['filename'] = 'file';
-            $options['maxsize'] = 4000000;
-            
-            $order_image_size = get_module_ini('order_image_size');
-            $this->scaleImage($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name'], $order_image_size);
+        
+        db::$dbh->beginTransaction();
+        $db->update(self::$table, $values, $id);
 
-            $values['file'] = uploadBlob::getFP($options);
-            $values['content_type'] = $_FILES['file']['type'];
-
-            $bind = array('file' => PDO::PARAM_LOB);
-            $res = $db->update('order_items', $values, $id, $bind);
-            
-            $order_image_size_thumb = get_module_ini('order_image_size_thumb');
-            $this->scaleImage($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name'], $order_image_size_thumb);
-
-            //$values = array();
-            $values =   array('file_thumb' => uploadBlob::getFP($options));
-            $bind =     array('file_thumb' => PDO::PARAM_LOB);
-            $res = $db->update('order_items', $values, $id, $bind);
+        $res = self::updateImage($id);
+        if (!$res) {
+            db::$dbh->rollBack();
+            return false;
         } else {
-            $res = $db->update('order_items', $values, $id);
-        }
-        if ($res) {
-            session::setActionMessage(
-                lang::translate('order_action_message_product_updated'));
-            header("Location: /order/cart");
+            db::$dbh->commit();
+            return true;
         }
     }
     // }}}
     // {{{ deleteItem($id)
     public function deleteItem($id){
-        $res = $this->delete('order_items', 'id', $id);
+        $db = new db();
+        $res = $db->delete('order_items', 'id', $id);
         if ($res) {
             session::setActionMessage(
                 lang::translate('order_product_action_message_product_deleted'));
@@ -434,35 +427,7 @@ class order  {
         }
     }
     // }}}
-    // {{{ scaleImage 
-    private function scaleImage ($image, $thumb, $length){
-        require_once 'Image/Transform.php';
-
-        //create transform driver object
-        $it = Image_Transform::factory('GD');
-        if (PEAR::isError($it)) {
-            die($it->getMessage());
-        }
-
-        //load the original file
-        $ret = $it->load($image);
-        if (PEAR::isError($ret)) {
-            die($ret->getMessage());
-        }
-
-        //scale
-        $ret = $it->scaleByLength($length);
-        if (PEAR::isError($ret)) {
-            die($ret->getMessage());
-        }
-
-        //save it into a different file
-        $ret = $it->save($thumb);
-        if (PEAR::isError($ret)) {
-            die($ret->getMessage());
-        }
-    }
-    // }}}
+    
         // {{{ displayBasket ()
     public static function displayQuickBasket (){
 

@@ -11,13 +11,17 @@ if (isset($_POST['submit'])){
     $cart->sanitize();
     if (empty($cart->errors)){
         $res = $cart->addItem();
-        // redirect to event list
+        if ($res) {
+            session::setActionMessage(lang::translate('order_confirm_product_inserted'));
+            header("Location: /order/cart");
+        } else {
+            view_form_errors(order::$errors);
+            $message = "Could not add product item in: " . __FILE__;
+            cos_error_log($message);
+        }
     } else {
         view_form_errors($cart->errors);
-        //create_item_form('insert');
-    }
-//} else {
-    
+    }    
 }
 
-create_item_form('insert', null, array());
+order::form('insert');

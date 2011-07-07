@@ -17,9 +17,13 @@ if (isset($_POST['submit'])){
     $cart->validate();
     $cart->sanitize();
     if (empty($cart->errors)){
-        $cart->updateItem($id);
+        
+        $res = $cart->updateItem($id);
+        session::setActionMessage(
+                lang::translate('order_action_message_product_updated'));
+            header("Location: /order/cart");
     } else {
         view_form_errors($cart->errors);
     }
 }
-create_item_form('update', $id);
+order::form('update');

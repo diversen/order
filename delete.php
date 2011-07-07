@@ -16,4 +16,4 @@ if (isset($_POST['submit'])){
     $res = $cart->deleteItem($id);
     
 }
-create_item_form('delete', $id);
+order::form('delete');

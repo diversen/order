@@ -16,5 +16,6 @@ if (isset($_POST['submit'])) {
     }
 }
 
-orderCategory::showForm();
 orderCategory::displayCats();
+orderCategory::showForm();
+

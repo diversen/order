@@ -33,6 +33,8 @@ class orderCategory {
             $button_text = lang::translate('order_update');
             html::label('name', lang::translate('order_category_name_label'));
             html::text('name');
+            html::label('description', lang::translate('order_category_description_label'));
+            html::textarea('description');
             html::label('file', lang::translate('order_category_file_label'));
             html::file('file');
 
@@ -51,6 +53,8 @@ class orderCategory {
         html::legend($legend_text);
         html::label('name', lang::translate('order_category_name_label'));
         html::text('name');
+        html::label('description', lang::translate('order_category_description_label'));
+        html::textarea('description');
         html::label('file', lang::translate('order_category_file_label'));
         html::file('file');
         html::label('submit', '');
@@ -84,8 +88,14 @@ class orderCategory {
         $db->insert(self::$table, $values);
         $id = db::$dbh->lastInsertId();
 
-        return self::updateImage($id);
-        
+        $res = self::updateImage($id);
+        if (!$res) {
+            db::$dbh->rollBack();
+            return false;
+        } else {
+            db::$dbh->commit();
+            return true;
+        }
     }
 
     static function updateImage ($id) {
@@ -94,18 +104,15 @@ class orderCategory {
         $length = get_module_ini('order_category_image_size');
         if (is_uploaded_file($_FILES['file']['tmp_name'])) {
             $res = uploadBlob::scaleImageToBlob(
-                'file',
-                self::$table, $id, $length);
+                'file', self::$table, 'file', $id, $length);
             if (!$res) {
                 self::$errors = uploadBlob::$errors;
-                db::$dbh->rollBack();
                 return false;
+
             } else {
-                db::$dbh->commit();
                 return true;
             }
         }
-        db::$dbh->commit();
         return true;
     }
 
@@ -116,14 +123,21 @@ class orderCategory {
         $db = new db();
         db::$dbh->beginTransaction();
         $db->update(self::$table, $values, $id);
-        //return $res;
-        return self::updateImage($id);
+        
+        $res = self::updateImage($id);
+        if (!$res) {
+            db::$dbh->rollBack();
+            return false;
+        } else {
+            db::$dbh->commit();
+            return true;
+        }
+        //return self::updateImage($id);
     }
 
     static function delete() {
         $id = uri::$fragments[3];
         $db = new db();
         return $db->delete(self::$table, 'id', $id);
-
     }
 }
