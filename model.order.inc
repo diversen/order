@@ -255,8 +255,8 @@ class order  {
             $cookie, time() + 3600, "/");
 
         $from = get_main_ini('site_email');
-        $order_reply_to = get_module_ini('order_reply_to');
-        $order_invoice_to = get_module_ini('order_invoice_to');
+        $order_reply_to = get_main_ini('site_email');
+        $order_invoice_to = get_main_ini('site_email');
 
         ob_start();
 
