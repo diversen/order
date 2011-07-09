@@ -182,3 +182,8 @@ $_COS_LANG_MODULE['order_category_name_label'] = 'Navn';
 $_COS_LANG_MODULE['order_category_file_label'] = 'Tilføj evt. Billede';
 $_COS_LANG_MODULE['order_category_legend_insert'] = 'Indæst ny kategori';
 $_COS_LANG_MODULE['order_category_confirm_category_updated'] = 'Kategori er blevet opdateret';
+
+$_COS_LANG_MODULE['order_category_description_label'] = 'Evt en beskrivelse';
+
+
+$_COS_LANG_MODULE['order_item_form_category'] = 'Kategori';

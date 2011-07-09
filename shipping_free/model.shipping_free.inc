@@ -79,11 +79,12 @@ class orderShippingFree {
         $values = array ('cost' => $_POST['private']);
         $res = $db->update(self::$table, $values, $search);
 
+        /*
         $search = array ('type' => 'company');
         $values = array ('cost' => $_POST['company']);
         $res2 = $db->update(self::$table, $values, $search);
-
-        if ($res && $res2) {
+        */
+        if ($res) {
             db::$dbh->commit();
             return 1;
         } else {

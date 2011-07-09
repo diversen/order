@@ -112,10 +112,14 @@ print lang::translate('order_private') . ' ';
 print orderShipping::getWeightToCost('private', $weight) . ' ';
 print order::getCurrencySymbol();
 
+/*
+
 print "<br />";
 print lang::translate('order_company') . ' ';
 print orderShipping::getWeightToCost('company', $weight) . ' ';
 print order::getCurrencySymbol();
+*/
+
 print "</td>\n";
 print "<td>&nbsp</td>\n";
 print "<td>";

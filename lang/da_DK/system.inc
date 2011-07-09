@@ -23,5 +23,6 @@ $_COS_LANG_MODULE['order_shipping_max_admin_main_menu'] = 'Fri fragt';
 $_COS_LANG_MODULE['order_category_admin_main_menu'] = 'Kategorier';
 
 
+$_COS_LANG_MODULE['order_cat_show_all'] = 'Alle';
 
 

@@ -8,4 +8,4 @@ order_added_tax = 0.20
 order_reply_to = "mail@mandlen.dk"
 order_invoice_to = "mail@mandlen.dk"
 order_debug = 0
-order_display_main = "all"
+order_display_main = "category"

@@ -69,9 +69,15 @@ class orderCategory {
         return $db->selectOne(self::$table, 'id', $id);
     }
 
-    static function getAll () {
+    static function getAll ($fields = null) {
         $db = new db();
-        return $db->selectAll(self::$table);
+        return $db->selectAll(self::$table, $fields, null, null, null, 'name', true);
+        //$db->selectAll($table, $fields, $search, $from, $limit, $order_by, $asc)
+    }
+
+    static function displayHTMLMenu () {
+        $vars = self::getAll(array('id, name'));
+        templateView::includeModuleView('order', 'cats_menu', $vars);
     }
 
     static function displayCats () {
@@ -141,8 +147,12 @@ class orderCategory {
         return $db->delete(self::$table, 'id', $id);
     }
 
-    static function displayCatsFull () {
-        $vars = self::getAll();
-        templateView::includeModuleView('order', 'display_cats_full', $vars);
-    }
+    //static function displayCatsFull () {
+        //$vars = self::getAll();
+        //templateView::includeModuleView('order', 'display_cats_full', $vars);
+        //order::displayCatCart();
+        
+     //   order::displayCatCart();
+        
+   // }
 }

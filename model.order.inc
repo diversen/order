@@ -64,7 +64,7 @@ class order  {
         html::label('item_description', lang::translate('order_item_form_desc'));
         html::textarea('item_description');
 
-        html::label('category', 'category');
+        html::label('category', lang::translate('order_item_form_category'));
 
         $rows = orderCategory::getAll();
         //print_r($rows);
@@ -286,10 +286,26 @@ class order  {
 
 
     // {{{ displayCart
-    public function displayCart (){
+    static public function displayCart (){
         $db = new db();
+        
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
-        templateView::includeModuleView('order', 'display_cart', $all_items);
+        templateView::includeModuleView('order', $template, $all_items);
+    }
+    // }}}
+    // {{{ displayCart
+    static public function displayCatCart (){
+        $db = new db();
+        if (isset($_GET['cat']) && $_GET['cat'] != '0') {
+            $search = array ('category' => $_GET['cat']);
+
+        } else {
+
+            $search = null;
+        }
+        $template = 'display_cat_cart';
+        $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
+        templateView::includeModuleView('order', $template, $all_items);
     }
     // }}}
     // {{{ displayItem ($id)
