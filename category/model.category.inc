@@ -33,10 +33,10 @@ class orderCategory {
             $button_text = lang::translate('order_update');
             html::label('name', lang::translate('order_category_name_label'));
             html::text('name');
-            html::label('description', lang::translate('order_category_description_label'));
-            html::textarea('description');
-            html::label('file', lang::translate('order_category_file_label'));
-            html::file('file');
+            //html::label('description', lang::translate('order_category_description_label'));
+            //html::textarea('description');
+            //html::label('file', lang::translate('order_category_file_label'));
+            //html::file('file');
 
             html::label('submit', '');
             html::submit('submit', $button_text);
@@ -53,10 +53,10 @@ class orderCategory {
         html::legend($legend_text);
         html::label('name', lang::translate('order_category_name_label'));
         html::text('name');
-        html::label('description', lang::translate('order_category_description_label'));
-        html::textarea('description');
-        html::label('file', lang::translate('order_category_file_label'));
-        html::file('file');
+        //html::label('description', lang::translate('order_category_description_label'));
+        //html::textarea('description');
+        //html::label('file', lang::translate('order_category_file_label'));
+        //html::file('file');
         html::label('submit', '');
         html::submit('submit', $button_text);
         html::formEnd();
