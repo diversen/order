@@ -6,4 +6,7 @@ order_checkout_module = "paypal"
 order_cookie_time = 360000
 order_added_tax = 0.20
 order_debug = 0
-order_display_main = "category"
+order_filters[] = 'autolink';
+order_filters[] = 'markdownExt';
+; can be category (categories) or all (which will display all items)
+order_display_main = "cat"

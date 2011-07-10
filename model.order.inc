@@ -350,7 +350,8 @@ class order  {
         cos_remove_extra_ws(html::specialEncode(substr2($val['item_description'], 155, 3, false)));
         template::setMeta(array('description' => $meta_desc));
 
-        $val['item_description'] = get_filtered_content('simple', $val['item_description']);
+        $filters = get_module_ini('order_filters');
+        $val['item_description'] = get_filtered_content($filters, $val['item_description']);
 
         print templateView::includeModuleView('order', 'display_item', $val);
     }
