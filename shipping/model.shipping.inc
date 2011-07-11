@@ -15,23 +15,25 @@ class orderShipping {
 
         $_POST['cost'] = locfloat_to_sysfloat($_POST['cost']);
 
-        if (empty($_POST['cost'])) {
+        if (empty($_POST['cost']) && $_POST['cost'] != '0') {
             self::$errors[] = lang::translate('order_shipping_form_cost_float_empty');
             return;
         }
 
         if( (float)$_POST['cost'] < 0 ){
+            
             self::$errors[] = lang::translate('order_shipping_form_cost_float_less_than_zero');
             return;
         }
 
         if(!is_float_val($_POST['cost'], true)){
+            
             self::$errors[] = lang::translate('order_shipping_form_cost_incorrect_float_value');
             return;
         }
 
         $_POST['weight'] = locfloat_to_sysfloat($_POST['weight']);
-        if (empty($_POST['weight'])) {
+        if (empty($_POST['weight']) && $_POST['weight'] != '0') {
             self::$errors[] = lang::translate('order_shipping_form_weight_float_empty');
             return;
         }
@@ -200,7 +202,7 @@ function sysfloat_to_locfloat($value)
 
 }
 
-function is_float_val ($val, $accept_zero = false) {
+function is_float_val ($val, $accept_zero = true) {
     if ($accept_zero && ($val == 0) ) {
         return true;
     }

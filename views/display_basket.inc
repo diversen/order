@@ -61,7 +61,7 @@ foreach ($order_items as $key => $val){
 
     print $sub_total;
     $total = $sub_total + $total;
-    $weight = $weight + ($val * $item['weight']);
+    $weight = $weight + ($val * locfloat_to_sysfloat($item['weight']));
     print "</td>\n";
     print "<td>&nbsp;</td>";
     print "<td>&nbsp;</td>\n";
@@ -92,11 +92,28 @@ print "</tr>\n";
 
 print "<tr>\n";
 print "<td  colspan=\"4\">\n";
-print lang::translate('order_amount_added_shipping_cost');
+print lang::translate('order_amount_added_shipping_cost') . " ";
+
+$shipping_is_free = false;
+$shipping_free = orderShippingFree::getShippingFreePrivate();
+if ($total <  $shipping_free) {
+    $shipping_free_needed = order::getCurrencySymbol();
+    $shipping_free_needed.= $shipping_free - $total;
+    print lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . ' ';
+} else {
+    $shipping_is_free = true;
+    print lang::translate('order_amount_shipping_is_free') . ' ';
+}
+
 print "</td>\n";
 print "<td>\n";
 print order::getCurrencySymbol();
-print $shipping_cost = orderShipping::getWeightToCost('private', $weight) . ' ';
+if ($shipping_is_free) {
+    print "0";
+    $shipping_cost = 0;
+} else {
+    print $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+}
 print "</td>\n";
 print "<td>&nbsp</td>\n";
 print "</tr>\n";

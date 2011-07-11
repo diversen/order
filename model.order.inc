@@ -11,6 +11,7 @@ template::setJs('/js/jquery.validate.js', 30);
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 
 include_model('order/shipping');
+include_model('order/shipping_free');
 include_model('order/category');
 
 // {{{ create_item_form

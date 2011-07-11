@@ -188,3 +188,6 @@ $_COS_LANG_MODULE['order_category_description_label'] = 'Evt en beskrivelse';
 
 $_COS_LANG_MODULE['order_item_form_category'] = 'Kategori';
 $_COS_LANG_MODULE['order_basket_total_price_items'] = 'Varenes pris incl moms';
+
+$_COS_LANG_MODULE['order_amount_before_shipping_free'] = 'Handl for %1% mere og opnå fri fragt!';
+$_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Er gratis!';
