@@ -225,14 +225,21 @@ class order  {
                 view_form_errors(order::$errors);
             } else {
                 save_post('order_form');
+                unset($_POST['submit']);
+                $cookie = serialize($_POST);
+
+                $res = setcookie(
+                    'order_form_cookie',
+                $cookie, get_module_ini('order_cookie_time') +time(), "/");
                 header("Location: /order/confirm");
                 die();
             }
         } else {
             
             if (!load_post('order_form')) {
-                if (isset($_COOKIE['order_form'])) {
-                    $_POST = unserialize(stripslashes($_COOKIE['order_form']));
+                if (isset($_COOKIE['order_form_cookie'])) {
+                    $_POST = unserialize($_COOKIE['order_form_cookie']);
+                    $_POST = html::specialEncode($_POST);
                 }
             }
         }
@@ -249,12 +256,13 @@ class order  {
         $subject = lang::translate('order_checkout_order_details');
 
         load_post('order_form');
-
+  /*
         $cookie = serialize($_POST);
+      
         $res = setcookie(
-            'order_form',
-            $cookie, time() + 3600, "/");
-
+            'order_form_cookie',
+            $cookie, get_module_ini('order_cookie_time'), "/");
+            */
         $from = get_main_ini('site_email');
         $order_reply_to = get_main_ini('site_email');
         $order_invoice_to = get_main_ini('site_email');
