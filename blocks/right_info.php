@@ -20,6 +20,10 @@ function block_right_info(){
     $options['width'] = 100;
     $str.= create_image_link($smiley, "/templates/mandlen/kr.gif", $options);
 
+    $options['width'] = 100;
+    $str.= create_image("/templates/mandlen/euorganiclogo3.jpg", $options);
+
+
     $info = '<hr />';
     $fb_share = <<<EOT
 <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Del</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
