@@ -126,7 +126,7 @@ $_COS_LANG_MODULE['order_process_greetings'] = 'Vh';
 $_COS_LANG_MODULE['order_delete_html_title'] = 'Slet vare';
 // Translation of file /home/dennis/www/mandlen/modules/order/basket.php
 
-$_COS_LANG_MODULE['order_view_basket_html_title'] = 'Vis vare';
+$_COS_LANG_MODULE['order_view_basket_html_title'] = 'Vis kurv';
 $_COS_LANG_MODULE['order_test'] = 'her er en sætning %1% og endnu en %2%';
 
 $_COS_LANG_MODULE['order_checkout_order_details'] = 'Ordre oversigt';
@@ -187,3 +187,4 @@ $_COS_LANG_MODULE['order_category_description_label'] = 'Evt en beskrivelse';
 
 
 $_COS_LANG_MODULE['order_item_form_category'] = 'Kategori';
+$_COS_LANG_MODULE['order_basket_total_price_items'] = 'Varenes pris incl moms';

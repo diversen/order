@@ -43,7 +43,7 @@ foreach ($order_items as $key => $val){
     print "</td>";
     print "<td>";
     print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
-    print order::getCurrencySymbol() . ': ' . $item['price']; // . "<br />";
+    print order::getCurrencySymbol() . $item['price']; // . "<br />";
     print "</td><td>\n";
     print $val;
     print "</td><td>\n";
@@ -59,7 +59,7 @@ foreach ($order_items as $key => $val){
 }
 print "<tr>\n";
 print "<td colspan=\"3\">";
-print lang::translate('order_amount_total');
+print lang::translate('order_basket_total_price_items');
 print "</td>";
 print "<td>&nbsp;</td>\n";
 print "<td>";
@@ -85,13 +85,24 @@ print lang::translate('order_amount_added_shipping_cost');
 print "</td>\n";
 print "<td>";
 
-$_POST['company'] = trim ($_POST['company']);
-if (isset($_POST['company']) && !empty($_POST['company'])) {
-    print orderShipping::getWeightToCost('company', $weight);
-} else {
-    print orderShipping::getWeightToCost('private', $weight);
-}
-print "vægt " . $weight;
+
+print order::getCurrencySymbol() . ' ';
+print $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+
+
 print "</td>\n";
 print "</tr>\n";
+
+print "<tr>\n";
+print "<td  colspan=\"4\">\n";
+print lang::translate('order_amount_total');
+print "</td>\n";
+print "<td>\n";
+print order::getCurrencySymbol();
+print $shipping_cost + $total;
+//print orderShipping::getWeightToCost('private', $weight) . ' ';
+print "</td>\n";
+
+print "</tr>\n";
+
 print "<table>\n";

@@ -70,28 +70,15 @@ foreach ($order_items as $key => $val){
 }
 print "<tr>\n";
 print "<td colspan=\"4\">";
-print lang::translate('order_amount_total');
+print lang::translate('order_basket_total_price_items');
 print "</td>";
 print "<td>";
-print order::getCurrencySymbol() . ' ';
-print $total;
+print order::getCurrencySymbol() . $total;
 print "</td>\n";
 print "<td>&nbsp;</td>\n";
 print "</tr>\n";
 
-/*
-print "<tr>\n";
-print "<td colspan=\"4\">";
-print lang::translate('order_amount_value_added_tax');
-print "</td>";
-print "<td>";
-print order::getCurrencySymbol() . ' ';
-//print $total * get_module_ini('order_added_tax');
-print "total vægt  = $total_weight";
-print "</td>\n";
-print "<td>&nbsp;</td>\n";
-print "</tr>\n";
-    */
+
 print "<tr>\n";
 print "<td colspan=\"4\">";
 print lang::translate('order_amount_value_added_tax');
@@ -106,34 +93,24 @@ print "</tr>\n";
 print "<tr>\n";
 print "<td  colspan=\"4\">\n";
 print lang::translate('order_amount_added_shipping_cost');
-
-print "<br />";
-print lang::translate('order_private') . ' ';
-print orderShipping::getWeightToCost('private', $weight) . ' ';
+print "</td>\n";
+print "<td>\n";
 print order::getCurrencySymbol();
-
-/*
-
-print "<br />";
-print lang::translate('order_company') . ' ';
-print orderShipping::getWeightToCost('company', $weight) . ' ';
-print order::getCurrencySymbol();
-*/
-
+print $shipping_cost = orderShipping::getWeightToCost('private', $weight) . ' ';
 print "</td>\n";
 print "<td>&nbsp</td>\n";
-print "<td>";
+print "</tr>\n";
 
-/*
-$_POST['company'] = trim ($_POST['company']);
-if (isset($_POST['company']) && !empty($_POST['company'])) {
-    print orderShipping::getWeightToCost('company', $weight);
-} else {
-    print orderShipping::getWeightToCost('private', $weight);
-}
-*/
-//print "vægt " . $weight;
+print "<tr>\n";
+print "<td  colspan=\"4\">\n";
+print lang::translate('order_amount_total');
 print "</td>\n";
+print "<td>\n";
+print order::getCurrencySymbol();
+print $shipping_cost + $total;
+//print orderShipping::getWeightToCost('private', $weight) . ' ';
+print "</td>\n";
+print "<td>&nbsp</td>\n";
 print "</tr>\n";
 
 
