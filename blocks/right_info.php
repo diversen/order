@@ -25,6 +25,16 @@ function block_right_info(){
 
 
     $info = '<hr />';
+
+$g_plus_one = <<<EOT
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4d9cb75f1ea03ef5"></script>
+<!-- AddThis Button END -->
+<!-- Place this tag in your head or just before your close body tag -->
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<!-- Place this tag where you want the +1 button to render -->
+<g:plusone size="small"></g:plusone>
+EOT;
+    $info.=trim($g_plus_one);
     $fb_share = <<<EOT
 <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Del</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 EOT;
@@ -37,7 +47,7 @@ EOT;
 
     $info.=$fb_link;
 
-
+    
     /*
     $info.= <<<EOT
 <form action="http://www.facebook.com/addfriend.php"><input type="hidden" name="id" value="178272478878935" /><input type="submit" value="Connect with me on Facebook!" /></form>
@@ -46,7 +56,7 @@ EOT;
      
     $info.= "<br />\n";
 */
-    $info.= <<<EOT
+    $base_info = <<<EOT
 <b>JMS & Co.</b>
 Valbygårdsvej 8
 2500 Valby
@@ -56,9 +66,9 @@ Danmark<hr /><b>Telefon:</b>
 <b>CVR:</b>
 29 35 56 49<hr />Jarl & Marianne Schacht
 EOT;
-    $info = nl2br($info);
-
-    $str.= $info;
+    $base_info = nl2br($base_info);
+    $str.=$info;
+    $str.= $base_info;
     return $str;
 }
 
