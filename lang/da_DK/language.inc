@@ -191,3 +191,7 @@ $_COS_LANG_MODULE['order_basket_total_price_items'] = 'Varenes pris incl moms';
 
 $_COS_LANG_MODULE['order_amount_before_shipping_free'] = 'Handl for %1% mere og opnå fri fragt!';
 $_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Er gratis!';
+
+$_COS_LANG_MODULE['order_category_legend_update'] = 'Opdater vare';
+
+

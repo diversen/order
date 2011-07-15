@@ -8,5 +8,6 @@ $id = URI::getInstance()->fragment(2);
 //print_r($_POST); die;
 
 $cart = new order ();
+
 $cart->displayItem($id);
 $cart->addToBasket();

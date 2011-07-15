@@ -29,14 +29,17 @@ class orderCategory {
             $id = uri::$fragments[3];
             $row = self::getCategory($id);
 
+            $legend_text = lang::translate('order_category_legend_update');
+
             html::init($row);
             $button_text = lang::translate('order_update');
+            html::legend($legend_text);
             html::label('name', lang::translate('order_category_name_label'));
             html::text('name');
-            //html::label('description', lang::translate('order_category_description_label'));
-            //html::textarea('description');
-            //html::label('file', lang::translate('order_category_file_label'));
-            //html::file('file');
+            html::label('description', lang::translate('order_category_description_label'));
+            html::textarea('description');
+            html::label('file', lang::translate('order_category_file_label'));
+            html::file('file');
 
             html::label('submit', '');
             html::submit('submit', $button_text);
@@ -53,10 +56,10 @@ class orderCategory {
         html::legend($legend_text);
         html::label('name', lang::translate('order_category_name_label'));
         html::text('name');
-        //html::label('description', lang::translate('order_category_description_label'));
-        //html::textarea('description');
-        //html::label('file', lang::translate('order_category_file_label'));
-        //html::file('file');
+        html::label('description', lang::translate('order_category_description_label'));
+        html::textarea('description');
+        html::label('file', lang::translate('order_category_file_label'));
+        html::file('file');
         html::label('submit', '');
         html::submit('submit', $button_text);
         html::formEnd();
@@ -84,6 +87,22 @@ class orderCategory {
         $vars = self::getAll();
         templateView::includeModuleView('order', 'display_cats', $vars);
     }
+
+    /*
+    static function displayCatsCart () {
+        $vars = self::getAll();
+        templateView::includeModuleView('order', 'display_cats_full', $vars);
+    }*/
+
+    // {{{ displayCart
+    static public function displayCatItems (){
+        $db = new db();
+        $search = array ('category' => $_GET['cat']);
+        $template = 'display_cart';
+        $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
+        templateView::includeModuleView('order', $template, $all_items);
+    }
+    // }}}
 
     static function add () {
 
@@ -147,12 +166,9 @@ class orderCategory {
         return $db->delete(self::$table, 'id', $id);
     }
 
-    //static function displayCatsFull () {
-        //$vars = self::getAll();
-        //templateView::includeModuleView('order', 'display_cats_full', $vars);
-        //order::displayCatCart();
+    static function displayCatsFull () {
+        $vars = self::getAll();
+        templateView::includeModuleView('order', 'display_cats_full', $vars);
         
-     //   order::displayCatCart();
-        
-   // }
+    }
 }

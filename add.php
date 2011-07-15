@@ -13,7 +13,7 @@ if (isset($_POST['submit'])){
         $res = $cart->addItem();
         if ($res) {
             session::setActionMessage(lang::translate('order_confirm_product_inserted'));
-            header("Location: /order/cart");
+            header("Location: /order/products/index");
         } else {
             view_form_errors(order::$errors);
             $message = "Could not add product item in: " . __FILE__;

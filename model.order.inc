@@ -295,28 +295,17 @@ class order  {
 
 
     // {{{ displayCart
+    /**
+     * display all items in shop
+     */
     static public function displayCart (){
         $db = new db();
-        
+        $template = 'display_cart';
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
         templateView::includeModuleView('order', $template, $all_items);
     }
     // }}}
-    // {{{ displayCart
-    static public function displayCatCart (){
-        $db = new db();
-        if (isset($_GET['cat']) && $_GET['cat'] != '0') {
-            $search = array ('category' => $_GET['cat']);
-
-        } else {
-
-            $search = null;
-        }
-        $template = 'display_cat_cart';
-        $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
-        templateView::includeModuleView('order', $template, $all_items);
-    }
-    // }}}
+    
     // {{{ displayItem ($id)
     public function displayItem ($id){
         if (isset($_POST['add_order'])){
