@@ -34,18 +34,18 @@ $g_plus_one = <<<EOT
 <!-- Place this tag where you want the +1 button to render -->
 <g:plusone size="small"></g:plusone>
 EOT;
-    $info.=trim($g_plus_one);
+    $info.=trim($g_plus_one) ."<hr />\n";
     $fb_share = <<<EOT
 <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Del</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
 EOT;
 
-    $info.=$fb_share ."<hr />";
+    $info.=$fb_share;
 
         $fb_link = <<<EOT
 <iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fmandlen&amp;width=175&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:175px; height:62px;" allowTransparency="true"></iframe>
 EOT;
 
-    $info.=$fb_link;
+    $info.=$fb_link . "<hr />\n";
 
     
     /*
