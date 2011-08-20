@@ -41,4 +41,4 @@ if ($i % 2){
 
     print "</tr>\n";
 }
-print "<table>\n";
+print "</table>\n";

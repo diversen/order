@@ -33,7 +33,7 @@ foreach ($all_items as $key => $val){
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
-    $options['width'] = get_module_ini('order_image_size_thumb');
+    $options['width'] = '75px';/*get_module_ini('order_image_size_thumb')*/;
 
     if (!empty($item['file'])){
         $link =
@@ -49,7 +49,7 @@ foreach ($all_items as $key => $val){
         $item['item_name']);
     print $link;
     print "<br />\n";
-    print order::getCurrencySymbol() . $item['price'];
+    print order::getCurrencySymbol() . '&nbsp;' . $item['price'];
     print "</td><td>\n";
     print "<form name=\"checkout\" method =\"post\" action=\"\">";
     print "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
@@ -57,7 +57,7 @@ foreach ($all_items as $key => $val){
     print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
     print "</form>\n";
     print "</td><td>\n";
-    print order::getCurrencySymbol() . ' ';
+    print order::getCurrencySymbol() . '&nbsp;';
     $sub_total = $val * $item['price'];
     print $sub_total;
     $total = $sub_total + $total;
@@ -75,7 +75,7 @@ print "<td colspan=\"4\">";
 print lang::translate('order_basket_total_price_items');
 print "</td>";
 print "<td>";
-print order::getCurrencySymbol() . $total;
+print order::getCurrencySymbol() . '&nbsp;' . $total;
 print "</td>\n";
 print "<td>&nbsp;</td>\n";
 print "</tr>\n";
@@ -86,7 +86,7 @@ print "<td colspan=\"4\">";
 print lang::translate('order_amount_value_added_tax');
 print "</td>";
 print "<td>";
-print order::getCurrencySymbol() . ' ';
+print order::getCurrencySymbol() . '&nbsp;';
 print $total * get_module_ini('order_added_tax');
 print "</td>\n";
 print "<td>&nbsp;</td>\n";
@@ -99,17 +99,17 @@ print lang::translate('order_amount_added_shipping_cost') . " ";
 $shipping_is_free = false;
 $shipping_free = orderShippingFree::getShippingFreePrivate();
 if ($total <  $shipping_free) {
-    $shipping_free_needed = order::getCurrencySymbol();
+    $shipping_free_needed = order::getCurrencySymbol() . '&nbsp;';
     $shipping_free_needed.= $shipping_free - $total;
-    print lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . ' ';    
+    print lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '&nbsp;';
 } else {
     $shipping_is_free = true;
-    print lang::translate('order_amount_shipping_is_free') . ' ';
+    print lang::translate('order_amount_shipping_is_free') . '&nbsp;';
 }
 
 print "</td>\n";
 print "<td>\n";
-print order::getCurrencySymbol();
+print order::getCurrencySymbol() . '&nbsp;';
 if ($shipping_is_free) {
     print "0";
     $shipping_cost = 0;
@@ -125,7 +125,7 @@ print "<td  colspan=\"4\">\n";
 print lang::translate('order_amount_total');
 print "</td>\n";
 print "<td>\n";
-print order::getCurrencySymbol();
+print order::getCurrencySymbol() . '&nbsp;';
 print $shipping_cost + $total;
 //print orderShipping::getWeightToCost('private', $weight) . ' ';
 print "</td>\n";
@@ -135,10 +135,14 @@ print "</tr>\n";
 print "<td colspan=5>";
 print "&nbsp;";
 print "</td>";
-print "<td>";
+
+print "</table>\n";
+
+print "<table><tr><td>\n";
+//print "<td>";
 print "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
 print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
-print "</form>\n";
+//print "</form>\n";
 print "</td>\n";
 print "</tr>\n";
-print "<table>\n";
+print "</table>\n";

@@ -64,5 +64,5 @@ foreach ($vars as $key => $val){
 
 }
 print "</tr>\n";
-print "<table>\n";
+print "</table>\n";
 

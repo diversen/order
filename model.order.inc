@@ -289,7 +289,7 @@ class order  {
         if (!isset($localeconv)){
             $local = localeconv();
         }
-        return $currency = $local['int_curr_symbol'];
+        return $currency = trim($local['int_curr_symbol']);
     }
 
 

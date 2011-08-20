@@ -31,7 +31,7 @@ foreach ($order_items as $key => $val){
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
-    $options['width'] = get_module_ini('order_image_size_thumb');
+    $options['width'] = "75px"; /*get_module_ini('order_image_size_thumb')*/;
 
     print "<tr>\n";
     print "<td>";
@@ -43,11 +43,11 @@ foreach ($order_items as $key => $val){
     print "</td>";
     print "<td>";
     print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
-    print order::getCurrencySymbol() . $item['price']; // . "<br />";
+    print order::getCurrencySymbol() . '&nbsp;' . $item['price']; // . "<br />";
     print "</td><td>\n";
     print $val;
     print "</td><td>\n";
-    print order::getCurrencySymbol() . ' ';
+    print order::getCurrencySymbol() . '&nbsp;';
     $sub_total = $val * $item['price'];
     print $sub_total;
     $total = $sub_total + $total;
@@ -64,7 +64,7 @@ print "</td>";
 print "<td>&nbsp;</td>\n";
 print "<td>";
 
-print order::getCurrencySymbol() . ' ';
+print order::getCurrencySymbol() . '&nbsp;';
 print $total;
 print "</td>\n";
 print "</tr>\n";
@@ -74,7 +74,7 @@ print "<td colspan=\"4\">\n";
 print lang::translate('order_amount_value_added_tax');
 print "</td>";
 print "<td>";
-print order::getCurrencySymbol() . ' ';
+print order::getCurrencySymbol() . '&nbsp;';
 print $total * get_module_ini('order_added_tax');
 print "</td>\n";
 print "</tr>\n";
@@ -86,7 +86,7 @@ print lang::translate('order_amount_added_shipping_cost') . " ";
 $shipping_is_free = false;
 $shipping_free = orderShippingFree::getShippingFreePrivate();
 if ($total <  $shipping_free) {
-    $shipping_free_needed = order::getCurrencySymbol();
+    $shipping_free_needed = order::getCurrencySymbol() . '&nbsp;';
     $shipping_free_needed.= $shipping_free - $total;
     print lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . ' ';
 } else {
@@ -96,7 +96,7 @@ if ($total <  $shipping_free) {
 
 print "</td>\n";
 print "<td>\n";
-print order::getCurrencySymbol();
+print order::getCurrencySymbol() . '&nbsp;';
 if ($shipping_is_free) {
     print "0";
     $shipping_cost = 0;
@@ -112,7 +112,7 @@ print "<td  colspan=\"4\">\n";
 print lang::translate('order_amount_total');
 print "</td>\n";
 print "<td>\n";
-print order::getCurrencySymbol();
+print order::getCurrencySymbol() . '&nbsp;';
 print $shipping_cost + $total;
 //print orderShipping::getWeightToCost('private', $weight) . ' ';
 print "</td>\n";

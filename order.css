@@ -5,14 +5,9 @@
     float: left;
 }
 
-input.argh_button  {
-    
-}
-
-
 table.order_cart {
     border-width: thin;
-    border-spacing: 1px;
+    border-spacing: 0px;
     border-color: #fff;   
     border-width: 1px;
     padding: 0px;
