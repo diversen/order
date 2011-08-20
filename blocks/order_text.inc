@@ -27,7 +27,7 @@ Danmark
 EOT;
 
     $base_info = nl2br($base_info);
-    $str = "<div class=\"block\"><ul class=\"ul-no-style\"><li>$base_info</li></ul></div>\n";
+    $str = "<div class=\"block\"><ul class=\"ul_no_style\"><li>$base_info</li></ul></div>\n";
     return $str;
 }
 
