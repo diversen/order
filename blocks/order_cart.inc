@@ -108,7 +108,7 @@ function block_order_cart () {
 
     print "</table>\n";
 
-    print "<table>\n";
+    print "<table class=\"order_cart\">\n";
     print "<tr>\n";
 
     print "<td>";
