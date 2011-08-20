@@ -20,7 +20,7 @@ Valbygårdsvej 8
 Danmark
 <b>Telefon:</b>
 31682307
-<b>Email:</b> <a href="mailto:mail@mandlen.dk">mailto:mail@mandlen.dk</a>
+<b>Email:</b> <a href="mailto:mail@mandlen.dk">mail@mandlen.dk</a>
 <b>CVR:</b>
 29 35 56 49
 <b>Jarl & Marianne Schacht</b>
