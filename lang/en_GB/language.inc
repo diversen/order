@@ -1,149 +1,169 @@
 <?php
 
 $_COS_LANG_MODULE = array();
-$_COS_LANG_MODULE['Add To Cart'] = 'Add To Cart';
-$_COS_LANG_MODULE['Shop'] =  'Shop';
-$_COS_LANG_MODULE['Products'] = 'Products';
-$_COS_LANG_MODULE['Basket'] = 'Basket';
-$_COS_LANG_MODULE['Add Item'] = 'Add Item';
-$_COS_LANG_MODULE['Price'] = 'Price';
-$_COS_LANG_MODULE['locale.amount'] = 'UKP';
-$_COS_LANG_MODULE['price_per_unit'] = 'per unit: ';
-$_COS_LANG_MODULE['Quantity'] = 'Quantity';
-$_COS_LANG_MODULE['sub_total'] = 'Sub Total';
-$_COS_LANG_MODULE['No Items in basket'] = 'No Items in basket';
-$_COS_LANG_MODULE['Enter title of cart item'] = 'Enter title of product';
-$_COS_LANG_MODULE['Enter description of cart_item'] = 'Enter description of product';
-$_COS_LANG_MODULE['Upload item image'] = 'Upload product image';
-$_COS_LANG_MODULE['View Basket'] = 'View Basket';
-$_COS_LANG_MODULE['Add Product'] = 'Add Product';
-$_COS_LANG_MODULE['View Product'] = 'View Product';
-$_COS_LANG_MODULE['Checkout'] = 'Checkout';
-$_COS_LANG_MODULE['Edit Product'] = 'Edit Product';
-$_COS_LANG_MODULE['Delete Product'] = 'Delete Product';
-$_COS_LANG_MODULE['Product Deleted'] = 'Product Deleted';
-$_COS_LANG_MODULE['Product Updated'] = 'Product Updated';
-$_COS_LANG_MODULE['Product Inserted'] = 'Product Inserted';
-$_COS_LANG_MODULE['amount_total'] = 'Total Price';
-$_COS_LANG_MODULE['Buy'] = 'Buy';
-$_COS_LANG_MODULE['Update Cart'] = 'Update Cart';
 
-$_COS_LANG_MODULE['Newsletter'] = 'Newsletter';
-$_COS_LANG_MODULE['recommend'] = 'recommend';
+$_COS_LANG_MODULE['order_out_of_stock'] = 'No Items In Stock';
+$_COS_LANG_MODULE['order_edit'] = 'Edit';
+$_COS_LANG_MODULE['order_delete'] = 'Delete';
 
-$_COS_LANG_MODULE['item_name_alt'] = 'item_name_alt';
-$_COS_LANG_MODULE['Stock'] = 'Stock';
-$_COS_LANG_MODULE['No Item'] = 'No Item';
-$_COS_LANG_MODULE['No valid Price'] = 'No valid Price';
-$_COS_LANG_MODULE['error_name'] = 'error_name';
-$_COS_LANG_MODULE['error_adresse'] = 'error_adresse';
-$_COS_LANG_MODULE['error_city'] = 'error_city';
-$_COS_LANG_MODULE['error_zip_code'] = 'error_zip_code';
-$_COS_LANG_MODULE['error_email'] = 'error_email';
-$_COS_LANG_MODULE['error_diff_name'] = 'error_diff_name';
-$_COS_LANG_MODULE['error_diff_adresse'] = 'error_diff_adresse';
-$_COS_LANG_MODULE['diff_error_city'] = 'diff_error_city';
-$_COS_LANG_MODULE['error_diff_zip_code'] = 'error_diff_zip_code';
-$_COS_LANG_MODULE['invoice_email_message'] = 'invoice_email_message';
-$_COS_LANG_MODULE['cheers'] = 'cheers';
-$_COS_LANG_MODULE['Edit'] = 'Edit';
-$_COS_LANG_MODULE['Delete'] = 'Delete';
-$_COS_LANG_MODULE['out_of_stock'] = 'out_of_stock';
-$_COS_LANG_MODULE['enter_amount'] = 'enter_amount';
-$_COS_LANG_MODULE['Edit'] = 'Edit';
-$_COS_LANG_MODULE['Delete'] = 'Delete';
+$_COS_LANG_MODULE['order_checkout_legend'] = 'Checkout';
+$_COS_LANG_MODULE['order_legend_company'] = 'Company';
+$_COS_LANG_MODULE['order_legend_name'] = 'Name';
+$_COS_LANG_MODULE['order_legend_adresse'] = 'Adresse';
+$_COS_LANG_MODULE['order_legend_postal_code'] = 'Postal Code';
+$_COS_LANG_MODULE['order_legend_city'] = 'City';
+$_COS_LANG_MODULE['order_legend_email'] = 'Email';
+$_COS_LANG_MODULE['order_legend_phone'] = 'Phone';
+$_COS_LANG_MODULE['order_legend_diffent_shipping'] = 'Diffent Shipping';
+$_COS_LANG_MODULE['order_legend_add_order_button'] = 'Order';
+$_COS_LANG_MODULE['order_order_details'] = 'Order Details';
+$_COS_LANG_MODULE['order_basket_total_price_items'] = 'Total Price';
+$_COS_LANG_MODULE['order_amount_value_added_tax'] = 'Added Tax';
+$_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'Shipping Cost';
+$_COS_LANG_MODULE['order_amount_total'] = 'Total Amount';
+$_COS_LANG_MODULE['order_invoice_details'] = 'Invoice Details';
+$_COS_LANG_MODULE['order_company'] = 'Company';
+$_COS_LANG_MODULE['order_name'] = 'Name';
+$_COS_LANG_MODULE['order_adresse'] = 'Adresse';
+$_COS_LANG_MODULE['order_postal_code'] = 'Postal Code';
+$_COS_LANG_MODULE['order_city'] = 'City';
+$_COS_LANG_MODULE['order_email'] = 'Email';
+$_COS_LANG_MODULE['order_phone'] = 'Phone';
+$_COS_LANG_MODULE['order_different_shipping'] = 'Different Shipping';
+$_COS_LANG_MODULE['order_out_of_stock'] = 'No Items in Stock';
 
-$_COS_LANG_MODULE['checkout_legend'] = 'checkout_legend';
-$_COS_LANG_MODULE['company'] = 'company';
-$_COS_LANG_MODULE['name'] = 'name';
-$_COS_LANG_MODULE['adresse'] = 'adresse';
-$_COS_LANG_MODULE['postal_code'] = 'postal_code';
-$_COS_LANG_MODULE['city'] = 'city';
-$_COS_LANG_MODULE['email'] = 'email';
-$_COS_LANG_MODULE['phone'] = 'phone';
-$_COS_LANG_MODULE['diffent_shipping'] = 'diffent_shipping';
-$_COS_LANG_MODULE['name'] = 'name';
-$_COS_LANG_MODULE['adresse'] = 'adresse';
-$_COS_LANG_MODULE['postal_code'] = 'postal_code';
-$_COS_LANG_MODULE['city'] = 'city';
-$_COS_LANG_MODULE['add_order'] = 'add_order';
+$_COS_LANG_MODULE['order_quantity'] = 'Quantity';
+$_COS_LANG_MODULE['order_sub_total'] = 'Sub Total';
+$_COS_LANG_MODULE['order_item_update'] = 'Update';
 
-$_COS_LANG_MODULE['invoice_details'] = 'invoice_details';
-$_COS_LANG_MODULE['company'] = 'company';
-$_COS_LANG_MODULE['name'] = 'name';
-$_COS_LANG_MODULE['adresse'] = 'adresse';
-$_COS_LANG_MODULE['postal_code'] = 'postal_code';
-$_COS_LANG_MODULE['city'] = 'city';
-$_COS_LANG_MODULE['email'] = 'email';
-$_COS_LANG_MODULE['phone'] = 'phone';
-$_COS_LANG_MODULE['diffent_shipping'] = 'diffent_shipping';
-$_COS_LANG_MODULE['name'] = 'name';
-$_COS_LANG_MODULE['adresse'] = 'adresse';
-$_COS_LANG_MODULE['postal_code'] = 'postal_code';
-$_COS_LANG_MODULE['city'] = 'city';
-
-$_COS_LANG_MODULE['invoice_details'] = 'invoice_details';
-$_COS_LANG_MODULE['different_shipping'] = 'different_shipping';
-$_COS_LANG_MODULE['company'] = 'company';
-$_COS_LANG_MODULE['name'] = 'name';
-$_COS_LANG_MODULE['adresse'] = 'adresse';
-$_COS_LANG_MODULE['postal_code'] = 'postal_code';
-$_COS_LANG_MODULE['city'] = 'city';
-$_COS_LANG_MODULE['email'] = 'email';
-$_COS_LANG_MODULE['phone'] = 'phone';
-$_COS_LANG_MODULE['name'] = 'name';
-$_COS_LANG_MODULE['adresse'] = 'adresse';
-$_COS_LANG_MODULE['postal_code'] = 'postal_code';
-$_COS_LANG_MODULE['city'] = 'city';
-$_COS_LANG_MODULE['confirm_order'] = 'confirm_order';
-
-$_COS_LANG_MODULE['Product info'] = 'Product info';
-$_COS_LANG_MODULE['Edit'] = 'Edit';
-
-$_COS_LANG_MODULE['process_confirm_message'] = 'process_confirm_message';
-$_COS_LANG_MODULE['cheers'] = 'cheers';
-
-
-
-
-
-$_COS_LANG_MODULE['Delete'] = 'Delete';
-
-$_COS_LANG_MODULE['Order saved'] = 'Order saved';
-
-
-$_COS_LANG_MODULE['Order saved'] = 'Order saved';
-
-
-
-
-$_COS_LANG_MODULE['amount_value_added_tax'] = 'amount_value_added_tax';
-$_COS_LANG_MODULE['amount_added_shipping_cost'] = 'amount_added_shipping_cost';
-$_COS_LANG_MODULE['amount_value_added_tax'] = 'amount_value_added_tax';
-$_COS_LANG_MODULE['amount_added_shipping_cost'] = 'amount_added_shipping_cost';
-$_COS_LANG_MODULE['Update'] = 'Update';
-$_COS_LANG_MODULE['amount_value_added_tax'] = 'amount_value_added_tax';
-$_COS_LANG_MODULE['amount_added_shipping_cost'] = 'amount_added_shipping_cost';
-$_COS_LANG_MODULE['Update'] = 'Update';
-$_COS_LANG_MODULE['amount_value_added_tax'] = 'amount_value_added_tax';
-$_COS_LANG_MODULE['amount_added_shipping_cost'] = 'amount_added_shipping_cost';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Shipping is free';
+$_COS_LANG_MODULE['order_buy'] = 'Buy';
+$_COS_LANG_MODULE['order_price'] = 'Price';
+$_COS_LANG_MODULE['order_item_enter_amount'] = 'order_item_enter_amount';
+$_COS_LANG_MODULE['order_update_cart_item'] = 'order_update_cart_item';
+$_COS_LANG_MODULE['order_out_of_stock'] = 'order_out_of_stock';
+$_COS_LANG_MODULE['order_edit'] = 'order_edit';
+$_COS_LANG_MODULE['order_delete'] = 'order_delete';
+$_COS_LANG_MODULE['order_invoice_details'] = 'order_invoice_details';
+$_COS_LANG_MODULE['order_different_shipping'] = 'order_different_shipping';
+$_COS_LANG_MODULE['order_company'] = 'order_company';
+$_COS_LANG_MODULE['order_name'] = 'order_name';
+$_COS_LANG_MODULE['order_adresse'] = 'order_adresse';
+$_COS_LANG_MODULE['order_postal_code'] = 'order_postal_code';
+$_COS_LANG_MODULE['order_city'] = 'order_city';
+$_COS_LANG_MODULE['order_email'] = 'order_email';
+$_COS_LANG_MODULE['order_phone'] = 'order_phone';
+$_COS_LANG_MODULE['order_confirm_order'] = 'order_confirm_order';
+$_COS_LANG_MODULE['order_shipping_weight'] = 'order_shipping_weight';
+$_COS_LANG_MODULE['order_shipping_cost'] = 'order_shipping_cost';
+$_COS_LANG_MODULE['order_quantity'] = 'order_quantity';
+$_COS_LANG_MODULE['order_sub_total'] = 'order_sub_total';
+$_COS_LANG_MODULE['order_amount_total'] = 'order_amount_total';
+$_COS_LANG_MODULE['order_basket_total_price_items'] = 'order_basket_total_price_items';
+$_COS_LANG_MODULE['order_amount_value_added_tax'] = 'order_amount_value_added_tax';
+$_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'order_amount_added_shipping_cost';
+$_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'order_amount_shipping_is_free';
+$_COS_LANG_MODULE['order_quantity'] = 'order_quantity';
+$_COS_LANG_MODULE['order_sub_total'] = 'order_sub_total';
+$_COS_LANG_MODULE['order_amount_total'] = 'order_amount_total';
+$_COS_LANG_MODULE['order_item_update'] = 'order_item_update';
+$_COS_LANG_MODULE['order_basket_total_price_items'] = 'order_basket_total_price_items';
+$_COS_LANG_MODULE['order_amount_value_added_tax'] = 'order_amount_value_added_tax';
+$_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'order_amount_added_shipping_cost';
+$_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'order_amount_shipping_is_free';
+$_COS_LANG_MODULE['order_buy'] = 'order_buy';
+$_COS_LANG_MODULE['order_shipping_free_float_error'] = 'order_shipping_free_float_error';
+$_COS_LANG_MODULE['order_shipping_free_legend_edit'] = 'order_shipping_free_legend_edit';
+$_COS_LANG_MODULE['order_shipping_free_private_label'] = 'order_shipping_free_private_label';
+$_COS_LANG_MODULE['order_shipping_free_company_label'] = 'order_shipping_free_company_label';
+$_COS_LANG_MODULE['order_update'] = 'order_update';
+$_COS_LANG_MODULE['order_shopping_free_html_title'] = 'order_shopping_free_html_title';
+$_COS_LANG_MODULE['order_shipping_free_info'] = 'order_shipping_free_info';
+$_COS_LANG_MODULE['order_shipping_free_update_confirm'] = 'order_shipping_free_update_confirm';
+$_COS_LANG_MODULE['order_shipping_add_action_message'] = 'order_shipping_add_action_message';
+$_COS_LANG_MODULE['order_shipping_add_action_message'] = 'order_shipping_add_action_message';
+$_COS_LANG_MODULE['order_shipping_add_action_message'] = 'order_shipping_add_action_message';
+$_COS_LANG_MODULE['order_shipping_help'] = 'order_shipping_help';
+$_COS_LANG_MODULE['order_shipping_form_cost_float_empty'] = 'order_shipping_form_cost_float_empty';
+$_COS_LANG_MODULE['order_shipping_form_cost_float_less_than_zero'] = 'order_shipping_form_cost_float_less_than_zero';
+$_COS_LANG_MODULE['order_shipping_form_cost_incorrect_float_value'] = 'order_shipping_form_cost_incorrect_float_value';
+$_COS_LANG_MODULE['order_shipping_form_weight_float_empty'] = 'order_shipping_form_weight_float_empty';
+$_COS_LANG_MODULE['order_shipping_form_weight_float_less_than_zero'] = 'order_shipping_form_weight_float_less_than_zero';
+$_COS_LANG_MODULE['order_shipping_form_weight_incorrect_float_value'] = 'order_shipping_form_weight_incorrect_float_value';
+$_COS_LANG_MODULE['order_shipping_legend'] = 'order_shipping_legend';
+$_COS_LANG_MODULE['order_shipping_legend_edit'] = 'order_shipping_legend_edit';
+$_COS_LANG_MODULE['order_shipping_weight_label'] = 'order_shipping_weight_label';
+$_COS_LANG_MODULE['order_shipping_cost_label'] = 'order_shipping_cost_label';
+$_COS_LANG_MODULE['order_insert'] = 'order_insert';
+$_COS_LANG_MODULE['order_update'] = 'order_update';
+$_COS_LANG_MODULE['order_shipping_legend_form_delete'] = 'order_shipping_legend_form_delete';
+$_COS_LANG_MODULE['order_delete'] = 'order_delete';
+$_COS_LANG_MODULE['order_edit'] = 'order_edit';
+$_COS_LANG_MODULE['order_shipping_add_action_message'] = 'order_shipping_add_action_message';
+$_COS_LANG_MODULE['order_basket'] = 'order_basket';
+$_COS_LANG_MODULE['order_total_num_items'] = 'order_total_num_items';
+$_COS_LANG_MODULE['order_basket_total_price_items'] = 'order_basket_total_price_items';
+$_COS_LANG_MODULE['order_amount_value_added_tax'] = 'order_amount_value_added_tax';
+$_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'order_amount_added_shipping_cost';
+$_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'order_amount_shipping_is_free';
+$_COS_LANG_MODULE['order_amount_total'] = 'order_amount_total';
+$_COS_LANG_MODULE['order_buy'] = 'order_buy';
+$_COS_LANG_MODULE['order_view_basket_html_title'] = 'order_view_basket_html_title';
+$_COS_LANG_MODULE['order_quick_order_title'] = 'order_quick_order_title';
+$_COS_LANG_MODULE['order_delete_html_title'] = 'order_delete_html_title';
+$_COS_LANG_MODULE['order_cart_html_title'] = 'order_cart_html_title';
+$_COS_LANG_MODULE['order_add_product_html_title'] = 'order_add_product_html_title';
+$_COS_LANG_MODULE['order_confirm_product_inserted'] = 'order_confirm_product_inserted';
+$_COS_LANG_MODULE['order_sort_saved_confirm'] = 'order_sort_saved_confirm';
+$_COS_LANG_MODULE['order_checkout_html_title'] = 'order_checkout_html_title';
+$_COS_LANG_MODULE['order_category_confirm_category_deleted'] = 'order_category_confirm_category_deleted';
+$_COS_LANG_MODULE['order_category_confirm_category_added'] = 'order_category_confirm_category_added';
+$_COS_LANG_MODULE['order_delete'] = 'order_delete';
+$_COS_LANG_MODULE['order_category_legend_delete'] = 'order_category_legend_delete';
+$_COS_LANG_MODULE['order_category_legend_update'] = 'order_category_legend_update';
+$_COS_LANG_MODULE['order_update'] = 'order_update';
+$_COS_LANG_MODULE['order_category_name_label'] = 'order_category_name_label';
+$_COS_LANG_MODULE['order_category_description_label'] = 'order_category_description_label';
+$_COS_LANG_MODULE['order_category_file_label'] = 'order_category_file_label';
+$_COS_LANG_MODULE['order_insert'] = 'order_insert';
+$_COS_LANG_MODULE['order_category_legend_insert'] = 'order_category_legend_insert';
+$_COS_LANG_MODULE['order_category_confirm_category_updated'] = 'order_category_confirm_category_updated';
+$_COS_LANG_MODULE['order_cart_html_title'] = 'order_cart_html_title';
+$_COS_LANG_MODULE['order_process_confirm_message'] = 'order_process_confirm_message';
+$_COS_LANG_MODULE['order_process_greetings'] = 'order_process_greetings';
+$_COS_LANG_MODULE['order_checkout_html_title'] = 'order_checkout_html_title';
+$_COS_LANG_MODULE['order_item_form_delete_legend'] = 'order_item_form_delete_legend';
+$_COS_LANG_MODULE['order_delete'] = 'order_delete';
+$_COS_LANG_MODULE['order_item_form_edit_legend'] = 'order_item_form_edit_legend';
+$_COS_LANG_MODULE['order_update'] = 'order_update';
+$_COS_LANG_MODULE['order_item_form_insert_legend'] = 'order_item_form_insert_legend';
+$_COS_LANG_MODULE['order_insert'] = 'order_insert';
+$_COS_LANG_MODULE['order_item_form_title'] = 'order_item_form_title';
+$_COS_LANG_MODULE['order_item_form_title_alt'] = 'order_item_form_title_alt';
+$_COS_LANG_MODULE['order_item_form_desc'] = 'order_item_form_desc';
+$_COS_LANG_MODULE['order_item_form_category'] = 'order_item_form_category';
+$_COS_LANG_MODULE['order_item_form_stock'] = 'order_item_form_stock';
+$_COS_LANG_MODULE['order_item_form_price'] = 'order_item_form_price';
+$_COS_LANG_MODULE['order_item_form_weight'] = 'order_item_form_weight';
+$_COS_LANG_MODULE['order_item_form_upload_image'] = 'order_item_form_upload_image';
+$_COS_LANG_MODULE['order_item_form_error_no_title'] = 'order_item_form_error_no_title';
+$_COS_LANG_MODULE['order_item_form_error_no_valid_price'] = 'order_item_form_error_no_valid_price';
+$_COS_LANG_MODULE['order_order_form_error_name'] = 'order_order_form_error_name';
+$_COS_LANG_MODULE['order_order_form_error_adresse'] = 'order_order_form_error_adresse';
+$_COS_LANG_MODULE['order_order_form_error_city'] = 'order_order_form_error_city';
+$_COS_LANG_MODULE['order_order_form_error_zip_code'] = 'order_order_form_error_zip_code';
+$_COS_LANG_MODULE['order_order_form_error_email'] = 'order_order_form_error_email';
+$_COS_LANG_MODULE['order_order_form_error_diff_name'] = 'order_order_form_error_diff_name';
+$_COS_LANG_MODULE['order_order_form_error_diff_adresse'] = 'order_order_form_error_diff_adresse';
+$_COS_LANG_MODULE['order_order_form_diff_error_city'] = 'order_order_form_diff_error_city';
+$_COS_LANG_MODULE['order_order_form_error_diff_zip_code'] = 'order_order_form_error_diff_zip_code';
+$_COS_LANG_MODULE['order_checkout_no_items_in_basket'] = 'order_checkout_no_items_in_basket';
+$_COS_LANG_MODULE['order_checkout_order_details'] = 'order_checkout_order_details';
+$_COS_LANG_MODULE['order_view_single_product'] = 'order_view_single_product';
+$_COS_LANG_MODULE['order_product_action_message_product_deleted'] = 'order_product_action_message_product_deleted';
+$_COS_LANG_MODULE['order_no_items_in_basket'] = 'order_no_items_in_basket';
+$_COS_LANG_MODULE['order_checkout_invoice_email_message'] = 'order_checkout_invoice_email_message';
+$_COS_LANG_MODULE['order_checkout_greeting'] = 'order_checkout_greeting';
+$_COS_LANG_MODULE['order_edit_html_title'] = 'order_edit_html_title';
+$_COS_LANG_MODULE['order_action_message_product_updated'] = 'order_action_message_product_updated';
+$_COS_LANG_MODULE['order_sort_order_saved'] = 'order_sort_order_saved';
