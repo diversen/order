@@ -195,3 +195,5 @@ $_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Er gratis!';
 $_COS_LANG_MODULE['order_category_legend_update'] = 'Opdater vare';
 
 
+
+$_COS_LANG_MODULE['order_total_num_items'] = 'Antal vare';

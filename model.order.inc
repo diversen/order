@@ -6,7 +6,7 @@
 include_once "mySqlForm.php";
 include_once "upload.php";
 
-template::setInlineCss(_COS_PATH . '/modules/order/order.css');
+
 template::setJs('/js/jquery.validate.js', 30);
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 
