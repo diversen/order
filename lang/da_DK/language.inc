@@ -72,7 +72,7 @@ $_COS_LANG_MODULE['order_product_action_message_product_deleted'] = 'Vare slette
 $_COS_LANG_MODULE['order_sort_order_saved'] = 'Sortering gemt';
 // Translation of file /home/dennis/www/mandlen/modules/order/cart.php
 
-$_COS_LANG_MODULE['order_cart_html_title'] = 'Din kurv';
+$_COS_LANG_MODULE['order_cart_html_title'] = 'Butik - Forside';
 // Translation of file /home/dennis/www/mandlen/modules/order/checkout.php
 
 $_COS_LANG_MODULE['order_checkout_html_title'] = 'Indtast leverings oplysninger';
