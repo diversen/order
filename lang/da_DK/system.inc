@@ -34,3 +34,5 @@ $_COS_LANG_MODULE['order_products_show_all_items'] = 'Vis alle';
 $_COS_LANG_MODULE['order_category_link'] = 'order_category_link';
 
 
+
+

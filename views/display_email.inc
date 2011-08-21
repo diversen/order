@@ -15,7 +15,7 @@ foreach ($order_items as $key => $val){
     }
 
     print $item['item_name'] . " ";
-    print order::getCurrencySymbol() . $item['price'];
+    print order::getCurrencySymbol() . ' ' . $item['price'];
     print " * " . $val;
 
     $sub_total = $val * $item['price'];
@@ -28,11 +28,11 @@ print "\n";
 
 print lang::translate('order_basket_total_price_items');
 print ' = ';
-print order::getCurrencySymbol() . $total . "\n";
+print order::getCurrencySymbol() . ' ' . $total . "\n";
 
 print lang::translate('order_amount_value_added_tax');
 print ' = ';
-print order::getCurrencySymbol() ;    
+print order::getCurrencySymbol() . ' ';
 print $total * get_module_ini('order_added_tax') . "\n";
 
 $shipping_is_free = false;
@@ -41,7 +41,6 @@ if ($total <  $shipping_free) {
     //
 } else {
     $shipping_is_free = true;
-
 }
 
 if ($shipping_is_free) {
@@ -52,17 +51,11 @@ if ($shipping_is_free) {
 
 print lang::translate('order_amount_added_shipping_cost');
 print ' = ';
-print order::getCurrencySymbol();
+print order::getCurrencySymbol() . ' ';
 print $shipping_cost;
 print "\n";
 
 print lang::translate('order_amount_total');
 print ' = ';
 $total = $total + $shipping_cost;
-print order::getCurrencySymbol() . $total . "\n\n";
-
-
-
-        
-
-
+print order::getCurrencySymbol() . ' ' . $total . "\n\n";

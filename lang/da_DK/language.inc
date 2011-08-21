@@ -58,7 +58,7 @@ $_COS_LANG_MODULE['order_order_form_diff_error_city'] = 'Ingen by';
 $_COS_LANG_MODULE['order_order_form_error_diff_zip_code'] = 'Ugyldig postnummer';
 $_COS_LANG_MODULE['order_confirm_product_inserted'] = 'Produkt tilføjet';
 $_COS_LANG_MODULE['order_checkout_no_items_in_basket'] = 'Din kurv er tom';
-$_COS_LANG_MODULE['order_checkout_invoice_email_message'] = "Tak for din bestilling. Vi sender en ordrebekræftelse inkl. fragtomkostninger. Her fremgår det også hvilket kontonummer, du skal indsætte betaling på. Bestillingen afsendes, når betalingen er registreret.\n\n";
+$_COS_LANG_MODULE['order_checkout_invoice_email_message'] = "Tak for din bestilling. Vi sender en ordrebekræftelse. Her fremgår det også hvilket kontonummer, du skal indsætte betaling på. Bestillingen afsendes, når betalingen er registreret.\n\n";
 $_COS_LANG_MODULE['order_checkout_greeting'] = 'Vh';
 $_COS_LANG_MODULE['order_out_of_stock'] = 'Udsolgt';
 $_COS_LANG_MODULE['order_view_single_product'] = 'Vis vare';
@@ -119,7 +119,7 @@ $_COS_LANG_MODULE['order_add_product_html_title'] = 'Tilføj vare';
 $_COS_LANG_MODULE['order_edit_html_title'] = 'Ret vare';
 // Translation of file /home/dennis/www/mandlen/modules/order/done.php
 
-$_COS_LANG_MODULE['order_process_confirm_message'] = 'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura tillagt ordreomkostninger samt indbetalingsoplysninger. Når betalingen er modtaget vil vi sende varene snarest muligt';
+$_COS_LANG_MODULE['order_process_confirm_message'] = 'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura samt indbetalingsoplysninger. Når betalingen er modtaget vil vi sende varene snarest muligt';
 $_COS_LANG_MODULE['order_process_greetings'] = 'Vh';
 // Translation of file /home/dennis/www/mandlen/modules/order/delete.php
 
@@ -197,3 +197,6 @@ $_COS_LANG_MODULE['order_category_legend_update'] = 'Opdater vare';
 
 
 $_COS_LANG_MODULE['order_total_num_items'] = 'Antal vare';
+
+
+$_COS_LANG_MODULE['order_item_added_to_basket'] = 'Din kurv er opdateret!';

@@ -384,7 +384,8 @@ class order  {
                     $header = "Location: $options[redirect]";
                     header ($header);
                 } else {
-                    header ("Location: /order/basket");
+                    session::setActionMessage(lang::translate('order_item_added_to_basket'));
+                    header ("Location: /order/cart");
                 }               
             }
         }
