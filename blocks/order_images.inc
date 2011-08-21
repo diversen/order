@@ -25,7 +25,8 @@ function block_order_images(){
     $options['width'] = 100;
     $str.= create_image_link($smiley, "/templates/mandlen/kr.gif", $options);
     $str.= "<br /><br />\n";
-    
+
+    $str = "<div class=\"block\"><ul class=\"ul_no_style\"><li>$str</li></ul></div>\n";
     return $str;
 }
 

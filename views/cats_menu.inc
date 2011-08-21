@@ -4,16 +4,16 @@
 if (!isset($_GET['cat']) || ($_GET['cat'] == '0') ) {
     echo html::createLink(
         "/order/cart?cat=0", lang::translate('order_cat_show_all'),
-        array('id' => 'order_cat_menu_active')
+        array('class' => 'order_cat_menu_active')
     );
 } else {
     echo html::createLink(
         "/order/cart?cat=0",
         lang::translate('order_cat_show_all'),
-        array('id' => 'order_cat_menu'));
+        array('class' => 'order_cat_menu'));
 }
 
-echo "<span id=\"order_cat_menu\">" . MENU_SUB_SEPARATOR_SEC . "</span>";
+echo "<span class=\"order_cat_menu\">" . MENU_SUB_SEPARATOR_SEC . "</span>";
 
 $i = count($vars);
 foreach($vars as $key => $val) {
@@ -22,15 +22,15 @@ foreach($vars as $key => $val) {
         echo html::createLink("/order/cart?cat=$val[id]", 
             "$val[name]", 
 
-        array('id' => 'order_cat_menu_active'));
+        array('class' => 'order_cat_menu_active'));
     } else {
         echo html::createLink("/order/cart?cat=$val[id]", 
             "$val[name]", 
-            array('id' => 'order_cat_menu'));
+            array('class' => 'order_cat_menu'));
     } 
     $i--;
     if ($i) {
-        echo "<span id=\"order_cat_menu\">" . MENU_SUB_SEPARATOR . "</span>";
+        echo "<span class=\"order_cat_menu\">" . MENU_SUB_SEPARATOR . "</span>";
     }
     
 }
