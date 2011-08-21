@@ -119,7 +119,7 @@ $_COS_LANG_MODULE['order_add_product_html_title'] = 'Tilføj vare';
 $_COS_LANG_MODULE['order_edit_html_title'] = 'Ret vare';
 // Translation of file /home/dennis/www/mandlen/modules/order/done.php
 
-$_COS_LANG_MODULE['order_process_confirm_message'] = 'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura samt indbetalingsoplysninger. Når betalingen er modtaget vil vi sende varene snarest muligt';
+$_COS_LANG_MODULE['order_process_confirm_message'] = 'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura samt indbetalingsoplysninger. Bestillingen afsendes, når betalingen er registreret.';
 $_COS_LANG_MODULE['order_process_greetings'] = 'Vh';
 // Translation of file /home/dennis/www/mandlen/modules/order/delete.php
 
