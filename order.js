@@ -186,3 +186,26 @@ $(document).ready(function(){
             });
         });
     });
+
+$(document).ready(function(){
+    function slideout(){
+        setTimeout(function(){
+            $("#response").slideUp("fast", function () {
+            });
+        }, 2000);
+    }
+    $("#response").hide();
+        $(function() {
+            $("#order_category_list ul").sortable({
+                opacity: 0.8, cursor: 'move', update: function() {
+                    var order = $(this).sortable("serialize") + '&update=update';
+                    $.post("/order/category/update", order, function(theResponse){
+                        $("#response").html(theResponse);
+                        $("#response").slideDown('fast');
+			slideout();
+
+                    });
+                }
+            });
+        });
+    });

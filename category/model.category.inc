@@ -1,5 +1,6 @@
 <?php
 
+include_model ("order");
 include_once  "upload.php";
 
 class orderCategory {
@@ -74,7 +75,7 @@ class orderCategory {
 
     static function getAll ($fields = null) {
         $db = new db();
-        return $db->selectAll(self::$table, $fields, null, null, null, 'name', true);
+        return $db->selectAll(self::$table, $fields, null, null, null, 'order', true);
         //$db->selectAll($table, $fields, $search, $from, $limit, $order_by, $asc)
     }
 
@@ -170,5 +171,23 @@ class orderCategory {
         $vars = self::getAll();
         templateView::includeModuleView('order', 'display_cats_full', $vars);
         
+    }
+
+    public function displaySortItems(){
+        $db = new db();
+
+        //$todos = $this->selectAll('order_items');
+        //$otods = $this->select();
+        $items = $db->selectAll(self::$table, null, null, null, null, 'order', true);
+
+        //$todos = $this->get();
+        $str = "<div id=\"order_category_list\"><div id=\"response\"></div>";
+        $str.= "<ul id=\"sort_items\">\n";
+        foreach ($items as $key => $val){
+            $str.= "<li id = \"arrayorder_$val[id]\">$val[name] $val[order]";
+            $str.= "</li><div class=\"clear\"></div>";
+        }
+        $str.= "</ul></div>\n";
+        print $str;
     }
 }

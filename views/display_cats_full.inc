@@ -38,7 +38,8 @@ if ($i % 2){
     print "<td>&nbsp;</td>";
     print "</tr>\n";
 } else {
-
+    print "<td>&nbsp;</td>";
+    print "<td>&nbsp;</td>";
     print "</tr>\n";
 }
 print "</table>\n";

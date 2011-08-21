@@ -1,5 +1,5 @@
 <style type="text/css">
-#list ul {
+#order_category_list ul {
 	padding:0px;
 	margin: 0px;
         margin-left:0px;
@@ -8,7 +8,7 @@
 #response {
 	margin-bottom:5px;
 }
-#list li {
+#order_category_list li {
         margin-left:0px;
 	margin: 0 0 3px;
 	background-color:#aaa;
@@ -22,5 +22,7 @@ if (!session::checkAccessControl('order_allow')){
     return;
 }
 
-$sort = new orderProducts();
+$sort = new orderCategory();
 $sort->displaySortItems();
+
+?>
