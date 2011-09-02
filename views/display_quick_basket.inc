@@ -132,9 +132,9 @@ print "</td>\n";
 print "<td>&nbsp;</td>\n";
 print "</tr>\n";
 
-print "<td colspan=\"6\">";
-print "&nbsp;";
-print "</td>";
+//print "<td colspan=\"6\">";
+//print "&nbsp;";
+//print "</td>";
 
 print "</table>\n";
 
