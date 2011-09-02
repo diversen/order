@@ -32,8 +32,8 @@ foreach ($all_items as $key => $val){
     print "<td>";
 
     $options = array ();
-    $options['alt'] = $val['item_name_alt'];
-    $options['width'] = '75px';/*get_module_ini('order_image_size_thumb')*/;
+    $options['alt'] = $item['item_name_alt'];
+    $options['width'] = '75';/*get_module_ini('order_image_size_thumb')*/;
 
     if (!empty($item['file'])){
         $link =
@@ -117,7 +117,7 @@ if ($shipping_is_free) {
     print $shipping_cost = orderShipping::getWeightToCost('private', $weight);
 }
 print "</td>\n";
-print "<td>&nbsp</td>\n";
+print "<td>&nbsp;</td>\n";
 print "</tr>\n";
 
 print "<tr>\n";
@@ -129,20 +129,20 @@ print order::getCurrencySymbol() . '&nbsp;';
 print $shipping_cost + $total;
 //print orderShipping::getWeightToCost('private', $weight) . ' ';
 print "</td>\n";
-print "<td>&nbsp</td>\n";
+print "<td>&nbsp;</td>\n";
 print "</tr>\n";
 
-print "<td colspan=5>";
+print "<td colspan=\"6\">";
 print "&nbsp;";
 print "</td>";
 
 print "</table>\n";
 
-print "<table><tr><td>\n";
-//print "<td>";
+print "<table><tr>\n";
+print "<td>";
 print "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
-print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
-//print "</form>\n";
+print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" />";
+print "</form>\n";
 print "</td>\n";
 print "</tr>\n";
 print "</table>\n";

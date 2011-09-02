@@ -31,7 +31,7 @@ foreach ($order_items as $key => $val){
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
-    $options['width'] = "75px"; /*get_module_ini('order_image_size_thumb')*/;
+    $options['width'] = "75"; /*get_module_ini('order_image_size_thumb')*/;
 
     print "<tr>\n";
     print "<td>";
