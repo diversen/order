@@ -18,14 +18,14 @@ table.order_cart {
 
 
 table.order_cart td {
-        text-align:left;
-        vertical-align: top;
-	border-width: thin;
-        padding: 1px;
-        border-color: #000;
-	text-align:left;
-        background-color: #f8f1e7;
-	-moz-border-radius: 0px 0px 0px 0px;
+    text-align:left;
+    vertical-align: top;
+    border-width: thin;
+    padding: 1px;
+    border-color: #000;
+    text-align:left;
+    background-color: #f8f1e7;
+    -moz-border-radius: 0px 0px 0px 0px;
 }
 
 table.checkout {
@@ -38,15 +38,15 @@ table.checkout {
 
 
 table.checkout td {
-        text-align:left;
-        vertical-align: top;
-	border-width: 1px;
-	padding: 1px;
-        border-color: #000;
-        width: 160px;
-	text-align:left;
-        background-color: #f8f1e7;
-	-moz-border-radius: 0px 0px 0px 0px;
+    text-align:left;
+    vertical-align: top;
+    border-width: 1px;
+    padding: 1px;
+    border-color: #000;
+    width: 160px;
+    text-align:left;
+    background-color: #f8f1e7;
+    -moz-border-radius: 0px 0px 0px 0px;
 }
 
 

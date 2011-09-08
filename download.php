@@ -17,7 +17,7 @@ include_module('order/category');
 $uri = URI::getInstance();
 $id = $uri->fragment(2);
 $type = $uri->fragment(3);
-error_log($type);
+
 //http://mandlen/order/download/9
 //http://mandlen/order/download/9/full
 
