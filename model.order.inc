@@ -239,7 +239,7 @@ class order  {
             if (!load_post('order_form')) {
                 if (isset($_COOKIE['order_form_cookie'])) {
                     $_POST = unserialize($_COOKIE['order_form_cookie']);
-                    $_POST = html::specialEncode($_POST);
+                    //$_POST = html::specialEncode($_POST);
                 }
             }
         }

@@ -4,6 +4,12 @@ print "<table class = \"order_cart\">\n";
 $i = 0;
 print "<tr>\n";
 
+echo $num_items = count($vars);
+$per_row = 2;
+
+//echo $num_items / $per_row;
+
+echo $rest = $num_items % $per_row;
 
 foreach ($vars as $key => $val){
     print "<td>";
@@ -51,6 +57,7 @@ foreach ($vars as $key => $val){
         print $link;
         
     }
+    
     print "</td>\n";
     $i++;
     $t = $i % 2;
