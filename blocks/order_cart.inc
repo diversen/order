@@ -22,7 +22,7 @@ function block_order_cart () {
     }
 
     print "<h3>" . lang::translate('order_basket') . "</h3>\n";
-    print "<table class=\"order_cart\">\n";
+    print "<table class=\"order_basket\">\n";
     print "<tr>\n";
 
     print "<td>";

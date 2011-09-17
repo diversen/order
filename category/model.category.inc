@@ -83,7 +83,12 @@ class orderCategory {
         $vars = self::getAll(array('id, name', 'description'));
         templateView::includeModuleView('order', 'cats_menu', $vars);
     }
-
+    
+    static function displayBlockMenu () {
+        $vars = self::getAll(array('id, name', 'description'));
+        templateView::includeModuleView('order', 'cat_text_block', $vars);
+    }
+   
     static function displayCats () {
         $vars = self::getAll(array('id, name', 'description'));
         templateView::includeModuleView('order', 'display_cats', $vars);

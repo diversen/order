@@ -4,12 +4,12 @@ print "<table class = \"order_cart\">\n";
 $i = 0;
 print "<tr>\n";
 
-echo $num_items = count($vars);
-$per_row = 2;
+//echo $num_items = count($vars);
+$per_row = get_module_ini('order_items_per_row');
 
 //echo $num_items / $per_row;
 
-echo $rest = $num_items % $per_row;
+//echo $rest = $num_items % $per_row;
 
 foreach ($vars as $key => $val){
     print "<td>";
@@ -24,9 +24,9 @@ foreach ($vars as $key => $val){
             "/order/download/$val[id]", $options
         );
     }
-    print "</td>\n";
-    print "<td>\n";
-    //print "<br />\n";
+    //print "</td>\n";
+    //print "<td>\n";
+    print "<br />\n";
     print create_link(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
             $val['item_name']);
@@ -37,7 +37,7 @@ foreach ($vars as $key => $val){
         print "</div>";
     }
 
-    print "<br />";
+    //print "<br />";
     print order::getCurrencySymbol() . ' ' .
           $val['price'] . ',-' .
           "<br />\n";
@@ -60,7 +60,7 @@ foreach ($vars as $key => $val){
     
     print "</td>\n";
     $i++;
-    $t = $i % 2;
+    $t = $i % $per_row;
     if (!$t){
         print "</tr><tr>\n";
         $i = 0;

@@ -6,6 +6,7 @@ print "<table class = \"order_cart\">\n";
 $i = 0;
 print "<tr>\n";
 
+$per_row = get_module_ini('order_items_per_row');
 
 foreach ($vars as $key => $val){
     print "<td>";
@@ -26,7 +27,7 @@ foreach ($vars as $key => $val){
     print "</td>\n";
 
     $i++;
-    $t = $i % 2;
+    $t = $i % $per_row;
     if (!$t){
         print "</tr><tr>\n";
         $i = 0;
@@ -34,6 +35,7 @@ foreach ($vars as $key => $val){
 
 }
 
+/*
 if ($i % 2){
     print "<td>&nbsp;</td>";
     print "</tr>\n";
@@ -41,5 +43,6 @@ if ($i % 2){
     print "<td>&nbsp;</td>";
     print "<td>&nbsp;</td>";
     print "</tr>\n";
-}
+}*/
+print "</tr>\n";
 print "</table>\n";

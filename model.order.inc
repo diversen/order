@@ -300,9 +300,9 @@ class order  {
      */
     static public function displayCart (){
         $db = new db();
-        $template = 'display_cart';
+        //$template = '';
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
-        templateView::includeModuleView('order', $template, $all_items);
+        templateView::includeModuleView('order', 'display_cart', $all_items);
     }
     // }}}
     
