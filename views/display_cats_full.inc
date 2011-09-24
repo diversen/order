@@ -14,14 +14,14 @@ foreach ($vars as $key => $val){
     $options = array ();
     $options['alt'] = $val['description'];
     $options['title'] = $val['description'];
-    $options['width'] = get_module_ini('order_image_size_category');
+    $options['width'] = get_module_ini('order_category_image_size');
 
-    print "<h3>$val[name]</h3>";
+    headline_message($val['name']);
 
     if (!empty($val['file'])){
-        print create_image_link(
+        echo create_image_link(
             "/order/cart?cat=$val[id]",
-            "/order/download/$val[id]/category", $options
+            "/order/download/$val[id]/category/$val[md5]", $options
         );
     }
     print "</td>\n";

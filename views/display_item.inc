@@ -30,7 +30,7 @@ if ($vars['stock'] != '0') {
     print "</div>";
 }
 print "</td></tr>";
-print "<tr><td>\n";
+print "<tr><td class=\"order-align-top\">\n";
 
 $options = array();
 $options['alt'] = $vars['item_name_alt'];
@@ -39,16 +39,35 @@ $options['width'] = get_module_ini('order_image_size');
 if (!empty($vars['file'])){
   print $link = create_image_link(
     "/order/item/$vars[id]/" . rawurlencode($vars['item_name']),
-    "/order/download/$vars[id]/full", $options);
+    "/order/download/$vars[id]/full/$vars[md5]", $options);
 }
 
-print "</td><td>\n";
+$use_gallery = get_module_ini('order_use_gallery');
+if (isset($use_gallery)) {
+    include_model('order/gallery');
+    //orderGallery::updateGalleryControl();
+    $item_id = URI::getInstance()->fragment(2);
+    $gallery_id = orderGallery::getGalleryIdFromItemId($item_id);
+    
+    $options = array ();
+    $options['gallery_id'] = $gallery_id;
+    if ($gallery_id) {
+        $gallery = new gallery();
+        $rows = $gallery->getAllFileInfo($gallery_id);
+        $options['no_admin'] = 1;
+        $str = $gallery->getThumbTableHTML($rows, $options);
+            //html::addHtml ($str);
+        echo $str;
+    }
+}
+
+print "</td><td class=\"order-align-top\">\n";
 print $vars['item_description'];
 
 //print $link = create_link('/order/item', $val['item_name']);
 if (session::isAdmin()){
-    print "<br />" .
-    $link = create_link(
+    //print "<br />" .
+    print $link = create_link(
         "/order/edit/$vars[id]",
         lang::translate('order_edit')
     );

@@ -200,3 +200,15 @@ $_COS_LANG_MODULE['order_total_num_items'] = 'Antal vare';
 
 
 $_COS_LANG_MODULE['order_item_added_to_basket'] = 'Din kurv er opdateret!';
+
+$_COS_LANG_MODULE['order_item_select_gallery'] = 'Vælg galleri til varen';
+$_COS_LANG_MODULE['order_gallery_no_gallery_connected'] = 'Intet galleri';
+$_COS_LANG_MODULE['order_gallery_no_such_gallery'] = 'Intet sådant galleri';
+$_COS_LANG_MODULE['order_gallery_no_such_item'] = 'Ingen sådan vare';
+$_COS_LANG_MODULE['order_gallery_action_message_gallery_removed'] = 'Galleri ikke tilknyttet varen';
+$_COS_LANG_MODULE['order_action_message_gallery_updated'] = 'Galleriet tilknyttet varen blev opdateret';
+$_COS_LANG_MODULE['order_select_need_item_id'] = 'Ingen sådan vare';
+$_COS_LANG_MODULE['order_select_option_added_confirm'] = 'Drop Down select box skabt';
+$_COS_LANG_MODULE['order_item_select_legend'] = 'Opret nyt dropdown valg mulighed';
+$_COS_LANG_MODULE['order_select_form_title_field'] = 'Titel';
+$_COS_LANG_MODULE['order_select_form_option_field'] = 'Indtast dine valg og adskil med komma';

@@ -36,7 +36,12 @@ foreach ($order_items as $key => $val){
     print "<tr>\n";
     print "<td>";
     if (!empty($item['file'])){
-        print $link = create_image_link("/order/item/$item[id]/"  . rawurlencode($val['item_name']), "/order/download/$item[id]", $options);
+        print $link = create_image_link(
+                "/order/item/$item[id]/"  . 
+                rawurlencode($val['item_name']), 
+                "/order/download/$item[id]/thumb/$item[md5]", 
+                $options
+            );
     }
 
 

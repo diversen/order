@@ -9,21 +9,18 @@ if (!session::checkAccessControl('order_allow')){
     return;
 }
 
-$id = URI::getInstance()->fragment(2);
+//simple_prg();
+order::updateItemControl();
 
-template::setTitle(lang::translate('order_edit_html_title'));
-$cart = new order();
-if (isset($_POST['submit'])){
-    $cart->validate();
-    $cart->sanitize();
-    if (empty($cart->errors)){
-        
-        $res = $cart->updateItem($id);
-        session::setActionMessage(
-                lang::translate('order_action_message_product_updated'));
-            header("Location: /order/products/index");
-    } else {
-        view_form_errors($cart->errors);
-    }
+$use_gallery = get_module_ini('order_use_gallery');
+if (isset($use_gallery)) {
+    include_model('order/gallery');
+    orderGallery::updateGalleryControl();
 }
-order::form('update');
+
+$use_select = get_module_ini('order_use_gallery');
+if (isset($use_select)) {
+    include_model('order/select');
+    orderSelect::updateSelectControl();
+}
+

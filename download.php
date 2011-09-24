@@ -22,7 +22,7 @@ $type = $uri->fragment(3);
 //http://mandlen/order/download/9/full
 
 $item = array();
-if (!$type || $type == 'full') {
+if ($type == 'thumb' || $type == 'full') {
     include_module('order');
     $item = order::getItem($id);
 } else if ( $type == 'category') {
@@ -37,7 +37,9 @@ header("Content-Type: $item[content_type]");
 
 if ($type == 'full' || $type == 'category'){
     echo $item['file'];
-} else {
+} else if ($type == 'thumb') {
     echo $item['file_thumb'];
+} else {
+    error_log("Unknow type of image in " . __FILE__);
 }
 die;

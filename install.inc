@@ -2,11 +2,7 @@
 
 $ini = get_module_ini('order_menu_items');
 
-$_INSTALL['VERSION'] = 1.312;
-
-/**
- * We also create a menu item to be added to the main menu placed in database
- */
+$_INSTALL['VERSION'] = 1.314;
 
 if (in_array('order_shop', $ini)) {
     $_INSTALL['MAIN_MENU_ITEMS'][0] = array (

@@ -6,20 +6,20 @@
 include_once "mySqlForm.php";
 include_once "upload.php";
 
-template::setJs('/js/jquery.validate.js', 30);
+template::setJs('/js/jquery.validate.js');
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
-template::setInlineCss(_COS_PATH . '/modules/order/order.css', 10000);
 
 include_model('order/shipping');
 include_model('order/shipping_free');
 include_model('order/category');
-
+include_module('gallery/admin');
 // {{{ create_item_form
 
 class order  {
     public static $errors = array();
     static $options = array();
     public static $table = 'order_items';
+    public static $moduleName = 'order';
 
     /**
      *
@@ -27,8 +27,9 @@ class order  {
      */
     static function form($method){
 
-        html::$autoLoadTrigger = 'submit';
+        html::$autoLoadTrigger = 'submitted';
         html::formStart('order_item_form');
+        
 
         if ($method == 'delete') {
             html::legend(lang::translate('order_item_form_delete_legend'));
@@ -36,7 +37,7 @@ class order  {
             html::label('submit', '');
             html::submit('submit', $button_text);
             html::formEnd();
-            echo html::$formStr;
+            echo html::getStr();
             return;
         }
 
@@ -45,15 +46,19 @@ class order  {
 
             $id = uri::$fragments[2];
             $row = order::getItem($id);
-
+            
             html::init($row);
             $button_text = lang::translate('order_update');
+            
+            html::hidden('method', 'item_update');
+            
         }
 
         if ($method == 'insert') {
             html::init();
             html::legend(lang::translate('order_item_form_insert_legend'));
             $button_text = lang::translate('order_insert');
+            html::hidden('method', 'item_insert');
         }
 
         html::label('item_name', lang::translate('order_item_form_title'));
@@ -67,8 +72,7 @@ class order  {
 
         html::label('category', lang::translate('order_item_form_category'));
 
-        $rows = orderCategory::getAll();
-        //print_r($rows);
+        $rows = orderCategory::getAll();     
         html::select('category', $rows, 'name', 'id');
 
         html::label('stock', lang::translate('order_item_form_stock'));
@@ -82,15 +86,38 @@ class order  {
 
         html::label('file', lang::translate('order_item_form_upload_image'));
         html::file('file');
+        
+        html::hidden('submitted', 'submitted');
 
         html::label('submit', '');
         html::submit('submit', $button_text);
+        
         html::formEnd();
-        echo html::$formStr;
+        echo html::getStr();
+        
         return;
     }
 
-    // }}}
+    public static function updateItemControl ($frag = 2) {
+
+        $id = URI::getInstance()->fragment($frag);
+        template::setTitle(lang::translate('order_edit_html_title'));
+        $cart = new order();
+        if (isset($_POST['submit']) && $_POST['method'] == 'item_update'){
+            $cart->validate();
+            $cart->sanitize();
+            if (empty($cart->errors)){
+
+                $res = $cart->updateItem($id);
+                session::setActionMessage(
+                        lang::translate('order_action_message_product_updated'));
+                    header("Location: /order/edit/$id");
+            } else {
+                view_form_errors($cart->errors);
+            }
+        }
+        order::form('update');
+    }
 
 
     // {{{ valiedate () method for validating insert and edit of items.
@@ -162,12 +189,14 @@ class order  {
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
         $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
-
+        $values['md5'] = md5(uniqid());
+        
         $db->insert(self::$table, $values);
         $id = db::$dbh->lastInsertId();
 
         $res = self::updateImage($id);
         if (!$res) {
+            error_log('error_image_scale');
             db::$dbh->rollBack();
             self::$errors = uploadBlob::$errors;
             return false;
@@ -256,13 +285,7 @@ class order  {
         $subject = lang::translate('order_checkout_order_details');
 
         load_post('order_form');
-  /*
-        $cookie = serialize($_POST);
-      
-        $res = setcookie(
-            'order_form_cookie',
-            $cookie, get_module_ini('order_cookie_time'), "/");
-            */
+
         $from = get_main_ini('site_email');
         $order_reply_to = get_main_ini('site_email');
         $order_invoice_to = get_main_ini('site_email');
@@ -351,7 +374,9 @@ class order  {
         $filters = get_module_ini('order_filters');
         $val['item_description'] = get_filtered_content($filters, $val['item_description']);
 
-        print templateView::includeModuleView('order', 'display_item', $val);
+       
+        
+        echo templateView::includeModuleView('order', 'display_item', $val, 1);
     }
     // }}}
     // {{{ setBasketCookie ($order_items = array())
@@ -385,7 +410,12 @@ class order  {
                     header ($header);
                 } else {
                     session::setActionMessage(lang::translate('order_item_added_to_basket'));
-                    header ("Location: /order/cart");
+                    $redirect = get_module_ini('order_redirect_update_item');
+                    if (!isset($redirect)) {
+                        $redirect = "/order/cart";
+                    }
+                    
+                    header ("Location: $redirect");
                 }               
             }
         }
@@ -424,6 +454,7 @@ class order  {
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
         $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
+        $values['md5'] = md5(uniqid());
         
         db::$dbh->beginTransaction();
         $db->update(self::$table, $values, $id);

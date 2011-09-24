@@ -21,7 +21,7 @@ foreach ($vars as $key => $val){
     if (!empty($val['file'])){
         print create_image_link(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
-            "/order/download/$val[id]", $options
+            "/order/download/$val[id]/thumb/$val[md5]", $options
         );
     }
     //print "</td>\n";

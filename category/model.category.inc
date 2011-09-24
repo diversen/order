@@ -75,8 +75,7 @@ class orderCategory {
 
     static function getAll ($fields = null) {
         $db = new db();
-        return $db->selectAll(self::$table, $fields, null, null, null, 'order', true);
-        //$db->selectAll($table, $fields, $search, $from, $limit, $order_by, $asc)
+        return $db->selectAll(self::$table, $fields, null, null, null, 'order', true);        
     }
 
     static function displayHTMLMenu () {
@@ -116,6 +115,8 @@ class orderCategory {
         db::$dbh->beginTransaction();
       
         $values = db::prepareToPost();
+        $values['md5'] = md5(uniqid());
+        
         $db->insert(self::$table, $values);
         $id = db::$dbh->lastInsertId();
 
@@ -150,6 +151,7 @@ class orderCategory {
     static function update() {
         $id = uri::$fragments[3];
         $values = db::prepareToPost($_POST);
+        $values['md5'] = md5(uniqid());
 
         $db = new db();
         db::$dbh->beginTransaction();

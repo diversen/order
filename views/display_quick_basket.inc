@@ -39,7 +39,7 @@ foreach ($all_items as $key => $val){
         $link =
             create_image_link(
                 "/order/item/$item[id]/" . rawurlencode($item['item_name']),
-                "/order/download/$item[id]", $options);
+                "/order/download/$item[id]/thumb/$item[md5]", $options);
         print $link;
     }
     print "</td>";

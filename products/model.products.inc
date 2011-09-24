@@ -15,7 +15,7 @@ class orderProducts extends order {
         $str = "<div id=\"list\"><div id=\"response\"></div>";
         $str.= "<ul id=\"sort_items\">\n";
         foreach ($items as $key => $val){
-            $str.= "<li id = \"arrayorder_$val[id]\">$val[item_name_alt] $val[item_order]";
+            $str.= "<li id = \"arrayorder_$val[id]\">$val[item_name] $val[item_order]";
             $str.= "</li><div class=\"clear\"></div>";
         }
         $str.= "</ul></div>\n";
