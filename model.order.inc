@@ -183,7 +183,7 @@ class order  {
     // {{{ addItem
     public static function addItem(){
         $db = new db();
-        $options = array();
+        
 
         db::$dbh->beginTransaction();
         $values = db::prepareToPost();
@@ -211,15 +211,16 @@ class order  {
         $order_image_size = get_module_ini('order_image_size');
         $order_image_size_thumb = get_module_ini('order_image_size_thumb');
 
+        $options = array ('quality' => get_module_ini('order_image_quality'));
         if (is_uploaded_file($_FILES['file']['tmp_name'])) {
             $res = uploadBlob::scaleImageToBlob(
-                'file', self::$table, 'file', $id, $order_image_size);
+                'file', self::$table, 'file', $id, $order_image_size, null, $options);
             if (!$res) {
                 self::$errors = uploadBlob::$errors;
                 return false;
             }
             $res = uploadBlob::scaleImageToBlob(
-                'file', self::$table, 'file_thumb', $id, $order_image_size_thumb);
+                'file', self::$table, 'file_thumb', $id, $order_image_size_thumb, null, $options);
             
             if (!$res) {
                 self::$errors = uploadBlob::$errors;
