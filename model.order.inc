@@ -239,10 +239,11 @@ class order  {
     // }}}
 
     public function displayCheckout(){
+        /*
         if (!isset($_COOKIE['order_items'])){
             print lang::translate('order_checkout_no_items_in_basket');
             return;
-        }
+        }*/
         $order_items = order::getBasketItems();
         if (empty($order_items)){
             print lang::translate('order_checkout_no_items_in_basket');
@@ -278,11 +279,6 @@ class order  {
     // }}}
     // {{{
     public function process (){
-        if (!isset($_COOKIE['order_items'])){
-            print lang::translate('order_checkout_no_items_in_basket');
-            return;
-        }
-
         $subject = lang::translate('order_checkout_order_details');
 
         load_post('order_form');
@@ -301,12 +297,14 @@ class order  {
         $res_consumer = mail_utf8($_POST['email'], $subject, $message, $from, $order_reply_to);
         $res_invoice = mail_utf8($order_invoice_to, $subject, $message, $from, $order_reply_to);
 
-        setcookie ("order_items", "", time() - 3600, "/");
-
+        //setcookie ("order_items", "", time() - 3600, "/");
+        self::clearBasketItems();
         header("Location: /order/done");
         die;
     }
     // }}}
+        
+    
 
     static function getCurrencySymbol () {
         static $local = null;
@@ -380,13 +378,11 @@ class order  {
         echo templateView::includeModuleView('order', 'display_item', $val, 1);
     }
     // }}}
-    // {{{ setBasketCookie ($order_items = array())
-    public static function setBasketCookie ($order_items = array()) {
-        $order_items = serialize($order_items);
-        $order_cookie_time = time() + get_module_ini('order_cookie_time');
-        setcookie('order_items', $order_items, $order_cookie_time, '/');
+    // 
+    public static function setBasketCookie($items = array()) {
+        
     }
-    // }}}
+
     // {{{ addToBasket()
     public function addToBasket ($options = null){        
         if (isset($_POST['add_order'])){
@@ -397,15 +393,12 @@ class order  {
             // update cart
             if (is_int($add_order) && is_int($item_id)){
                 // update cookie
-                if (@!empty($_COOKIE['order_items'])){
-                    $order_items = unserialize($_COOKIE['order_items']);
+                //if (@!empty($_COOKIE['order_items'])){
+                    //$order_items = unserialize($_COOKIE['order_items']);
+                    $order_items = self::getBasketItems();
                     $order_items[$item_id] = $add_order;
-                    self::setBasketCookie($order_items);
-                } else {
-                    $order_items = array ();
-                    $order_items[$item_id] = $add_order;
-                    self::setBasketCookie($order_items);
-                }
+                    self::setBasketItems($order_items);
+
                 if (isset($options['redirect'])){
                     $header = "Location: $options[redirect]";
                     header ($header);
@@ -421,15 +414,40 @@ class order  {
             }
         }
     }
-    // }}} 
-    // {{{ getBasketItems ()
-    public static function getBasketItems (){
-        if (!isset($_COOKIE['order_items'])){
+
+    // setBasketCookie ($order_items = array())
+    public static function setBasketItems ($values = array()) {
+        if (isset($_COOKIE['order_client_id'])){
+            $id = $_COOKIE['order_client_id'];
+        } else {
+            $id = md5(uniqid());
+            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            setcookie('order_client_id', $id, $order_cookie_time, '/');
+        }
+        cache::set('order_basket_items', $id, $values);    
+    }
+    
+    public static function clearBasketItems () {
+        if (isset($_COOKIE['order_client_id'])){
+            $id = $_COOKIE['order_client_id'];
+        } 
+        self::setBasketItems(array());       
+    }
+
+    // getBasketItems ()
+    public static function getBasketItems (){      
+        if (!isset($_COOKIE['order_client_id'])){
+            $id = md5(uniqid());
+            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            setcookie('order_client_id', $id, $order_cookie_time, '/');
             return array();
         }
-        $order_items = unserialize($_COOKIE['order_items']);
-        if (!is_array($order_items)) self::setBasketCookie ();
 
+        
+        $order_items = cache::get('order_basket_items', $_COOKIE['order_client_id'], get_module_ini('order_cookie_time'));
+        if (empty($order_items)) {
+            $order_items = array();
+        }
         foreach ($order_items as $key => $val){
             if ($val == '0' || $val == '') unset($order_items[$key]);
             if ($key == '0' || $key == '') unset($order_items[$key]);
@@ -498,11 +516,6 @@ class order  {
 
         // {{{ displayBasket ()
     public static function displayBasket (){
-        if (empty($_COOKIE['order_items'])){
-            print lang::translate('order_no_items_in_basket');
-            return;
-        }
-
         $vars['order_items'] = order::getBasketItems();
         if (empty($vars['order_items'])){
             print lang::translate('order_no_items_in_basket');
@@ -515,10 +528,10 @@ class order  {
     // }}}
         // {{{ displayConfirmOrder ()
     public static function displayConfirm (){
-        if (!isset($_COOKIE['order_items'])){
-            print lang::translate('order_no_items_in_basket');
-            return;
-        }
+        //if (!isset($_COOKIE['order_items'])){
+        //    print lang::translate('order_no_items_in_basket');
+        //    return;
+        // }
         $order_items = order::getBasketItems();
         if (empty($order_items)){
             print lang::translate('order_no_items_in_basket');
@@ -535,11 +548,7 @@ class order  {
         // {{{ displayConfirmOrder ()
     public static function displayOrderEmail (){
 
-        if (!isset($_COOKIE['order_items'])){
-            return 0;
-        }
         $order_items = order::getBasketItems();
-
         if (empty($order_items)){
             print lang::translate('order_no_items_in_basket');
             return;
