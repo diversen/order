@@ -28,8 +28,9 @@ $(document).ready(function(){
 });*/
 
 
+
 $(document).ready(function() {
-    
+        var tr = $.tr.translator();
 
 	// validate signup form on keyup and submit
 	var validator = $("#order_form").validate({
@@ -93,7 +94,7 @@ $(document).ready(function() {
 
 		},
 		messages: {
-			name: "Indtast navn",
+			name: tr('order_checkout_wrong_name'),
                         diff_name: "Indtast navn",
 			
 			adresse: {

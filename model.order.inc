@@ -6,6 +6,7 @@
 include_once "mySqlForm.php";
 include_once "upload.php";
 
+template::setInlineJs(_COS_PATH . '/modules/order/lang/da_DK/da_DK.js');
 template::setJs('/js/jquery.validate.js');
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 
@@ -176,7 +177,7 @@ class order  {
     // {{{ sanitze()
     public function sanitize(){
         if (isset($_POST['submit'])){
-            //$_POST = cos_htmlentities($_POST);
+            $_POST = html::specialEncode($_POST);
         }
     } 
     // }}}
@@ -239,11 +240,7 @@ class order  {
     // }}}
 
     public function displayCheckout(){
-        /*
-        if (!isset($_COOKIE['order_items'])){
-            print lang::translate('order_checkout_no_items_in_basket');
-            return;
-        }*/
+
         $order_items = order::getBasketItems();
         if (empty($order_items)){
             print lang::translate('order_checkout_no_items_in_basket');
@@ -258,15 +255,13 @@ class order  {
                 save_post('order_form');
                 unset($_POST['submit']);
                 $cookie = serialize($_POST);
-
                 $res = setcookie(
                     'order_form_cookie',
                 $cookie, get_module_ini('order_cookie_time') +time(), "/");
                 header("Location: /order/confirm");
                 die();
             }
-        } else {
-            
+        } else {            
             if (!load_post('order_form')) {
                 if (isset($_COOKIE['order_form_cookie'])) {
                     $_POST = unserialize($_COOKIE['order_form_cookie']);
@@ -332,13 +327,6 @@ class order  {
     public function displayItem ($id){
         if (isset($_POST['add_order'])){
             $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
-        } else if (isset($_COOKIE['order_items'][$id])){
-            $order_items = unserialize($_COOKIE['order_items']);
-            if(isset($order_items[$id]) && $order_items[$id] != '0') {
-                $add_order = $order_items[$id];
-            } else {
-                $add_order = 1;
-            }
         } else {
             $add_order = 1;
         }
@@ -354,27 +342,19 @@ class order  {
         $url = "/order/item/$val[id]/";
         $url.= rawurlencode($val['item_name']);
 
-        if ($_SERVER['REQUEST_URI'] != $url) {
-            header("HTTP/1.1 301 Moved Permanently");
-            $url = "/order/item/$val[id]/";
-            $url.= rawurlencode($val['item_name']);
-            header("Location: $url");
-        }
+        send_301_headers($url);
         
         $title = lang::translate('order_view_single_product');
         $title.= MENU_SUB_SEPARATOR_SEC;
         $title.= $val['item_name'];
         template::setTitle(html::specialEncode($title));
 
-        $meta_desc =
-        cos_remove_extra_ws(html::specialEncode(substr2($val['item_description'], 155, 3, false)));
+        $meta_desc = html::specialEncode($val['item_name_alt']);
         template::setMeta(array('description' => $meta_desc));
 
         $filters = get_module_ini('order_filters');
         $val['item_description'] = get_filtered_content($filters, $val['item_description']);
-
-       
-        
+  
         echo templateView::includeModuleView('order', 'display_item', $val, 1);
     }
     // }}}
@@ -392,9 +372,7 @@ class order  {
 
             // update cart
             if (is_int($add_order) && is_int($item_id)){
-                // update cookie
-                //if (@!empty($_COOKIE['order_items'])){
-                    //$order_items = unserialize($_COOKIE['order_items']);
+
                     $order_items = self::getBasketItems();
                     $order_items[$item_id] = $add_order;
                     self::setBasketItems($order_items);
@@ -428,9 +406,6 @@ class order  {
     }
     
     public static function clearBasketItems () {
-        if (isset($_COOKIE['order_client_id'])){
-            $id = $_COOKIE['order_client_id'];
-        } 
         self::setBasketItems(array());       
     }
 
@@ -452,10 +427,10 @@ class order  {
             if ($val == '0' || $val == '') unset($order_items[$key]);
             if ($key == '0' || $key == '') unset($order_items[$key]);
         }
-
+        /*
         if (empty($order_items)){
             return array();
-        }
+        }*/
         return $order_items;
     }
     // }}}
@@ -472,7 +447,7 @@ class order  {
         $db = new db();
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
-        $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
+        //$values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
         $values['md5'] = md5(uniqid());
         
         db::$dbh->beginTransaction();
@@ -528,13 +503,10 @@ class order  {
     // }}}
         // {{{ displayConfirmOrder ()
     public static function displayConfirm (){
-        //if (!isset($_COOKIE['order_items'])){
-        //    print lang::translate('order_no_items_in_basket');
-        //    return;
-        // }
+
         $order_items = order::getBasketItems();
         if (empty($order_items)){
-            print lang::translate('order_no_items_in_basket');
+            echo lang::translate('order_no_items_in_basket');
             return;
         }
 

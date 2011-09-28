@@ -4,6 +4,7 @@ class orderSelect {
     
     public static $table = 'order_item_select';
     public static $errors = array ();
+    
     public static function updateSelectControl ($frag = 2)  {
 
         $item_id = URI::getInstance()->fragment($frag);
@@ -26,6 +27,11 @@ class orderSelect {
             }  
         } 
         self::form($item_id);
+    }
+    
+    
+    public static function getItemMenu () {
+        return html::createLink('/order/edit/', 'edit select');
     }
     
 

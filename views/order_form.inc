@@ -11,6 +11,9 @@ if (isset($_POST['checkme'])){
     <td><?=lang::translate('order_checkout_legend')?></td>
     <td>&nbsp;</td>
 </tr>
+</table>
+
+<table class="checkout">
 
 <tr>
     <td><?=lang::translate('order_legend_company')?></td>
@@ -20,7 +23,9 @@ if (isset($_POST['checkme'])){
 <tr>
     <td>* <?=lang::translate('order_legend_name')?></td>
     <td><input type="text" name="name" size="30" value="<?=@$_POST['name']?>" class="required" /></td>
-    <td class="status"></td>
+    
+
+    <td colspan="2" class="status"></td>
 </tr>
 
 <tr>

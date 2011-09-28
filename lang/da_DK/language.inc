@@ -75,7 +75,7 @@ $_COS_LANG_MODULE['order_sort_order_saved'] = 'Sortering gemt';
 $_COS_LANG_MODULE['order_cart_html_title'] = 'Butik - Forside';
 // Translation of file /home/dennis/www/mandlen/modules/order/checkout.php
 
-$_COS_LANG_MODULE['order_checkout_html_title'] = 'Indtast leverings oplysninger';
+$_COS_LANG_MODULE['order_checkout_html_title'] = 'Indtast leveringsoplysninger';
 // Translation of file /home/dennis/www/mandlen/modules/order/confirm.php
 
 // Translation of file /home/dennis/www/mandlen/modules/order/quick_order.php
@@ -101,9 +101,9 @@ $_COS_LANG_MODULE['order_different_shipping'] = 'Anden leverings adresse';
 $_COS_LANG_MODULE['order_confirm_order'] = 'Bekræft ordre';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/order_form.php
 
-$_COS_LANG_MODULE['order_checkout_legend'] = 'Indtast leverings oplysninger';
+$_COS_LANG_MODULE['order_checkout_legend'] = 'Indtast leveringsoplysninger';
 $_COS_LANG_MODULE['order_legend_company'] = 'Firma';
-$_COS_LANG_MODULE['order_legend_name'] = 'Name';
+$_COS_LANG_MODULE['order_legend_name'] = 'Navn';
 $_COS_LANG_MODULE['order_legend_adresse'] = 'Adresse';
 $_COS_LANG_MODULE['order_legend_postal_code'] = 'Postnummer';
 $_COS_LANG_MODULE['order_legend_city'] = 'By';
