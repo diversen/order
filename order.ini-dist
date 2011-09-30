@@ -1,12 +1,19 @@
 order_allow = "admin"
-order_category_image_size = 250
-order_image_size = 250
-order_image_size_thumb = 100
+order_category_image_size = 125
+order_image_quality = 100
+order_image_size_thumb = 125
+order_image_size_basket = 75
+order_image_size = 225
+order_items_per_row = 3
 order_checkout_module = "paypal"
-order_cookie_time = 360000
+order_cookie_time = 3600
 order_added_tax = 0.20
 order_debug = 0
-order_filters[] = 'autolink';
-order_filters[] = 'markdownExt';
-; can be category (categories) or all (which will display all items)
+order_filters[0] = "autolink"
+order_filters[1] = "markdown"
 order_display_main = "cat"
+order_redirect_update_item = "/order/basket"
+order_show_category_small = 0
+order_menu_items[0] = "order_shop"
+order_use_gallery = 1
+order_use_select = 1

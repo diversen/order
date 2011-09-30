@@ -13,8 +13,10 @@ template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 include_model('order/shipping');
 include_model('order/shipping_free');
 include_model('order/category');
+include_model('order/select');
+include_model('order/gallery');
 include_module('gallery/admin');
-// {{{ create_item_form
+
 
 class order  {
     public static $errors = array();
@@ -325,19 +327,33 @@ class order  {
     
     // {{{ displayItem ($id)
     public function displayItem ($id){
-        if (isset($_POST['add_order'])){
-            $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
-        } else {
-            $add_order = 1;
-        }
+
       
         $val = $this->getItem($id);
-        $val['add_order'] = $add_order;
+        $items = self::getBasketItems();
 
         if (empty($val)){
             header ("HTTP/1.1 301 Moved Permanently");
             header ("Location: /order/cart");
         }
+        
+        //$get_id = $_GET['order_item'];
+        if (isset($_GET['order_item'])) {
+            $int_options = array("options" => array("min_range"=>0 ));
+            $get_id = filter_var($_GET['order_item'], FILTER_VALIDATE_INT, $int_options);
+            
+            $val['add_order'] = $items[$get_id]['add_order'];
+            $val['selected'] = $items[$get_id];
+        } else {
+            $val['add_order'] = 1;
+        }
+        /*
+        if (isset($items[$id])) {
+            $val['add_order'] = $items[$id]['add_order'];
+        } else {
+            $val['add_order'] = 1;
+        }*/
+        
 
         $url = "/order/item/$val[id]/";
         $url.= rawurlencode($val['item_name']);
@@ -357,24 +373,64 @@ class order  {
   
         echo templateView::includeModuleView('order', 'display_item', $val, 1);
     }
-    // }}}
-    // 
-    public static function setBasketCookie($items = array()) {
-        
-    }
 
-    // {{{ addToBasket()
+    /**
+     * adds a item to basket. 
+     * 
+     * @param array $options array ('redirect' => '/location/to/redirect');
+     */
     public function addToBasket ($options = null){        
         if (isset($_POST['add_order'])){
-            $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
-            $item_id = $_POST['item_id'];
-            $item_id = filter_var($item_id, FILTER_VALIDATE_INT);
-
-            // update cart
+            echo $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
+            $item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);
+            
+            
+            $order_item = filter_var(@$_REQUEST['order_item'], FILTER_VALIDATE_INT);
+            
             if (is_int($add_order) && is_int($item_id)){
-
                     $order_items = self::getBasketItems();
-                    $order_items[$item_id] = $add_order;
+
+                    unset($_POST['order_submit']);
+                    unset($_POST['add_order']);
+                    unset($_POST['item_update']);
+                    unset($_POST['order_item']);
+                    
+                    $match = false;
+                    
+                    if (!empty($order_items)) {                    
+                        
+                        foreach ($order_items as $key => $val) {
+                            unset($val['add_order']);
+                            if ($val === $_POST) {
+                                $match = true;
+                                break;
+                            } 
+                        }
+                        
+                        if ($match) {                           
+                            if ($add_order <= 0) {
+                                //unset ($order_items[$key]);
+                                unset ($order_items[$order_item]);
+                            } else {
+                                $_POST['add_order'] = $add_order;
+                                $order_items[$key] = $_POST;
+
+                            }
+                        } else {
+                            if ($add_order <= 0) {
+                                unset ($order_items[$order_item]);
+                            } else {
+                                $_POST['add_order'] = $add_order;
+                                $order_items[] = $_POST;
+                            }
+                            
+                            
+                        }
+                        
+                    } else {
+                        $_POST['add_order'] = $add_order;
+                        $order_items[] = $_POST; 
+                    } 
                     self::setBasketItems($order_items);
 
                 if (isset($options['redirect'])){
@@ -385,8 +441,7 @@ class order  {
                     $redirect = get_module_ini('order_redirect_update_item');
                     if (!isset($redirect)) {
                         $redirect = "/order/cart";
-                    }
-                    
+                    }                    
                     header ("Location: $redirect");
                 }               
             }
@@ -423,14 +478,7 @@ class order  {
         if (empty($order_items)) {
             $order_items = array();
         }
-        foreach ($order_items as $key => $val){
-            if ($val == '0' || $val == '') unset($order_items[$key]);
-            if ($key == '0' || $key == '') unset($order_items[$key]);
-        }
-        /*
-        if (empty($order_items)){
-            return array();
-        }*/
+
         return $order_items;
     }
     // }}}

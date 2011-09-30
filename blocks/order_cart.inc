@@ -5,20 +5,21 @@ include_module('order');
 function block_order_cart () {
 
     $order_items = order::getBasketItems();
+    print_r($order_items);
     $total_weight = 0;
     $total = $sub_total = $weight = $num_items = 0;
 
     foreach ($order_items as $key => $val){
-        if ($val == 0) continue;
+        if ($val['add_order'] == 0) continue;
         $item = order::getItem($key);
         if (empty($item)) {
             unset($order_items[$key]);
             continue;
         }
-        $num_items = $num_items + $val;
-        $sub_total = $val * $item['price'];
+        $num_items = $num_items + $val['add_order'];
+        $sub_total = $val['add_order'] * $item['price'];
         $total = $sub_total + $total;
-        $weight = $weight + ($val * locfloat_to_sysfloat($item['weight']));
+        $weight = $weight + ($val['add_order'] * locfloat_to_sysfloat($item['weight']));
     }
 
     print "<h3>" . lang::translate('order_basket') . "</h3>\n";

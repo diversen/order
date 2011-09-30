@@ -105,7 +105,7 @@ class orderCategory {
         $search = array ('category' => $_GET['cat']);
         $template = 'display_cart';
         $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
-        templateView::includeModuleView('order', $template, $all_items);
+        echo templateView::includeModuleView('order', $template, $all_items, 1);
     }
     // }}}
 

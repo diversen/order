@@ -6,7 +6,7 @@ $_COS_LANG_MODULE['order_out_of_stock'] = 'No Items In Stock';
 $_COS_LANG_MODULE['order_edit'] = 'Edit';
 $_COS_LANG_MODULE['order_delete'] = 'Delete';
 
-$_COS_LANG_MODULE['order_checkout_legend'] = 'Checkout';
+$_COS_LANG_MODULE['order_checkout_legend'] = 'Enter Checkout Information';
 $_COS_LANG_MODULE['order_legend_company'] = 'Company';
 $_COS_LANG_MODULE['order_legend_name'] = 'Name';
 $_COS_LANG_MODULE['order_legend_adresse'] = 'Adresse';

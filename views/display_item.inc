@@ -1,50 +1,77 @@
 <?php
 
-print "<table class=\"order_cart\">";
-print "<tr><td colspan=2>\n";
-print $vars['item_name'] . " ";
-print '(' . lang::translate('order_price') . ' ' .
+echo "<table class=\"order_cart\">";
+echo "<tr><td colspan=2>\n";
+echo $vars['item_name'] . " ";
+echo '(' . lang::translate('order_price') . ' ' .
     order::getCurrencySymbol() . ' ' .
     $vars['price'] . ')';
-print "</td></tr>\n";
-print "<tr><td colspan=2>\n";
+echo "</td></tr>\n";
+echo "<tr><td colspan=2>\n";
 
 if ($vars['stock'] != '0') {
 
-    print "<form name=\"view_item\" method =\"post\">\n";
-    print lang::translate('order_item_enter_amount') . " <input id=\"order_amount\" maxlength=\"2\" name=\"add_order\" align=\"left\" size=\"2\" value=\"$vars[add_order]\" />\n";
-    print "<input type=\"hidden\" name=\"item_id\" value=\"$vars[id]\" />\n";
-    print "<input type =\"submit\" name = \"order_submit\" value=\"" .
+    
+    echo "<form name=\"view_item\" method =\"post\">\n";
+    echo "<table>\n";    
+    echo "<input type=\"hidden\" name=\"item_id\" value=\"$vars[id]\" />\n";
+    if (get_module_ini('order_use_select')) {
+        if (!isset($vars['selected'])) {
+            $vars['selected'] = array();
+        }
+        echo orderSelect::getSelectListsAsDropDowns($vars['id'], $vars['selected']);
+
+    }
+   
+    echo "<tr>";
+    echo "<td>\n";
+    echo lang::translate('order_item_enter_amount');
+    echo "</td>";
+    echo "<td>";
+    echo "<input id=\"order_amount\" maxlength=\"2\" name=\"add_order\" align=\"left\" size=\"2\" value=\"$vars[add_order]\" />\n";    
+    echo "</td>\n";
+    echo "<td>";
+    echo "<input type =\"submit\" name = \"order_submit\" value=\"" .
         lang::translate('order_update_cart_item') .
         "\" /> ";
+    echo "</td>";
+    echo "</tr>\n";
+    echo "</table>";
+    
+    
+    
 
+    
+    
+    /*
+    
     $total = $vars['price'] * $vars['add_order'];
-    print
+    echo
         lang::translate('order_price') . ': ' .
         $total . ' ' .
-        order::getCurrencySymbol();
-    print "</form>\n";
+        order::getCurrencySymbol(); */
+    echo "</form>\n";
 } else {
-    print "<div id=\"form_error\">";
-    print lang::translate('order_out_of_stock');
-    print "</div>";
+    echo "<div id=\"form_error\">";
+    echo lang::translate('order_out_of_stock');
+    echo "</div>";
 }
-print "</td></tr>";
-print "<tr><td class=\"order-align-top\">\n";
+echo "</td></tr>";
+echo "<tr><td class=\"order-align-top\">\n";
 
 $options = array();
 $options['alt'] = $vars['item_name_alt'];
 $options['width'] = get_module_ini('order_image_size');
 
 if (!empty($vars['file'])){
-  print $link = create_image_link(
+  echo $link = create_image_link(
     "/order/item/$vars[id]/" . rawurlencode($vars['item_name']),
     "/order/download/$vars[id]/full/$vars[md5]", $options);
 }
 
 $use_gallery = get_module_ini('order_use_gallery');
 if (isset($use_gallery)) {
-    include_model('order/gallery');
+    //include_model('order/gallery');
     //orderGallery::updateGalleryControl();
     $item_id = URI::getInstance()->fragment(2);
     $gallery_id = orderGallery::getGalleryIdFromItemId($item_id);
@@ -61,21 +88,21 @@ if (isset($use_gallery)) {
     }
 }
 
-print "</td><td class=\"order-align-top\">\n";
-print $vars['item_description'];
+echo "</td><td class=\"order-align-top\">\n";
+echo $vars['item_description'];
 
-//print $link = create_link('/order/item', $val['item_name']);
+//echo $link = create_link('/order/item', $val['item_name']);
 if (session::isAdmin()){
-    //print "<br />" .
-    print $link = create_link(
+    //echo "<br />" .
+    echo $link = create_link(
         "/order/edit/$vars[id]",
         lang::translate('order_edit')
     );
-    print MENU_SUB_SEPARATOR;
-    print create_link(
+    echo MENU_SUB_SEPARATOR;
+    echo create_link(
         "/order/delete/$vars[id]",
         lang::translate('order_delete')
     );
 }
-print "</td></tr>\n";
-print "</table>\n";
+echo "</td></tr>\n";
+echo "</table>\n";

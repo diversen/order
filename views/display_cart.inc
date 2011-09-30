@@ -4,12 +4,8 @@ print "<table class = \"order_cart\">\n";
 $i = 0;
 print "<tr>\n";
 
-//echo $num_items = count($vars);
 $per_row = get_module_ini('order_items_per_row');
 
-//echo $num_items / $per_row;
-
-//echo $rest = $num_items % $per_row;
 
 foreach ($vars as $key => $val){
     print "<td>";

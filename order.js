@@ -31,17 +31,15 @@ $(document).ready(function(){
 
 $(document).ready(function() {
         var tr = $.tr.translator();
-
-	// validate signup form on keyup and submit
 	var validator = $("#order_form").validate({
 		rules: {
 
                         
 			name: "required",
+                        
                         diff_name: {
-
-                        required: "#checkme:checked",
-                        minlength:4
+                            required: "#checkme:checked",
+                            minlength:4
                         },
                    
                         adresse: {
@@ -90,7 +88,9 @@ $(document).ready(function() {
                                 required: false,
 				digits: true,
 				minlength: 6
-			}
+			},
+                        accept: "required"
+			
 
 		},
 		messages: {
@@ -136,6 +136,8 @@ $(document).ready(function() {
                                 digits: jQuery.format('Kun tal'),
                                 minlength: jQuery.format("Mindst {0} tal")
 			},
+                        accept: "Acceptere handelsbetingelser",
+                        
                         company: "Indtast firma"
 
 
@@ -144,8 +146,7 @@ $(document).ready(function() {
 		errorPlacement: function(error, element) {
 			if ( element.is(":radio") )
 				error.appendTo( element.parent().next().next() );
-			else if ( element.is(":checkbox") )
-				error.appendTo ( element.next() );
+
 			else
 				error.appendTo( element.parent().next() );
 		},

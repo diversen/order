@@ -3,146 +3,155 @@
 $order_items = $vars['order_items'];
 $total_weight = 0;
 
-print "<table class=\"order_basket_full\">\n";
-print "<tr>";
-print "<td colspan=\"2\"></td>\n";
-print "<td>";
-print lang::translate('order_quantity');
-print "</td>";
-print "<td>\n";
-print lang::translate('order_sub_total');
-print "</td>";
-print "<td>\n";
-print lang::translate('order_amount_total');
-print "</td>";
-print "<td>&nbsp;</td>";
-print "</tr>\n";
+//print_r($order_items);
+echo "<table class=\"order_basket_full\">\n";
+echo "<tr>";
+echo "<td colspan=\"2\"></td>\n";
+echo "<td>";
+echo lang::translate('order_quantity');
+echo "</td>";
+echo "<td>\n";
+echo lang::translate('order_sub_total');
+echo "</td>";
+echo "<td>\n";
+echo lang::translate('order_amount_total');
+echo "</td>";
+echo "<td>&nbsp;</td>";
+echo "</tr>\n";
 $total = $sub_total = $weight = 0;
 foreach ($order_items as $key => $val){
-    if ($val == 0) continue;
-    $item = order::getItem($key);
+
+    if ($val['add_order'] == 0) continue;
+    $item = order::getItem($val['item_id']);
     if (empty($item)) {
         unset($order_items[$key]);
         continue;
     }
-    print "<tr>\n";
-    print "<td>";
+    echo "<tr>\n";
+    echo "<td>";
 
     $options = array ();
-    $options['alt'] = $val['item_name_alt'];
-    $options['width'] = "75";/*get_module_ini('order_image_size_thumb')*/;
+    $options['alt'] = $item['item_name_alt'];
+    $options['width'] = get_module_ini('order_image_size_basket');
 
     if (!empty($item['file'])){
         $link =
             create_image_link(
-                "/order/item/$key/"  .
-                rawurlencode($item['item_name']),
-                "/order/download/$key/thumb/$item[md5]", $options);
-        print $link;
+                "/order/item/$item[id]/"  .
+                rawurlencode($item['item_name']) . "?order_item=$key",
+                "/order/download/$item[id]/thumb/$item[md5]", $options);
+        echo $link;
 
     } else {
-        print "&nbsp;";
+        echo "&nbsp;";
     }
-    print "</td>";
-    print "<td>";
-    print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
-    print order::getCurrencySymbol();
-    print ' ' . $item['price'];
-    print "</td><td>\n";
-    print "<form name=\"checkout\" method =\"post\" action=\"\">";
-    print "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
-    print "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val\" />";// . "<br />";
-    print "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
-    print "</form>\n";
-    print "</td><td>\n";
-    print order::getCurrencySymbol() . '&nbsp;';
-    $sub_total = $val * $item['price'];
+    echo "</td>";
+    echo "<td>";
+    echo $link = create_link("/order/item/$item[id]/" . 
+            rawurlencode ($item['item_name']) . "?order_item=$key" , $item['item_name']) . "<br />\n";
+    echo order::getCurrencySymbol();
+    echo ' ' . $item['price'];
+    echo "</td><td>\n";
+    echo "<form name=\"checkout\" method =\"post\" action=\"\">";
+    echo "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
+    echo "<input type=\"hidden\" name = \"order_item\" value =\"$key\" />";
+    echo "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val[add_order]\" />";
+    
+    echo orderSelect::getSelectListAsHiddenFields($item['id'], $val);
+    
+    
+    echo "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
+    
+    echo "</form>\n";
+    echo "</td><td>\n";
+    echo order::getCurrencySymbol() . '&nbsp;';
+    $sub_total = $val['add_order'] * $item['price'];
     //$sub_total_weight = $val * $item['weight'];
 
-    print $sub_total;
+    echo $sub_total;
     $total = $sub_total + $total;
-    $weight = $weight + ($val * locfloat_to_sysfloat($item['weight']));
-    print "</td>\n";
-    print "<td>&nbsp;</td>";
-    print "<td>&nbsp;</td>\n";
-    print "</tr>\n";
+    $weight = $weight + ($val['add_order'] * locfloat_to_sysfloat($item['weight']));
+    echo "</td>\n";
+    echo "<td>&nbsp;</td>";
+    echo "<td>&nbsp;</td>\n";
+    echo "</tr>\n";
 
 }
-print "<tr>\n";
-print "<td colspan=\"4\">";
-print lang::translate('order_basket_total_price_items');
-print "</td>";
-print "<td>";
-print order::getCurrencySymbol() . '&nbsp;' . $total;
-print "</td>\n";
-print "<td>&nbsp;</td>\n";
-print "</tr>\n";
+echo "<tr>\n";
+echo "<td colspan=\"4\">";
+echo lang::translate('order_basket_total_price_items');
+echo "</td>";
+echo "<td>";
+echo order::getCurrencySymbol() . '&nbsp;' . $total;
+echo "</td>\n";
+echo "<td>&nbsp;</td>\n";
+echo "</tr>\n";
 
 
-print "<tr>\n";
-print "<td colspan=\"4\">";
-print lang::translate('order_amount_value_added_tax');
-print "</td>";
-print "<td>";
-print order::getCurrencySymbol() . '&nbsp;';
-print $total * get_module_ini('order_added_tax');
-print "</td>\n";
-print "<td>&nbsp;</td>\n";
-print "</tr>\n";
+echo "<tr>\n";
+echo "<td colspan=\"4\">";
+echo lang::translate('order_amount_value_added_tax');
+echo "</td>";
+echo "<td>";
+echo order::getCurrencySymbol() . '&nbsp;';
+echo $total * get_module_ini('order_added_tax');
+echo "</td>\n";
+echo "<td>&nbsp;</td>\n";
+echo "</tr>\n";
 
-print "<tr>\n";
-print "<td  colspan=\"4\">\n";
-print lang::translate('order_amount_added_shipping_cost') . " ";
+echo "<tr>\n";
+echo "<td  colspan=\"4\">\n";
+echo lang::translate('order_amount_added_shipping_cost') . " ";
 
 $shipping_is_free = false;
 $shipping_free = orderShippingFree::getShippingFreePrivate();
 if ($total <  $shipping_free) {
     $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
     $shipping_free_needed.= $shipping_free - $total;
-    print lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '&nbsp;';
+    echo lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '&nbsp;';
 } else {
     $shipping_is_free = true;
-    print lang::translate('order_amount_shipping_is_free') . '&nbsp;';
+    echo lang::translate('order_amount_shipping_is_free') . '&nbsp;';
 }
 
-print "</td>\n";
-print "<td>\n";
-print order::getCurrencySymbol() . "&nbsp;";
+echo "</td>\n";
+echo "<td>\n";
+echo order::getCurrencySymbol() . "&nbsp;";
 if ($shipping_is_free) {
-    print "0";
+    echo "0";
     $shipping_cost = 0;
 } else {
-    print $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+    echo $shipping_cost = orderShipping::getWeightToCost('private', $weight);
 }
-print "</td>\n";
-print "<td>&nbsp</td>\n";
-print "</tr>\n";
+echo "</td>\n";
+echo "<td>&nbsp</td>\n";
+echo "</tr>\n";
 
-print "<tr>\n";
-print "<td  colspan=\"4\">\n";
-print lang::translate('order_amount_total');
-print "</td>\n";
-print "<td>\n";
-print order::getCurrencySymbol() . "&nbsp;";
-print $shipping_cost + $total;
-//print orderShipping::getWeightToCost('private', $weight) . ' ';
-print "</td>\n";
-print "<td>&nbsp</td>\n";
-print "</tr>\n";
+echo "<tr>\n";
+echo "<td  colspan=\"4\">\n";
+echo lang::translate('order_amount_total');
+echo "</td>\n";
+echo "<td>\n";
+echo order::getCurrencySymbol() . "&nbsp;";
+echo $shipping_cost + $total;
+//echo orderShipping::getWeightToCost('private', $weight) . ' ';
+echo "</td>\n";
+echo "<td>&nbsp</td>\n";
+echo "</tr>\n";
 
 
-print "<td colspan=5>";
-print "&nbsp;";
-print "</td>";
-print "</tr>";
-print "</table>";
+echo "<td colspan=5>";
+echo "&nbsp;";
+echo "</td>";
+echo "</tr>";
+echo "</table>";
 
-print "<table>\n";
-print "<tr>\n";
-print "<td>\n";
-print "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
-print "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
-print "</form>\n";
-print "</td>\n";
-print "</tr>\n";
-print "</table>\n";
+echo "<table>\n";
+echo "<tr>\n";
+echo "<td>\n";
+echo "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
+echo "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
+echo "</form>\n";
+echo "</td>\n";
+echo "</tr>\n";
+echo "</table>\n";
