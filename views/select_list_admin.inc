@@ -10,7 +10,7 @@ foreach ($vars->titles as $key => $val) {
     echo html::selectClean($val, $vars->options[$key], 'val', 'id', $vars->selected[$key]);
     echo "</td>\n";
     echo "<td>\n";
-    echo html::createLink("?method=item_delete_select&id=" . $vars->ids[$key], 'title');
+    echo html::createLink("?method=item_delete_select&id=" . $vars->ids[$key], 'Slet');
     echo "</td>\n";
     echo "</tr>\n";
 }
