@@ -212,3 +212,9 @@ $_COS_LANG_MODULE['order_select_option_added_confirm'] = 'Drop Down select box s
 $_COS_LANG_MODULE['order_item_select_legend'] = 'Opret nyt dropdown valg mulighed';
 $_COS_LANG_MODULE['order_select_form_title_field'] = 'Titel';
 $_COS_LANG_MODULE['order_select_form_option_field'] = 'Indtast dine valg og adskil med komma';
+
+$_COS_LANG_MODULE['order_select_option_delete_confirm'] = 'order_select_option_delete_confirm';
+$_COS_LANG_MODULE['order_legend_accept_terms'] = 'Accepter';
+$_COS_LANG_MODULE['order_accept_terms_link_text'] = 'handelsbetingelser';
+$_COS_LANG_MODULE['order_form_accept_text'] = 'Indsæt tekst hvor du beskriver handelsbetingelser';
+$_COS_LANG_MODULE['order_form_accept_text_init_value'] = 'Handels betingelser skrives her';

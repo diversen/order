@@ -13,3 +13,4 @@ $_COS_LANG_MODULE['order_shipping_company_menu'] = 'order_shipping_company_menu'
 $_COS_LANG_MODULE['order_products_show_all_items'] = 'order_products_show_all_items';
 $_COS_LANG_MODULE['order_add_product_menu_item'] = 'order_add_product_menu_item';
 $_COS_LANG_MODULE['order_sort_products_menu_item'] = 'order_sort_products_menu_item';
+
