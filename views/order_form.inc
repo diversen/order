@@ -72,7 +72,9 @@ if (isset($_POST['checkme'])){
 </tr>
 
 <tr>
-    <td colspan="2"><?=lang::translate('order_legend_accept_terms')?> <a href="/order/config/accept"><?=lang::translate('order_accept_terms_link_text')?></a></td>
+    <td colspan="2">
+        <?=lang::translate('order_legend_accept_terms')?> 
+        <a id="various1" href="#inline1"><?=lang::translate('order_accept_terms_link_text')?></a></td>
 </tr>
 <tr>
     <td><input id="accept" type="checkbox" name="accept" value="<?=@$_POST['accept']?>" /></td>
@@ -89,6 +91,19 @@ if (isset($_POST['checkme'])){
     <td>&nbsp;</td>
 </tr>
 </table>
+    
+<div style="display: none;">
+		<div id="inline1" style="width:400px;height:400px;overflow:auto;">
+<?php       
+
+$text = get_module_ini('order_form_accept_text');
+$filters = get_module_ini('order_filters');
+echo get_filtered_content($filters, $text); 
+
+?>
+		</div>
+    
+</div>
 
 <table id="extra" class="checkout">
 <tr>
