@@ -51,18 +51,24 @@ foreach ($order_items as $key => $val){
             rawurlencode ($item['item_name']) . "?order_item=$key" , $item['item_name']) . "<br />\n";
     echo order::getCurrencySymbol();
     echo ' ' . $item['price'];
+
+    echo orderSelect::getSelectListAsHumanFields($item['id'], $val);
     echo "</td><td>\n";
-    echo "<form name=\"checkout\" method =\"post\" action=\"\">";
-    echo "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
-    echo "<input type=\"hidden\" name = \"order_item\" value =\"$key\" />";
-    echo "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val[add_order]\" />";
     
-    echo orderSelect::getSelectListAsHiddenFields($item['id'], $val);
+    if (!isset($vars['disable_item_edit_buttons'])) {
+        echo "<form name=\"checkout\" method =\"post\" action=\"\">";
+        echo "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
+        echo "<input type=\"hidden\" name = \"order_item\" value =\"$key\" />";
+        echo "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val[add_order]\" />";
     
+        echo orderSelect::getSelectListAsHiddenFields($item['id'], $val);
+   
+        echo "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
     
-    echo "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
-    
-    echo "</form>\n";
+        echo "</form>\n";
+    } else {
+        echo $val['add_order'];
+    }
     echo "</td><td>\n";
     echo order::getCurrencySymbol() . '&nbsp;';
     $sub_total = $val['add_order'] * $item['price'];
@@ -146,12 +152,4 @@ echo "</td>";
 echo "</tr>";
 echo "</table>";
 
-echo "<table>\n";
-echo "<tr>\n";
-echo "<td>\n";
-echo "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
-echo "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
-echo "</form>\n";
-echo "</td>\n";
-echo "</tr>\n";
-echo "</table>\n";
+

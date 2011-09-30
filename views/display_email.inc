@@ -1,39 +1,43 @@
 <?php
 
-$order_items = $vars['order_items'];
+// create email
 
-print lang::translate('order_order_details');
-print "\n\n";
+$order_items = $vars['order_items'];
+echo lang::translate('order_order_details');
+echo "\n\n";
 
 $weight = $total = $sub_total = 0;
 foreach ($order_items as $key => $val){
     if ($val == 0) continue;
-    $item = order::getItem($key);
+    $item = order::getItem($val['item_id']);
     if (empty($item)) {
         unset($order_items[$key]);
         continue;
     }
 
-    print $item['item_name'] . " ";
-    print order::getCurrencySymbol() . ' ' . $item['price'];
-    print " * " . $val;
+    echo $item['item_name'];
+    
+    echo orderSelect::getSelectListAsHumanFields($item['id'], $val, array('display_email' => true));
+    echo " ";
+    echo order::getCurrencySymbol() . ' ' . $item['price'];
+    echo " * " . $val['add_order'];
 
-    $sub_total = $val * $item['price'];
-    print " = " . order::getCurrencySymbol() . " " . $sub_total . "\n";
+    $sub_total = $val['add_order'] * $item['price'];
+    echo " = " . order::getCurrencySymbol() . " " . $sub_total . "\n";
     $total = $sub_total + $total;
-    $weight = $weight + (locfloat_to_sysfloat($item['weight']) * $val);
+    $weight = $weight + (locfloat_to_sysfloat($item['weight']) * $val['add_order']);
 }
 
-print "\n";
+echo "\n";
 
-print lang::translate('order_basket_total_price_items');
-print ' = ';
-print order::getCurrencySymbol() . ' ' . $total . "\n";
+echo lang::translate('order_basket_total_price_items');
+echo ' = ';
+echo order::getCurrencySymbol() . ' ' . $total . "\n";
 
-print lang::translate('order_amount_value_added_tax');
-print ' = ';
-print order::getCurrencySymbol() . ' ';
-print $total * get_module_ini('order_added_tax') . "\n";
+echo lang::translate('order_amount_value_added_tax');
+echo ' = ';
+echo order::getCurrencySymbol() . ' ';
+echo $total * get_module_ini('order_added_tax') . "\n";
 
 $shipping_is_free = false;
 $shipping_free = orderShippingFree::getShippingFreePrivate();
@@ -49,13 +53,13 @@ if ($shipping_is_free) {
     $shipping_cost = orderShipping::getWeightToCost('private', $weight);
 }
 
-print lang::translate('order_amount_added_shipping_cost');
-print ' = ';
-print order::getCurrencySymbol() . ' ';
-print $shipping_cost;
-print "\n";
+echo lang::translate('order_amount_added_shipping_cost');
+echo ' = ';
+echo order::getCurrencySymbol() . ' ';
+echo $shipping_cost;
+echo "\n";
 
-print lang::translate('order_amount_total');
-print ' = ';
+echo lang::translate('order_amount_total');
+echo ' = ';
 $total = $total + $shipping_cost;
-print order::getCurrencySymbol() . ' ' . $total . "\n\n";
+echo order::getCurrencySymbol() . ' ' . $total . "\n\n";

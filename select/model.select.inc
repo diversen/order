@@ -116,6 +116,22 @@ class orderSelect {
     }
     
     /**
+     * method for getting all select lists as human names
+     * @see   files views/select_list_human
+     * @param int $item_id the cart item in reference
+     * @param array $selected the values which should be selected 
+     */
+    public static function getSelectListAsHumanFields ($item_id, $selected = array(), $options = array()) {
+        $obj = self::getSelectsAsObject($item_id, $selected);
+        
+        if (isset($options['display_email'])) {
+            $obj->displayEmail = true;
+        }
+        
+        echo templateView::includeModuleView('order', 'select_list_human', $obj, 1);
+    }
+    
+    /**
      * get selects list as rows from the database table
      * @param int $item_id the cart item in reference
      * @return array all select lists in reference as an array
@@ -137,21 +153,22 @@ class orderSelect {
   
         $obj = new stdClass;
         $obj->titles = $obj->options = $obj->ids = array ();
-        $obj->selected = array();
+        $obj->selected = $obj->selectedHuman = array();
         
         foreach ($selects as $key => $item) {        
             $obj->ids[] = $item['id'];
             $obj->titles[] = $item['title'];
             
-            $obj->options[] = unserialize($item['options']);
+            $obj->options[] = $options = unserialize($item['options']);
             
             if (isset($selected[$item['title']])) {
                 $val = $selected[$item['title']];
+                
             } else {
                 $val = 0;
             }
             $obj->selected[] = $val;
-            
+            $obj->selectedHuman[] = $options[$val]['val'];
         }
         return $obj;       
     }

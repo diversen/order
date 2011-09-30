@@ -3,7 +3,7 @@
 
 foreach ($vars->titles as $key => $val) {
     //echo "<td>$val</td>\n";
-    echo "$val: $val";
+    //echo $vars->titles[$key];
     echo html::hiddenClean($val, $vars->selected[$key]);
     
 }

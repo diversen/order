@@ -5,13 +5,12 @@ include_module('order');
 function block_order_cart () {
 
     $order_items = order::getBasketItems();
-    print_r($order_items);
     $total_weight = 0;
     $total = $sub_total = $weight = $num_items = 0;
 
     foreach ($order_items as $key => $val){
         if ($val['add_order'] == 0) continue;
-        $item = order::getItem($key);
+        $item = order::getItem($val['item_id']);
         if (empty($item)) {
             unset($order_items[$key]);
             continue;

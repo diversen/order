@@ -448,7 +448,6 @@ class order  {
         }
     }
 
-    // setBasketCookie ($order_items = array())
     public static function setBasketItems ($values = array()) {
         if (isset($_COOKIE['order_client_id'])){
             $id = $_COOKIE['order_client_id'];
@@ -464,7 +463,7 @@ class order  {
         self::setBasketItems(array());       
     }
 
-    // getBasketItems ()
+
     public static function getBasketItems (){      
         if (!isset($_COOKIE['order_client_id'])){
             $id = md5(uniqid());
@@ -478,24 +477,20 @@ class order  {
         if (empty($order_items)) {
             $order_items = array();
         }
-
         return $order_items;
     }
-    // }}}
-    
-    // {{{ getItem($id)
+
     public static function getItem ($id){
         $db = new db();
         $item = $db->selectOne('order_items', 'id', $id);
         return $item;
     }
-    // }}}
-    // {{{ updateItem($id)
+
     public function updateItem($id){
         $db = new db();
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
-        //$values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
+
         $values['md5'] = md5(uniqid());
         
         db::$dbh->beginTransaction();
@@ -510,8 +505,7 @@ class order  {
             return true;
         }
     }
-    // }}}
-    // {{{ deleteItem($id)
+
     public function deleteItem($id){
         $db = new db();
         $res = $db->delete('order_items', 'id', $id);
@@ -521,9 +515,7 @@ class order  {
             header("Location: /order/cart");
         }
     }
-    // }}}
-    
-        // {{{ displayBasket ()
+
     public static function displayQuickBasket (){
 
         $order_items = order::getBasketItems();
@@ -537,7 +529,7 @@ class order  {
 
     }
 
-        // {{{ displayBasket ()
+
     public static function displayBasket (){
         $vars['order_items'] = order::getBasketItems();
         if (empty($vars['order_items'])){
@@ -546,10 +538,10 @@ class order  {
         }
 
         templateView::includeModuleView('order', 'display_basket', $vars);
+        templateView::includeModuleView('order', 'display_checkout_submit');
 
     }
-    // }}}
-        // {{{ displayConfirmOrder ()
+
     public static function displayConfirm (){
 
         $order_items = order::getBasketItems();
@@ -564,8 +556,7 @@ class order  {
         templateView::includeModuleView('order', 'display_confirm_order', $vars);
         templateView::includeModuleView('order', 'confirm_form');
     }
-    // }}}
-        // {{{ displayConfirmOrder ()
+
     public static function displayOrderEmail (){
 
         $order_items = order::getBasketItems();

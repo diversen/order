@@ -2,6 +2,13 @@
 
 $order_items = $vars['order_items'];
 
+echo "<h3>" . lang::translate("order_details") . "</h3>\n";
+
+
+$vars['disable_item_edit_buttons'] = true;
+templateView::includeModuleView('order', 'display_basket', $vars);
+
+/*
 print "<table class=\"order_cart\">\n";
 print "<tr>";
 print "<td colspan=\"5\">\n";
@@ -23,22 +30,22 @@ print "</tr>\n";
 $total = $sub_total = $weight = 0;
 foreach ($order_items as $key => $val){
     if ($val == 0) continue;
-    $item = order::getItem($key);
+    $item = order::getItem($val['item_id']);
     if (empty($item)) {
         unset($order_items[$key]);
         continue;
     }
 
     $options = array ();
-    $options['alt'] = $val['item_name_alt'];
-    $options['width'] = "75"; /*get_module_ini('order_image_size_thumb')*/;
+    $options['alt'] = $item['item_name_alt'];
+    $options['width'] = "75"; 
 
     print "<tr>\n";
     print "<td>";
     if (!empty($item['file'])){
         print $link = create_image_link(
                 "/order/item/$item[id]/"  . 
-                rawurlencode($val['item_name']), 
+                rawurlencode($item['item_name']), 
                 "/order/download/$item[id]/thumb/$item[md5]", 
                 $options
             );
@@ -47,16 +54,16 @@ foreach ($order_items as $key => $val){
 
     print "</td>";
     print "<td>";
-    print $link = create_link("/order/item/$key/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
+    print $link = create_link("/order/item/$item[id]/" . rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
     print order::getCurrencySymbol() . '&nbsp;' . $item['price']; // . "<br />";
     print "</td><td>\n";
     print $val;
     print "</td><td>\n";
     print order::getCurrencySymbol() . '&nbsp;';
-    $sub_total = $val * $item['price'];
+    $sub_total = $val['add_order'] * $item['price'];
     print $sub_total;
     $total = $sub_total + $total;
-    $weight = $weight + ($val * locfloat_to_sysfloat($item['weight']));
+    $weight = $weight + ($val['add_order'] * locfloat_to_sysfloat($item['weight']));
 
     print "</td>\n";
     print "<td>&nbsp;</td>";
@@ -125,3 +132,5 @@ print "</td>\n";
 print "</tr>\n";
 
 print "<table>\n";
+ * 
+ */
