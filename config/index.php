@@ -1,3 +1,3 @@
 <?php
 
-config::displayConfig('order');
+configdb::displayConfig('order');
