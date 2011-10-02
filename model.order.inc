@@ -279,6 +279,8 @@ class order  {
         $subject = lang::translate('order_checkout_order_details');
 
         load_post('order_form');
+        
+        if (empty($_POST)) return;
 
         $from = get_main_ini('site_email');
         $order_reply_to = get_main_ini('site_email');

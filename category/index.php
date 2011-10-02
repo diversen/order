@@ -1,5 +1,9 @@
 <?php
 
+if (!session::checkAccessControl('order_allow')){
+    return;
+}
+
 if (isset($_POST['submit'])) {
     orderCategory::validate();
     if (empty(orderCategory::$errors)) {
