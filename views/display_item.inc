@@ -91,18 +91,6 @@ if (isset($use_gallery)) {
 echo "</td><td class=\"order-align-top\">\n";
 echo $vars['item_description'];
 
-//echo $link = create_link('/order/item', $val['item_name']);
-if (session::isAdmin()){
-    //echo "<br />" .
-    echo $link = create_link(
-        "/order/edit/$vars[id]",
-        lang::translate('order_edit')
-    );
-    echo MENU_SUB_SEPARATOR;
-    echo create_link(
-        "/order/delete/$vars[id]",
-        lang::translate('order_delete')
-    );
-}
+templateView::includeModuleView('order', 'admin_options_item', &$vars);
 echo "</td></tr>\n";
 echo "</table>\n";

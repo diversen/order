@@ -2,7 +2,7 @@
 
 $ini = get_module_ini('order_menu_items');
 
-$_INSTALL['VERSION'] = 1.314;
+$_INSTALL['VERSION'] = 1.316;
 
 if (in_array('order_shop', $ini)) {
     $_INSTALL['MAIN_MENU_ITEMS'][0] = array (

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @ignore
+ * Main class in order / shopping cart system
  */
-include_once "mySqlForm.php";
+//include_once "mySqlForm.php";
 include_once "upload.php";
 
 template::setInlineJs(_COS_PATH . '/modules/order/lang/da_DK/da_DK.js');
@@ -28,12 +28,11 @@ class order  {
      *
      * @param id    used when we update or delete
      */
-    static function form($method){
+    static function form($method, $frag = 3){
 
         html::$autoLoadTrigger = 'submitted';
         html::formStart('order_item_form');
         
-
         if ($method == 'delete') {
             html::legend(lang::translate('order_item_form_delete_legend'));
             $button_text = lang::translate('order_delete');
@@ -47,14 +46,12 @@ class order  {
         if ($method == 'update') {
             html::legend(lang::translate('order_item_form_edit_legend'));
 
-            $id = uri::$fragments[2];
+            $id = uri::$fragments[$frag];
             $row = order::getItem($id);
             
             html::init($row);
-            $button_text = lang::translate('order_update');
-            
-            html::hidden('method', 'item_update');
-            
+            $button_text = lang::translate('order_update');            
+            html::hidden('method', 'item_update');           
         }
 
         if ($method == 'insert') {
@@ -96,25 +93,25 @@ class order  {
         html::submit('submit', $button_text);
         
         html::formEnd();
-        echo html::getStr();
-        
+        echo html::getStr();        
         return;
     }
 
-    public static function updateItemControl ($frag = 2) {
+    public static function updateItemControl ($frag = 3) {
 
+        
         $id = URI::getInstance()->fragment($frag);
+        templateView::includeModuleView('order/products', 'admin_menu', $vars = array ('id' => $id));
         template::setTitle(lang::translate('order_edit_html_title'));
         $cart = new order();
         if (isset($_POST['submit']) && $_POST['method'] == 'item_update'){
             $cart->validate();
             $cart->sanitize();
             if (empty($cart->errors)){
-
                 $res = $cart->updateItem($id);
                 session::setActionMessage(
                         lang::translate('order_action_message_product_updated'));
-                    header("Location: /order/edit/$id");
+                    header("Location: /order/products/edit/$id");
             } else {
                 view_form_errors($cart->errors);
             }
@@ -133,6 +130,15 @@ class order  {
                 $this->errors[] = lang::translate('order_item_form_error_no_valid_price');
             }
         }
+        
+        if (!is_numeric($_POST['price'])) {
+            $this->errors[] = lang::translate('order_item_form_error_not_numeric');
+        }
+        
+        if (!is_numeric($_POST['weight'])) {
+            $this->errors[] = lang::translate('order_item_form_error_not_numeric');
+        }
+        
     }
     // }}}
     // {{{ validateOrderForm() 
@@ -182,12 +188,18 @@ class order  {
             $_POST = html::specialEncode($_POST);
         }
     } 
-    // }}}
-    // {{{ addItem
+    
+    static function getItemModules() {
+        return get_module_ini('order_item_modules');
+    }
+    
+    /**
+     * Adds a item
+     * @return type 
+     */
     public static function addItem(){
         $db = new db();
         
-
         db::$dbh->beginTransaction();
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
@@ -205,7 +217,7 @@ class order  {
             return false;
         } else {
             db::$dbh->commit();
-            return true;
+            return $id;
         }
     }
 
@@ -245,7 +257,7 @@ class order  {
 
         $order_items = order::getBasketItems();
         if (empty($order_items)){
-            print lang::translate('order_checkout_no_items_in_basket');
+            echo lang::translate('order_checkout_no_items_in_basket');
             return;
         }
 
@@ -329,8 +341,7 @@ class order  {
     
     // {{{ displayItem ($id)
     public function displayItem ($id){
-
-      
+     
         $val = $this->getItem($id);
         $items = self::getBasketItems();
 
@@ -339,7 +350,6 @@ class order  {
             header ("Location: /order/cart");
         }
         
-        //$get_id = $_GET['order_item'];
         if (isset($_GET['order_item'])) {
             $int_options = array("options" => array("min_range"=>0 ));
             $get_id = filter_var($_GET['order_item'], FILTER_VALIDATE_INT, $int_options);
@@ -349,14 +359,7 @@ class order  {
         } else {
             $val['add_order'] = 1;
         }
-        /*
-        if (isset($items[$id])) {
-            $val['add_order'] = $items[$id]['add_order'];
-        } else {
-            $val['add_order'] = 1;
-        }*/
         
-
         $url = "/order/item/$val[id]/";
         $url.= rawurlencode($val['item_name']);
 
@@ -514,7 +517,7 @@ class order  {
         if ($res) {
             session::setActionMessage(
                 lang::translate('order_product_action_message_product_deleted'));
-            header("Location: /order/cart");
+            header("Location: /order/products/index");
         }
     }
 
@@ -535,7 +538,7 @@ class order  {
     public static function displayBasket (){
         $vars['order_items'] = order::getBasketItems();
         if (empty($vars['order_items'])){
-            print lang::translate('order_no_items_in_basket');
+            echo lang::translate('order_no_items_in_basket');
             return;
         }
 
@@ -563,7 +566,7 @@ class order  {
 
         $order_items = order::getBasketItems();
         if (empty($order_items)){
-            print lang::translate('order_no_items_in_basket');
+            echo lang::translate('order_no_items_in_basket');
             return;
         }
 

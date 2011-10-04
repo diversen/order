@@ -1,21 +1,38 @@
 <?php
 
-echo "<table>\n";
-foreach ($vars->titles as $key => $val) {
-    echo "<tr>\n";
-    echo "<td>\n";
-    echo "$val: ";
-    echo "</td>\n";
-    echo "<td>\n";
-    echo html::selectClean($val, $vars->options[$key], 'val', 'id', $vars->selected[$key]);
-    echo "</td>\n";
-    echo "<td>\n";
-    echo html::createLink("?method=item_delete_select&id=" . $vars->ids[$key], 'Slet');
-    echo "</td>\n";
-    echo "</tr>\n";
-}
-echo "</table>\n";
 
+html::formStart('hello_world');
+html::legend(lang::translate('order_item_select_legend'));
+
+$str = "<table>\n";
+foreach ($vars->titles as $key => $val) {
+    $str.= "<tr>\n";
+    $str.= "<td>\n";
+    //html::hidden('method', 'item_insert_select');
+    
+    $str.= "$val: ";
+    $str.= "</td>\n";
+    $str.= "<td>\n";
+    $str.= html::selectClean($val, $vars->options[$key], 'val', 'id', $vars->selected[$key]);
+    $str.= "</td>\n";
+    //$str.= "<td>\n";
+    //$str.= html::createLink("/order/select/reference_add/", 'grr');
+    //$str.= "</td>\n";
+    
+    
+    $str.= "<tr>\n";
+    $str.= "<td colspan=\"3\">\n";
+    $str.= html::createLink("?method=item_delete_select&id=" . $vars->ids[$key], 'Slet');
+    $str.= MENU_SUB_SEPARATOR;
+    $str.= html::createLink("/order/select/edit/". $vars->item_id . "/" . $vars->ids[$key], 'Ret');
+    $str.="</td>\n";
+    $str.="</tr>\n";
+}
+$str.="</table>\n";
+html::addHtml($str);
+
+html::formEnd();
+echo html::getStr();
 
 
 

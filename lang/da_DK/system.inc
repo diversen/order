@@ -24,17 +24,8 @@ $_COS_LANG_MODULE['order_category_admin_main_menu'] = 'Kategorier';
 
 
 $_COS_LANG_MODULE['order_cat_show_all'] = 'Kategorier';
-
-
-
-
-
 $_COS_LANG_MODULE['order_products_show_all_items'] = 'Vis alle';
-
 $_COS_LANG_MODULE['order_category_link'] = 'order_category_link';
 
-
-
-
-
+$_COS_LANG_MODULE['order_edit_product_base_info'] = 'Ret Basis Info';
 

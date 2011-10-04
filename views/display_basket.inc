@@ -3,7 +3,7 @@
 $order_items = $vars['order_items'];
 $total_weight = 0;
 
-//print_r($order_items);
+//echo_r($order_items);
 echo "<table class=\"order_basket_full\">\n";
 echo "<tr>";
 echo "<td colspan=\"2\"></td>\n";

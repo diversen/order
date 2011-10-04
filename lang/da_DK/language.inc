@@ -218,3 +218,8 @@ $_COS_LANG_MODULE['order_legend_accept_terms'] = 'Accepter';
 $_COS_LANG_MODULE['order_accept_terms_link_text'] = 'handelsbetingelser';
 $_COS_LANG_MODULE['order_form_accept_text'] = 'Indsæt tekst hvor du beskriver handelsbetingelser';
 $_COS_LANG_MODULE['order_form_accept_text_init_value'] = 'Handels betingelser skrives her';
+
+$_COS_LANG_MODULE['order_gallery_edit'] = 'Ret Galleri';
+$_COS_LANG_MODULE['order_item_form_error_not_numeric'] = 'Tal skal være 0 eller større';
+$_COS_LANG_MODULE['order_select_edit_menu'] = 'Ret Dropdowns';
+

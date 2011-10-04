@@ -19,9 +19,44 @@ class orderSelect {
      * standard form and update selects connects to a item
      * @param int $frag part of the url we want to fetch the id of the item 
      */
-    public static function updateSelectControl ($frag = 2)  {
+    public static function updateSelectControl ($item_frag = 3, $select_frag = 4 )  {
+
+        $item_id = URI::getInstance()->fragment($item_frag);
+        $select_id = URI::getInstance()->fragment($select_frag);
+        
+        templateView::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
+        if (!isset($item_id)) {
+            self::$errors[] = lang::translate('order_select_need_item_id');
+        }
+        
+        if (isset($_POST['method']) && $_POST['method'] == 'item_insert_select') {
+            $_POST['options'] = trim(html::specialEncode($_POST['options']));
+            if (strlen($_POST['options']) != 0) {
+                $values = db::prepareToPost();
+                $values['order_item_id'] = $item_id;
+
+                $res = self::update($values, $select_id);
+                if ($res) {
+                    session::setActionMessage(lang::translate('order_select_option_added_confirm'));
+                    $redirect = "/order/select/index/$item_id";
+                    header("Location: $redirect");
+                }
+            }  
+        }
+        
+            
+        self::updateForm($item_id, $select_id);
+    }
+    
+    /**
+     * controller method usedin pages where we want to display the 
+     * standard form and update selects connects to a item
+     * @param int $frag part of the url we want to fetch the id of the item 
+     */
+    public static function indexSelectControl ($frag = 3)  {
 
         $item_id = URI::getInstance()->fragment($frag);
+        templateView::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
         if (!isset($item_id)) {
             self::$errors[] = lang::translate('order_select_need_item_id');
         }
@@ -35,29 +70,26 @@ class orderSelect {
                 $res = self::add($values);
                 if ($res) {
                     session::setActionMessage(lang::translate('order_select_option_added_confirm'));
-                    $redirect = "/order/edit/$item_id";
+                    $redirect = "/order/select/index/$item_id";
                     header("Location: $redirect");
                 }
             }  
-        } 
+        }
         
         if (@$_GET['method'] == 'item_delete_select') {
             self::delete($_GET['id']);
             session::setActionMessage(lang::translate('order_select_option_delete_confirm'));
-            $redirect = "/order/edit/$item_id";
+            $redirect = "/order/select/index/$item_id";
             header("Location: $redirect");
             
-        }
-        
+        }       
         self::form($item_id);
     }
     
-    /**
-     * Not used. Not implemented. Maybe later
-     * @return string   html::link 
-     */
-    public static function getItemMenu () {
-        return html::createLink('/order/edit/', 'edit select');
+    static function itemEditMenu ($id) {
+        return html::createLink(
+                "/order/select/index/$id", 
+                lang::translate('order_select_edit_menu'));
     }
     
     /**
@@ -71,6 +103,15 @@ class orderSelect {
         
         html::$autoLoadTrigger = 'submit';
         html::init();
+        self::mainFormBaseFields();
+        echo html::getStr();   
+
+        $selects = self::getSelectsAsObject($item_id);
+        echo templateView::includeModuleView('order', 'select_list_admin', $selects, 1);
+        
+    }
+    
+    static function mainFormBaseFields () {
         html::formStart('order_item_form_select');
         html::legend(lang::translate('order_item_select_legend'));
         html::hidden('method', 'item_insert_select');
@@ -84,12 +125,28 @@ class orderSelect {
         html::label('submit', '');
         html::submit('submit', lang::translate('order_update'));        
         
-        html::formEnd();       
-        echo html::getStr();   
-
-        $selects = self::getSelectsAsObject($item_id);
-        echo templateView::includeModuleView('order', 'select_list_admin', $selects, 1);
+        html::formEnd();
+    }
+    
+    static function getSelectAsString ($values) {
+        $values = unserialize($values);
+        $str = '';
+        $x = count($values);
+        foreach($values as $key => $val) {
+            $str.= $val['val'];
+            $x--; if ($x) $str.= ", ";
+        }
+        return $str;
+    }
+    
+    static function updateForm ($item_id, $select_id) {
+        $values = self::getSelectSingle($select_id);
+        $values['options'] = self::getSelectAsString($values['options']);
+        html::$autoLoadTrigger = 'submit';
+        html::init($values);
         
+        self::mainFormBaseFields();
+        echo html::getStr();  
     }
     
     /**
@@ -141,6 +198,10 @@ class orderSelect {
         return $db->selectAll(self::$table, null, array('order_item_id' => $item_id));      
     }
     
+    public static function getSelectSingle ($select_id) {
+        return db::init()->selectOne(self::$table, 'id', $select_id);
+    }
+    
     /**
      * get select lists as a simple object. 
      * @param int $item_id
@@ -152,6 +213,7 @@ class orderSelect {
         $selects = self::getSelects($item_id);
   
         $obj = new stdClass;
+        $obj->item_id = $item_id;
         $obj->titles = $obj->options = $obj->ids = array ();
         $obj->selected = $obj->selectedHuman = array();
         
@@ -190,8 +252,15 @@ class orderSelect {
         return $db->insert(self::$table, $values);
     }
     
-    public static function update() {
-        
+    public static function update($values, $id) {
+        $db = new db();
+        $options = explode (",", $values['options']);
+        $ary = array();
+        foreach ($options as $key => $val) {
+            $ary[] = array('id' => $key, 'val' => trim($val));
+        }
+        $values['options'] = serialize($ary);
+        return $db->update(self::$table, $values, $id);
     }
     
     /**

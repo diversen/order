@@ -195,6 +195,6 @@ class orderCategory {
             $str.= "</li><div class=\"clear\"></div>";
         }
         $str.= "</ul></div>\n";
-        print $str;
+        echo $str;
     }
 }

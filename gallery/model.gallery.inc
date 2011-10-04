@@ -24,22 +24,18 @@ class orderGallery {
         html::hidden('method', 'item_update_gallery');
         
         $gallery = new galleryAdmin();
-        $begin = array ('id' => '0', 'title' => lang::translate('order_gallery_no_gallery_connected'));
+        $begin = array (
+            'id' => '0', 
+            'title' => lang::translate('order_gallery_no_gallery_connected')
+        );
         $rows = $gallery->getAllGallery();
-        
-        $gallery_id = self::getGalleryIdFromItemId($item_id);
-
-        
+        $gallery_id = self::getGalleryIdFromItemId($item_id);        
         html::select('gallery_id', $rows, 'title', 'id', $gallery_id, array(), $begin);
-        
         $str = self::displayGallery($gallery_id);
         html::addHtml($str);
         
         html::label('submit', '');
         html::submit('gallery_submit', lang::translate('order_update'));        
-        
-        
-      
         html::formEnd();
         echo html::getStr();       
     }
@@ -55,7 +51,6 @@ class orderGallery {
         
         $gallery = self::getGallery($id);
         if (empty($gallery)) {
-            //print_r($gallery);
             self::$errors[] = lang::translate('order_gallery_no_such_gallery');
         }
         return null;
@@ -75,10 +70,15 @@ class orderGallery {
         return null;
     }
     
+    static function itemEditMenu ($id) {
+        return html::createLink("/order/gallery/edit/$id", lang::translate('order_gallery_edit'));
+    }
+    
    
-    public static function updateGalleryControl ($frag = 2) {
+    public static function updateGalleryControl ($frag = 3) {
 
         $item_id = URI::getInstance()->fragment($frag);
+        templateView::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
         template::setTitle(lang::translate('order_edit_html_title'));
         $gallery_id = self::getGalleryIdFromRequest();
         
@@ -88,7 +88,7 @@ class orderGallery {
             session::setActionMessage(
                 lang::translate('order_gallery_action_message_gallery_removed'));
                 
-            header("Location: /order/edit/$item_id");
+            header("Location: /order/gallery/edit/$item_id");
                 die;
         }
         
@@ -102,7 +102,7 @@ class orderGallery {
                 $res = self::update($values);
                 session::setActionMessage(
                         lang::translate('order_action_message_gallery_updated'));
-                    header("Location: /order/edit/$item_id");
+                    header("Location: /order/gallery/edit/$item_id");
             } else {
                 view_form_errors(self::$errors);
             }
