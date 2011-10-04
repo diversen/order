@@ -7,6 +7,7 @@ class orderSelect {
      * @var string  $table the name of the db table we use  
      */
     public static $table = 'order_item_select';
+    public static $option_table = 'order_item_select_option';
     
     /**
      *
@@ -129,19 +130,26 @@ class orderSelect {
     }
     
     static function getSelectAsString ($values) {
-        $values = unserialize($values);
+
         $str = '';
         $x = count($values);
         foreach($values as $key => $val) {
-            $str.= $val['val'];
+            $str.= $val['title'];
             $x--; if ($x) $str.= ", ";
         }
         return $str;
     }
     
+    static function getSelectBase($select_id) {
+        return db::init()->selectOne(self::$table, 'id', $select_id);
+    }
     static function updateForm ($item_id, $select_id) {
-        $values = self::getSelectSingle($select_id);
-        $values['options'] = self::getSelectAsString($values['options']);
+        
+        $row = self::getSelectBase ($select_id);
+        $rows = self::getSelectSingle($select_id);
+        $values['title'] = $row['title'];
+        $values['options'] = self::getSelectAsString($rows);
+        print_r($values);
         html::$autoLoadTrigger = 'submit';
         html::init($values);
         
@@ -180,7 +188,6 @@ class orderSelect {
      */
     public static function getSelectListAsHumanFields ($item_id, $selected = array(), $options = array()) {
         $obj = self::getSelectsAsObject($item_id, $selected);
-        
         if (isset($options['display_email'])) {
             $obj->displayEmail = true;
         }
@@ -199,7 +206,10 @@ class orderSelect {
     }
     
     public static function getSelectSingle ($select_id) {
-        return db::init()->selectOne(self::$table, 'id', $select_id);
+        $db = new db();
+        $rows = $db->selectAll(self::$option_table, null, array('select_id' => $select_id));
+        return $rows;
+
     }
     
     /**
@@ -211,26 +221,32 @@ class orderSelect {
     public static function getSelectsAsObject ($item_id, $selected = array()) { 
         $ary = array();
         $selects = self::getSelects($item_id);
-  
         $obj = new stdClass;
         $obj->item_id = $item_id;
         $obj->titles = $obj->options = $obj->ids = array ();
         $obj->selected = $obj->selectedHuman = array();
-        
-        foreach ($selects as $key => $item) {        
-            $obj->ids[] = $item['id'];
-            $obj->titles[] = $item['title'];
-            
-            $obj->options[] = $options = unserialize($item['options']);
+
+        $id = 1;
+        foreach ($selects as $item) {        
+            $obj->ids[$id] = $item['id'];
+            $obj->titles[$id] = $item['title'];
+            $options = db::init()->select(self::$option_table, null, array ('select_id' => $item['id']));
+
+            $obj->options[$id] = $options; //$options = unserialize($item['options']);
             
             if (isset($selected[$item['title']])) {
-                $val = $selected[$item['title']];
-                
+                $val = $selected[$item['title']];                
             } else {
-                $val = 0;
+                $val = 1;
             }
-            $obj->selected[] = $val;
-            $obj->selectedHuman[] = $options[$val]['val'];
+            $obj->selected[$id] = $val;
+
+            $row = db::init()->selectOne(
+                    self::$option_table, null, $search = array(
+                        'select_id' => $item['id'], 'value' => $val));
+
+            $obj->selectedHuman[$id] = $row['title'];
+            $id++;
         }
         return $obj;       
     }
@@ -245,22 +261,42 @@ class orderSelect {
         $db = new db();
         $options = explode (",", $values['options']);
         $ary = array();
+        
+        db::$dbh->beginTransaction();
+        $db->insert(self::$table, $values);
+        $last_insert_id = db::$dbh->lastInsertId();
+
+        $i= 1;
         foreach ($options as $key => $val) {
-            $ary[] = array('id' => $key, 'val' => trim($val));
+            $ary['value'] = $i;
+            $ary['select_id'] = $last_insert_id;
+            $ary['title'] = trim($val);
+            $db->insert(self::$option_table, $ary);
+            $i++;
         }
-        $values['options'] = serialize($ary);
-        return $db->insert(self::$table, $values);
+        return db::$dbh->commit();        
     }
     
-    public static function update($values, $id) {
+    public static function update($values, $select_id) {
         $db = new db();
+        
+        db::$dbh->beginTransaction();
         $options = explode (",", $values['options']);
+        
+        $db->update(self::$table, array('title' => $values['title']), $select_id);   
+        $db->delete(self::$option_table, 'select_id', $select_id);
+        
         $ary = array();
+        $i = 1;
         foreach ($options as $key => $val) {
-            $ary[] = array('id' => $key, 'val' => trim($val));
+            $ary = array(
+                'title' => trim($val), 'value' => $i, 'select_id' => $select_id);
+            $db->insert(self::$option_table, $ary);
+            $i++;
         }
         $values['options'] = serialize($ary);
-        return $db->update(self::$table, $values, $id);
+        $db->update(self::$table, $values, $id);
+        return db::$dbh->commit();
     }
     
     /**

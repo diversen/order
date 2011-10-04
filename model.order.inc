@@ -319,7 +319,7 @@ class order  {
 
     static function getCurrencySymbol () {
         static $local = null;
-        if (!isset($localeconv)){
+        if (!isset($local)){
             $local = localeconv();
         }
         return $currency = trim($local['int_curr_symbol']);

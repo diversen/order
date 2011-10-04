@@ -6,7 +6,7 @@ foreach ($vars->titles as $key => $val) {
     echo "$val: ";
     echo "</td>\n";
     echo "<td>\n";
-    echo html::selectClean($val, $vars->options[$key], 'val', 'id', $vars->selected[$key]);
+    echo html::selectClean($val, $vars->options[$key], 'title', 'value', $vars->selected[$key]);
     echo "</td>\n";
     echo "</tr>\n";
 }
