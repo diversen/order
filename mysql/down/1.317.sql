@@ -1,0 +1,1 @@
+UPDATE `order_item_select` SET `title` = '';

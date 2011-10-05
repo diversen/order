@@ -108,7 +108,7 @@ class orderSelect {
         echo html::getStr();   
 
         $selects = self::getSelectsAsObject($item_id);
-        echo templateView::includeModuleView('order', 'select_list_admin', $selects, 1);
+        echo templateView::includeModuleView('order/select', 'select_list_admin', $selects, 1);
         
     }
     
@@ -125,8 +125,67 @@ class orderSelect {
         
         html::label('submit', '');
         html::submit('submit', lang::translate('order_update'));        
-        
         html::formEnd();
+    }
+    
+    static function formReference ($item_id, $select_id) {
+        
+        templateView::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
+        $base = self::getSelectBase($select_id);
+        html::formStart('order_select_add_reference');
+        html::legend("opret underfelt til: " . $base['title']);
+        html::label('title', 'Enter title');
+        html::text('title');
+         
+        $options = self::getSelectListAsHiddenFields($select_id);
+        //print_r($options);
+        $rows = self::getSelectOptions($select_id);
+        //print_r($rows);
+        foreach ($rows as $key => $val) {
+            html::label($val['id'], "Options for: $val[title]");
+            html::text($val['id']);
+        }
+        html::submit('submit', 'submit');
+        html::formEnd();
+        echo html::getStr();
+    }
+    
+    static function addReferenceControl () {
+        $select_id = URI::$fragments[4];
+        $item_id = URI::$fragments[3];
+        
+        
+        if (isset($_POST['submit'])) {
+            self::validateAddReference();
+            if (empty (self::$erros)) {
+                $res = self::insertReferences($select_id);
+                if ($res) {
+                    session::setActionMessage('Reference added');
+                    header ($_SERVER['REQUEST_URI']);
+                } else {
+                    die ('argh');
+                }
+            }
+        
+            
+        }
+        self::formReference ($item_id, $select_id);
+       
+    }
+    
+    function insertReferences ($select_id) {
+        print_r($_POST);
+        die;
+        
+    }
+    
+    
+    static function validateAddReference () {
+        
+    }
+    
+    public static function getSelectOptions ($select_id) { 
+        return db::init()->selectAll(self::$option_table, null, array ('select_id' => $select_id));
     }
     
     static function getSelectAsString ($values) {
@@ -149,7 +208,7 @@ class orderSelect {
         $rows = self::getSelectSingle($select_id);
         $values['title'] = $row['title'];
         $values['options'] = self::getSelectAsString($rows);
-        print_r($values);
+
         html::$autoLoadTrigger = 'submit';
         html::init($values);
         
@@ -263,6 +322,7 @@ class orderSelect {
         $ary = array();
         
         db::$dbh->beginTransaction();
+        unset($values['options']);
         $db->insert(self::$table, $values);
         $last_insert_id = db::$dbh->lastInsertId();
 
@@ -274,6 +334,7 @@ class orderSelect {
             $db->insert(self::$option_table, $ary);
             $i++;
         }
+        
         return db::$dbh->commit();        
     }
     

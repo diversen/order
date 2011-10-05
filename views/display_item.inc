@@ -19,6 +19,7 @@ if ($vars['stock'] != '0') {
         if (!isset($vars['selected'])) {
             $vars['selected'] = array();
         }
+        
         echo orderSelect::getSelectListsAsDropDowns($vars['id'], $vars['selected']);
 
     }

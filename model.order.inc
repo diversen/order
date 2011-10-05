@@ -362,6 +362,10 @@ class order  {
         
         $url = "/order/item/$val[id]/";
         $url.= rawurlencode($val['item_name']);
+        if (isset($_GET['order_item'])) {
+            $url.="?order_item=" . $_GET['order_item'];
+
+        }
 
         send_301_headers($url);
         
