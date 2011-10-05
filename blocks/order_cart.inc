@@ -117,13 +117,13 @@ function block_order_cart () {
     echo "<tr>\n";
 
     echo "<td>";
-    echo "<form name=\"checkout\" method =\"get\" action=\"/order/basket\">\n";
+    echo "<form method =\"get\" action=\"/order/basket\">\n";
     echo "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_basket') . "\" /> ";
     echo "</form>\n";
     echo "</td>";
 
     echo "<td>";
-    echo "<form name=\"checkout\" method =\"get\" action=\"/order/checkout\">\n";
+    echo "<form method =\"get\" action=\"/order/checkout\">\n";
     echo "<input class=\"order_cart\" type =\"submit\" name=\"order_submit\" value=\"" . lang::translate('order_buy') . "\" /> ";
     echo "</form>\n";
     echo "</td>";
