@@ -26,8 +26,8 @@ foreach ($vars->titles as $key => $val) {
     $str.= MENU_SUB_SEPARATOR;
     
     $str.= html::createLink("/order/select/edit/". $vars->item_id . "/" . $vars->ids[$key], 'Ret');
-    $str.= MENU_SUB_SEPARATOR;
-    $str.= html::createLink("/order/select/add_reference/". $vars->item_id . "/" . $vars->ids[$key], lang::translate('Opret '));
+    //$str.= MENU_SUB_SEPARATOR;
+    //$str.= html::createLink("/order/select/add_reference/". $vars->item_id . "/" . $vars->ids[$key], lang::translate('Opret '));
     
     $str.="</td>\n";
     $str.="</tr>\n";

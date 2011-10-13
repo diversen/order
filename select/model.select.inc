@@ -129,6 +129,7 @@ class orderSelect {
         html::formEnd();
     }
     
+    /*
     static function formReference ($item_id, $select_id) {
         
         templateView::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
@@ -149,8 +150,9 @@ class orderSelect {
         html::submit('submit', 'submit');
         html::formEnd();
         echo html::getStr();
-    }
-    
+    }*/
+   
+    /*
     static function addReferenceControl () {
         $select_id = URI::$fragments[4];
         $item_id = URI::$fragments[3];
@@ -169,7 +171,8 @@ class orderSelect {
         }
         self::formReference ($item_id, $select_id);
        
-    }
+    }*/
+    /*
     
     function addReferences ($order_item_id, $option_id) {
         $db = new db();
@@ -185,12 +188,12 @@ class orderSelect {
             self::add($ary, $key, array('mulitple' => true));
         }
         return 1;
-    }
+    }*/
     
-    
+    /*
     static function validateAddReference () {
         
-    }
+    }*/
     
     public static function getSelectOptions ($select_id) { 
         return db::init()->selectAll(self::$option_table, null, array ('select_id' => $select_id));
@@ -276,12 +279,12 @@ class orderSelect {
         
         $rows = $db->selectAll(self::$option_table, null, array ('select_id' => $select_id));
         
-        
+        /*
         print_r($rows);
         print_r($_POST);
-        die;
+        die; */
         //die;
-        //$db->delete(self::$option_table, 'select_id', $select_id);
+        $db->delete(self::$option_table, 'select_id', $select_id);
         
         $ary = array();
         $i = 1;
@@ -308,7 +311,7 @@ class orderSelect {
         // find childs if any. 
         $rows = $db->selectAll(self::$table, null, array ('id' => $id));
 
-        print_r($rows); die;
+        //print_r($rows); die;
         $db->delete(self::$table, 'id', $id);
         foreach ($rows as $key => $val) {
             $db->delete(self::$table, 'id', $val['id']);
@@ -325,10 +328,11 @@ class orderSelect {
     public static function getSelectListsAsDropDowns ($item_id, $selected = array()) {
         $obj = self::getSelectsAsObject($item_id, $selected);
         echo templateView::includeModuleView('order', 'select_list', $obj, 1);
+        /*
         $childs = orderSelect::getSelectChilds($item_id, $selected);
         if (!empty($childs->allChildOptions)) {
             echo templateView::includeModuleView('order', 'select_list_childs', $childs, 1);
-        }
+        }*/
     }
     
     /**
@@ -340,8 +344,9 @@ class orderSelect {
     public static function getSelectListAsHiddenFields ($item_id, $selected = array()) {
         $obj = self::getSelectsAsObject($item_id, $selected);
         echo templateView::includeModuleView('order', 'select_list_basket', $obj, 1);
-        $childs = orderSelect::getSelectChilds($item_id, $selected);
+        //$childs = orderSelect::getSelectChilds($item_id, $selected);
         //print_r($childs); die;
+        /*
         if (!empty($childs->allChildOptions)) {
             //print_r($childs); die;
             if (isset($childs->selectedHuman)) {
@@ -351,7 +356,7 @@ class orderSelect {
                 echo "<input type=\"hidden\" name = \"select[$title]\" value=\"$value\" />";  
             }
             //echo templateView::includeModuleView('order', 'select_list_childs_basket', $childs, 1);
-        }
+        }*/
         
     }
     
@@ -369,6 +374,7 @@ class orderSelect {
         
         echo templateView::includeModuleView('order', 'select_list_human', $obj, 1);
         
+        /*
         $childs = orderSelect::getSelectChilds($item_id, $selected, $options);
         
         if (!empty($childs->allChildOptions)) {
@@ -382,9 +388,9 @@ class orderSelect {
                 echo $value;  
             }
             //echo templateView::includeModuleView('order', 'select_list_childs_basket', $childs, 1);
-        }
+        }*/
     }
-    
+    /*
     public static function getSelectChildListAsHumanFields ($item_id, $selected = array(), $options = array()) {
         //print_r($selected);
         $obj = self::getSelectChilds($item_id, $selected);
@@ -393,7 +399,7 @@ class orderSelect {
         }
         
         echo templateView::includeModuleView('order', 'select_list_child_human', $obj, 1);
-    }
+    }*/
     
     
     public static function getSelectByName () {
@@ -414,6 +420,7 @@ class orderSelect {
         return $db->selectAll(self::$table, null, array('order_item_id' => $item_id, 'option_id' => '0'));      
     }
     
+    /*
     public static function getSelectChilds ($item_id, $selected = array(), $options = array()) { 
         $db = new db();
         
@@ -478,7 +485,7 @@ class orderSelect {
             $i++;
         }        
         return $obj;
-    }
+    }*/
     
     public static function getSelectSingle ($select_id) {
         $db = new db();

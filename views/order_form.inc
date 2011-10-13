@@ -5,10 +5,10 @@ if (isset($_POST['checkme'])){
 }
 
 ?>
-<form action="/order/checkout" method="post" id="order_form">
+<form action="/order/payment" method="post" id="order_form">
 <table class="checkout">
 <tr>
-    <td><?=lang::translate('order_checkout_legend')?>&nbsp;</td>
+    <td><?=  headline_message(lang::translate('order_checkout_legend'))?>&nbsp;</td>
 
 </tr>
 </table>

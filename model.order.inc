@@ -284,10 +284,46 @@ class order  {
                 }
             }
         }
+              
         templateView::includeModuleView('order', 'order_form');
     }
-    // }}}
-    // {{{
+    
+    public static function displayPayment () {
+        if (isset($_POST['submit'])){
+            self::validateOrderForm();
+            if (!empty(order::$errors)){
+                view_form_errors(order::$errors);
+            } else {
+                save_post('order_form');
+                unset($_POST['submit']);
+                $cookie = serialize($_POST);
+                $res = setcookie(
+                    'order_form_cookie',
+                $cookie, get_module_ini('order_cookie_time') +time(), "/");
+                header("Location: /order/payment");
+                die();
+            }
+        } else {            
+            if (!load_post('order_form')) {
+                if (isset($_COOKIE['order_form_cookie'])) {
+                    $_POST = unserialize($_COOKIE['order_form_cookie']);
+                    //$_POST = html::specialEncode($_POST);
+                }
+            }
+        }
+                
+        $payment_modules = get_module_ini('order_payment_modules');
+        moduleLoader::includeModules($payment_modules);
+        
+        echo templateView::includeModuleView(
+            'order', 'payment/display_payment_options', $payment_modules, 1
+        );
+        
+    }
+    
+    
+    
+    
     public function process (){
         $subject = lang::translate('order_checkout_order_details');
 
@@ -432,7 +468,7 @@ class order  {
                         
                         foreach ($order_items as $key => $val) {
                             unset($val['add_order']);
-                            if ($val === $_POST) {
+                            if ($val == $_POST) {
                                 $match = true;
                                 break;
                             } 
@@ -580,10 +616,21 @@ class order  {
             return;
         }
 
-        $vars['order_items'] = $order_items;
+        //$vars['order_items'] = $order_items;
         load_post('order_form');
 
-        templateView::includeModuleView('order', 'display_confirm_order', $vars);
+        //templateView::includeModuleView('order', 'display_confirm_order', $vars);
+        
+        
+        $vars['order_items'] = $order_items;
+        //print_r($vars);
+        if (empty($vars['order_items'])){
+            echo lang::translate('order_no_items_in_basket');
+            return;
+        }
+
+        templateView::includeModuleView('order', 'display_basket', $vars);
+        
         templateView::includeModuleView('order', 'confirm_form');
     }
 
