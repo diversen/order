@@ -223,3 +223,5 @@ $_COS_LANG_MODULE['order_gallery_edit'] = 'Ret Galleri';
 $_COS_LANG_MODULE['order_item_form_error_not_numeric'] = 'Tal skal være 0 eller større';
 $_COS_LANG_MODULE['order_select_edit_menu'] = 'Ret Dropdowns';
 
+$_COS_LANG_MODULE['order_config_description'] = 'Indstillinger for butik';
+

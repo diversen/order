@@ -185,3 +185,5 @@ $_COS_LANG_MODULE['order_legend_accept_terms'] = 'order_legend_accept_terms';
 $_COS_LANG_MODULE['order_accept_terms_link_text'] = 'order_accept_terms_link_text';
 $_COS_LANG_MODULE['order_form_accept_text'] = 'order_form_accept_text';
 $_COS_LANG_MODULE['order_form_accept_text_init_value'] = 'order_form_accept_text_init_value';
+
+$_COS_LANG_MODULE['order_config_description'] = 'Settings for Shopping Cart';
