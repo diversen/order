@@ -38,9 +38,10 @@ foreach ($order_items as $key => $val){
         $link =
             create_image_link(
                 "/order/item/$item[id]/"  .
-                rawurlencode($item['item_name']) . "?order_item=$key",
+                rawurlencode($item['item_name']),
                 "/order/download/$item[id]/thumb/$item[md5]", $options);
         echo $link;
+        // USED this to be able to edit exact item rawurlencode($item['item_name']) . "?order_item=$key",
 
     } else {
         echo "&nbsp;";
@@ -48,11 +49,15 @@ foreach ($order_items as $key => $val){
     echo "</td>";
     echo "<td>";
     echo $link = create_link("/order/item/$item[id]/" . 
-            rawurlencode ($item['item_name']) . "?order_item=$key" , $item['item_name']) . "<br />\n";
+            rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
     echo order::getCurrencySymbol();
     echo ' ' . $item['price'];
 
     echo orderSelect::getSelectListAsHumanFields($item['id'], $val);
+
+    //echo orderSelect::getSelectChildListAsHumanFields($item['id'], $val);
+    
+    //print_r($val);
     echo "</td><td>\n";
     
     if (!isset($vars['disable_item_edit_buttons'])) {

@@ -11,21 +11,25 @@ echo "<tr><td colspan=2>\n";
 
 if ($vars['stock'] != '0') {
 
-    
-    echo "<form name=\"view_item\" method =\"post\">\n";
-    echo "<table>\n";    
-    echo "<input type=\"hidden\" name=\"item_id\" value=\"$vars[id]\" />\n";
     if (get_module_ini('order_use_select')) {
         if (!isset($vars['selected'])) {
             $vars['selected'] = array();
         }
+        //print $vars['id'];
         
-        echo orderSelect::getSelectListsAsDropDowns($vars['id'], $vars['selected']);
 
     }
-   
+    
+    
+    echo "<form name=\"view_item\" method =\"post\">\n";
+    echo "<table>\n";    
+    echo "<input type=\"hidden\" name=\"item_id\" value=\"$vars[id]\" />\n";
+    
+    echo orderSelect::getSelectListsAsDropDowns($vars['id'], $vars['selected']);
+      
     echo "<tr>";
     echo "<td>\n";
+    
     echo lang::translate('order_item_enter_amount');
     echo "</td>";
     echo "<td>";

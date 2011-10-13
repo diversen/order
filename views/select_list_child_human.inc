@@ -1,5 +1,7 @@
 <?php
 
+//print_r($vars);
+//die;
 $str ='';
 
 foreach ($vars->titles as $key => $val) {
