@@ -7,7 +7,7 @@ include_once "upload.php";
 
 template::setInlineJs(_COS_PATH . '/modules/order/lang/da_DK/da_DK.js');
 template::setJs('/js/jquery.validate.js');
-template::setJs('/js/jquery.chained.js');
+//template::setJs('/js/jquery.chained.js');
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 
 include_model('order/shipping');
