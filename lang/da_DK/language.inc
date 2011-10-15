@@ -75,7 +75,7 @@ $_COS_LANG_MODULE['order_sort_order_saved'] = 'Sortering gemt';
 $_COS_LANG_MODULE['order_cart_html_title'] = 'Butik - Forside';
 // Translation of file /home/dennis/www/mandlen/modules/order/checkout.php
 
-$_COS_LANG_MODULE['order_checkout_html_title'] = 'Indtast leveringsoplysninger';
+$_COS_LANG_MODULE['order_checkout_html_title'] = '1. Indtast leveringsoplysninger';
 // Translation of file /home/dennis/www/mandlen/modules/order/confirm.php
 
 // Translation of file /home/dennis/www/mandlen/modules/order/quick_order.php
@@ -98,10 +98,10 @@ $_COS_LANG_MODULE['order_phone'] = 'Telefon';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/confirm_form.php
 
 $_COS_LANG_MODULE['order_different_shipping'] = 'Anden leverings adresse';
-$_COS_LANG_MODULE['order_confirm_order'] = 'Bekræft ordre';
+$_COS_LANG_MODULE['order_confirm_order'] = 'Gå til betaling';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/order_form.php
 
-$_COS_LANG_MODULE['order_checkout_legend'] = 'Indtast&nbsp;leveringsoplysninger';
+$_COS_LANG_MODULE['order_checkout_legend'] = '1/4.&nbsp;Indtast&nbsp;leveringsoplysninger';
 $_COS_LANG_MODULE['order_legend_company'] = 'Firma';
 $_COS_LANG_MODULE['order_legend_name'] = 'Navn';
 $_COS_LANG_MODULE['order_legend_adresse'] = 'Adresse';
@@ -110,7 +110,7 @@ $_COS_LANG_MODULE['order_legend_city'] = 'By';
 $_COS_LANG_MODULE['order_legend_email'] = 'Email';
 $_COS_LANG_MODULE['order_legend_phone'] = 'Telefon';
 $_COS_LANG_MODULE['order_legend_diffent_shipping'] = 'Anden leverings adresse';
-$_COS_LANG_MODULE['order_legend_add_order_button'] = 'Gå til bekræftelse af bestilling';
+$_COS_LANG_MODULE['order_legend_add_order_button'] = 'Gå til valg af betalingform';
 // Translation of file /home/dennis/www/mandlen/modules/order/add.php
 
 $_COS_LANG_MODULE['order_add_product_html_title'] = 'Tilføj vare';
@@ -225,3 +225,9 @@ $_COS_LANG_MODULE['order_select_edit_menu'] = 'Ret Dropdowns';
 
 $_COS_LANG_MODULE['order_config_description'] = 'Indstillinger for butik';
 
+$_COS_LANG_MODULE['order_payment_html_title'] = 'Vælg betalingsform';
+$_COS_LANG_MODULE['Opret '] = 'Opret ';
+
+
+$_COS_LANG_MODULE['order_payment_select_payment_option'] = '2/4. Vælg betalingsform';
+$_COS_LANG_MODULE['order_payment_select_payment_overview'] = '3/4. Oversigt';

@@ -4,14 +4,11 @@ if (isset($_POST['checkme'])){
     $checked = 'checked ="yes"';
 }
 
+headline_message(lang::translate('order_checkout_legend'))
+        
 ?>
 <form action="/order/payment" method="post" id="order_form">
-<table class="checkout">
-<tr>
-    <td><?=  headline_message(lang::translate('order_checkout_legend'))?>&nbsp;</td>
 
-</tr>
-</table>
 
 <table class="checkout">
 
@@ -71,15 +68,7 @@ if (isset($_POST['checkme'])){
     <td class="status"></td>
 </tr>
 
-<tr>
-    <td colspan="2">
-        <?=lang::translate('order_legend_accept_terms')?> 
-        <a id="various1" href="#inline1"><?=lang::translate('order_accept_terms_link_text')?></a></td>
-</tr>
-<tr>
-    <td><input id="accept" type="checkbox" name="accept" value="<?=@$_POST['accept']?>" /></td>
-    <td class="status"></td>
-</tr>
+
 
 <!-- optional start -->
 
@@ -92,25 +81,12 @@ if (isset($_POST['checkme'])){
 </tr>
 </table>
     
-<div style="display: none;">
-		<div id="inline1" style="width:400px;height:400px;overflow:auto;">
-<?php       
-
-$text = get_module_ini('order_form_accept_text');
-$filters = get_module_ini('order_filters');
-echo get_filtered_content($filters, $text); 
-
-?>
-		</div>
-    
-</div>
-
 <table id="extra" class="checkout">
 <tr>
     <td colspan="2">* <?=lang::translate('order_legend_name')?></td>
 </tr>
 <tr>
-    <td><input type="text" name="diff_name" size="30"  /></td>
+    <td><input type="text" name="diff_name" size="30" value="<?=@$_POST['diff_name']?>" /></td>
     <td class="status"></td>
 </tr>
 

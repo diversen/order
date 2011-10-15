@@ -23,8 +23,17 @@ class orderBanktransfer {
             echo lang::translate('order_no_items_in_basket');
             return;
         }
-
+      
+        
+        
+        headline_message(lang::translate('order_payment_select_payment_overview'));
+        
+        $options = array ('payment_url' => '/order/banktransfer/payment');  
+        templateView::includeModuleView('order', 'confirm_button', $options);
+        
+        echo "<h3>Ordre Oversigt</h3>\n";
         templateView::includeModuleView('order', 'display_basket', $vars);   
+        
         templateView::includeModuleView('order', 'confirm_form');
     }
 }

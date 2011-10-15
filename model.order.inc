@@ -279,8 +279,9 @@ class order  {
         } else {            
             if (!load_post('order_form')) {
                 if (isset($_COOKIE['order_form_cookie'])) {
+                    // no need to special encode. Cookies are auto encoded. 
                     $_POST = unserialize($_COOKIE['order_form_cookie']);
-                    //$_POST = html::specialEncode($_POST);
+                    
                 }
             }
         }
