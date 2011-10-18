@@ -35,5 +35,7 @@ class orderBanktransfer {
         templateView::includeModuleView('order', 'display_basket', $vars);   
         
         templateView::includeModuleView('order', 'confirm_form');
+          
+        templateView::includeModuleView('order', 'confirm_button', $options);
     }
 }

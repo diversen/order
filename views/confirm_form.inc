@@ -40,9 +40,15 @@
 </table>
 <?php
 
-if (isset($_POST['checkme'])){ ?>
+if (isset($_POST['checkme'])){ 
+    
+    echo "<h3>" . lang::translate('order_legend_diffent_shipping') . "</h3>\n";
+    
+    ?>
 
-<table class="order_cart">
+
+
+<table>
 
 <tr>
 <td><?=lang::translate('order_name')?></td>

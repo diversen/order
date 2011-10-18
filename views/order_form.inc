@@ -51,6 +51,33 @@ headline_message(lang::translate('order_checkout_legend'))
 <td><input type="text" name="city" size="30" value="<?=@$_POST['city']?>" /></td>
 <td class="status"></td>
 </tr>
+<?php
+
+if (get_module_ini('order_use_country')) { 
+    
+    $countries = orderHelpers::getCountriesForDropDown();
+    $country_dropdown = html::selectClean('country', $countries, 'name', 'id', @$_POST['country'], null, $_POST['country']);
+    //$region_input = html::textClean('region', @$_POST['region']);   
+    
+    ?>
+
+<tr>
+<td colspan="2">* <?=lang::translate('order_legend_country')?></td>
+</tr>
+<tr>
+<td><?=$country_dropdown?></td>
+<td class="status"></td>
+</tr>
+
+<tr>
+    <td colspan="2">* <?=lang::translate('order_legend_region')?></td>
+</tr>
+<tr>
+    <td><input type="text" name="region" size="30" value="<?=@$_POST['region']?>" /></td>
+    <td class="status"></td>
+</tr>
+
+<? } ?>
 
 <tr>
     <td colspan="2">* <?=lang::translate('order_legend_email')?></td>
@@ -102,7 +129,7 @@ headline_message(lang::translate('order_checkout_legend'))
     <td colspan="2">* <?=lang::translate('order_legend_postal_code')?></td>
 </tr>
 <tr>
-    <td><input type="text" name="diff_postal_code" size="3" MAXLENGTH="4" value="<?=@$_POST['diff_postal_code']?>" /></td>
+    <td><input type="text" name="diff_postal_code" size="12" MAXLENGTH="4" value="<?=@$_POST['diff_postal_code']?>" /></td>
     <td class="status"></td>
 </tr>
 

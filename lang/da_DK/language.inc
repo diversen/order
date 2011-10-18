@@ -97,7 +97,7 @@ $_COS_LANG_MODULE['order_email'] = 'Email';
 $_COS_LANG_MODULE['order_phone'] = 'Telefon';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/confirm_form.php
 
-$_COS_LANG_MODULE['order_different_shipping'] = 'Anden leverings adresse';
+$_COS_LANG_MODULE['order_different_shipping'] = 'Anden leveringsadresse';
 $_COS_LANG_MODULE['order_confirm_order'] = 'Gå til betaling';
 // Translation of file /home/dennis/www/mandlen/modules/order/views/order_form.php
 
@@ -109,7 +109,7 @@ $_COS_LANG_MODULE['order_legend_postal_code'] = 'Postnummer';
 $_COS_LANG_MODULE['order_legend_city'] = 'By';
 $_COS_LANG_MODULE['order_legend_email'] = 'Email';
 $_COS_LANG_MODULE['order_legend_phone'] = 'Telefon';
-$_COS_LANG_MODULE['order_legend_diffent_shipping'] = 'Anden leverings adresse';
+$_COS_LANG_MODULE['order_legend_diffent_shipping'] = 'Anden leveringsadresse';
 $_COS_LANG_MODULE['order_legend_add_order_button'] = 'Gå til valg af betalingform';
 // Translation of file /home/dennis/www/mandlen/modules/order/add.php
 

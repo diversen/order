@@ -9,18 +9,21 @@ if (isset($vars['payment_url'])) {
 ?>
 <form action="<?=$payment_url?>" method="post" id="order_form">
 <table class="checkout">
-    
+
+<!--
 <tr>
     <td colspan="2">
         <?=lang::translate('order_legend_accept_terms')?> 
         <a id="various1" href="#inline1"><?=lang::translate('order_accept_terms_link_text')?></a>
     </td>
 </tr>
+-->
+<!--
 <tr>
     <td><input id="accept" type="checkbox" name="accept" value="<?=@$_POST['accept']?>" /></td>
     <td class="status"></td>
 </tr>
-    
+-->
 <tr>
     <td colspan="2">
         <input type="submit" name="submit" value="<?=lang::translate('order_confirm_order')?>" />
@@ -29,6 +32,7 @@ if (isset($vars['payment_url'])) {
 </table>
 </form>
 
+<!--
 <div style="display: none;">
 		<div id="inline1" style="width:400px;height:400px;overflow:auto;">
 <?php       
@@ -40,4 +44,4 @@ echo get_filtered_content($filters, $text);
 ?>
 		</div>
     
-</div>
+</div>-->

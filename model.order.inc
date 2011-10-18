@@ -3,6 +3,7 @@
 /**
  * Main class in order / shopping cart system
  */
+include_once "helpers.inc";
 include_once "upload.php";
 
 template::setInlineJs(_COS_PATH . '/modules/order/lang/da_DK/da_DK.js');
@@ -354,8 +355,18 @@ class order  {
     // }}}
         
     
-
+    /**
+     *
+     * Get currency symbol. If set in module ini (order_currency), then this 
+     * will be used. Otherwise base it on locales. 
+     * 
+     * @return string   international currency symbol (e.g. USD, DKK) 
+     */
     static function getCurrencySymbol () {
+        $currency = get_module_ini('order_currency');
+        if ($currency) {
+            return $currency;
+        }
         static $local = null;
         if (!isset($local)){
             $local = localeconv();
