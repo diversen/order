@@ -66,8 +66,49 @@ class orderPaypal {
         //die;
     }
     
-    public static function itemsToPaypalForm () {
+    public static $totalPrice = 0;
+    public static $shippingCost = 0;
+    
+    
+    public static function getTotalPrice () {
+        return locfloat_to_sysfloat(self::$totalPrice);
+    }
+    
+    public static function getShippingCost () {
+        return self::$shippingCost;
+    }
+    
+    public static function itemsToPaypalURL () {
         
+        $items = order::getBasketItems();
+           //print_r($items);  die;
+        $str = '';
+        $i = 0; $total_weight = 0; $total_price = 0.00;
+        foreach ($items as $key => $val) {
+           //print_r($val);
+           //die;
+           $item = order::getItem($val['item_id']);
+           $str.= "&L_NAME$i=" . urlencode($item['item_name']);
+           $str.= "&L_AMT$i=$item[price]";
+           $str.= "&L_QTY$i=$val[add_order]";
+           $str.= "&L_NUMBER$i=$item[id]";
+           $str.= "&L_DESC$i=" . urlencode($item['item_name_alt']);
+           $total_price = $total_price + $val['add_order'] * $item['price'];
+           $total_weight = $total_weight + $item['weight'];
+           $i++;
+           
+        }
+        self::$totalPrice = $total_price;
+        self::$shippingCost = orderShipping::getWeightToCost('private', $total_weight); 
+        //print $str; die;
+        return $str;
+        /*
+        $nvpstr.= "&L_NAME0=".$L_NAME0."&L_NAME1=".$L_NAME1;
+        $nvpstr.= "&L_AMT0=".$L_AMT0."&L_AMT1=".$L_AMT1;
+        $nvpstr.= "&L_QTY0=".$L_QTY0."&L_QTY1=".$L_QTY1;           
+        $nvpstr.= "&L_NUMBER0=1000&L_DESC0=Size: 8.8-oz&L_NUMBER1=10001";
+        $nvpstr.= "&L_DESC1=Size: Two 24-piece boxes";
+         * */
     }
     
 }

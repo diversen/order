@@ -105,30 +105,68 @@ if(! isset($token)) {
 			is stored in $nvpstr
 			*/
            $itemamt = 0.00;
-           $itemamt = $L_QTY0*$L_AMT0+$L_AMT1*$L_QTY1;
-           $amt = 5.00+2.00+1.00+$itemamt;
-           $maxamt= $amt+25.00;
+           //$itemamt = $L_QTY0*$L_AMT0+$L_AMT1*$L_QTY1;
+           
+           //$amt = 5.00+2.00+1.00+$itemamt;
+           //$maxamt= $amt+25.00;
+           echo $items_url = orderPaypal::itemsToPaypalURL();
+           
+          $itemamt = orderPaypal::getTotalPrice();
+          echo $shipping_cost = orderPaypal::getShippingCost();
+          //die; 
+          $amt = $itemamt + $shipping_cost;
+           //die;//汉语漢語
+           $maxamt= $amt;
+           
            $nvpstr="";
            
-           $items = order::getBasketItems();
-           //print_r($items);  die;
            
-           foreach ($items as $key => $val) {
-               order::getItem($val['item_id']);
-           }
 		   
            /*
             * Setting up the Shipping address details
             */
            
            $shiptoAddress = orderPaypal::shippingToPaypalURL();
+           
+           //orderShipping::getWeightToCost($type, $weight);
            //die;
 
            //print $shiptoAddress;
            //$shiptoAddress = "&SHIPTONAME=$personName&SHIPTOSTREET=$SHIPTOSTREET&SHIPTOCITY=$SHIPTOCITY&SHIPTOSTATE=$SHIPTOSTATE&SHIPTOCOUNTRYCODE=$SHIPTOCOUNTRYCODE&SHIPTOZIP=$SHIPTOZIP";
            //print $shiptoAddress; 
            //die;
-           $nvpstr="&ADDRESSOVERRIDE=1$shiptoAddress&L_NAME0=".$L_NAME0."&L_NAME1=".$L_NAME1."&L_AMT0=".$L_AMT0."&L_AMT1=".$L_AMT1."&L_QTY0=".$L_QTY0."&L_QTY1=".$L_QTY1."&MAXAMT=".(string)$maxamt."&AMT=".(string)$amt."&ITEMAMT=".(string)$itemamt."&CALLBACKTIMEOUT=4&L_SHIPPINGOPTIONAMOUNT1=8.00&L_SHIPPINGOPTIONlABEL1=UPS Next Day Air&L_SHIPPINGOPTIONNAME1=UPS Air&L_SHIPPINGOPTIONISDEFAULT1=true&L_SHIPPINGOPTIONAMOUNT0=3.00&L_SHIPPINGOPTIONLABEL0=UPS Ground 7 Days&L_SHIPPINGOPTIONNAME0=Ground&L_SHIPPINGOPTIONISDEFAULT0=false&INSURANCEAMT=1.00&INSURANCEOPTIONOFFERED=true&CALLBACK=https://www.ppcallback.com/callback.pl&SHIPPINGAMT=8.00&SHIPDISCAMT=-3.00&TAXAMT=2.00&L_NUMBER0=1000&L_DESC0=Size: 8.8-oz&L_NUMBER1=10001&L_DESC1=Size: Two 24-piece boxes&L_ITEMWEIGHTVALUE1=0.5&L_ITEMWEIGHTUNIT1=lbs&ReturnUrl=".$returnURL."&CANCELURL=".$cancelURL ."&CURRENCYCODE=".$currencyCodeType."&PAYMENTACTION=".$paymentType;
+           $nvpstr = "&ADDRESSOVERRIDE=1$shiptoAddress";
+           
+           $nvpstr.= $items_url;
+            //$nvpstr.= "&L_NAME0=".$L_NAME0."&L_NAME1=".$L_NAME1;
+           //$nvpstr.= "&L_AMT0=".$L_AMT0."&L_AMT1=".$L_AMT1;
+           //$nvpstr.= "&L_QTY0=".$L_QTY0."&L_QTY1=".$L_QTY1;
+           //$nvpstr.= "&L_NUMBER0=1000&L_DESC0=Size: 8.8-oz&L_NUMBER1=10001";
+           //$nvpstr.= "&L_DESC1=Size: Two 24-piece boxes";
+                      
+           $nvpstr.= "&MAXAMT=".(string)$maxamt;
+           $nvpstr.= "&AMT=".(string)$amt;
+           $nvpstr.= "&ITEMAMT=".(string)$itemamt;
+           
+           $nvpstr.= "&CALLBACKTIMEOUT=4";
+           //$nvpstr.= "&L_SHIPPINGOPTIONAMOUNT1=8.00";
+           //$nvpstr.= "&L_SHIPPINGOPTIONlABEL1=UPS Next Day Air";
+           //$nvpstr.= "&L_SHIPPINGOPTIONNAME1=UPS Air";
+           //$nvpstr.= "&L_SHIPPINGOPTIONISDEFAULT1=true";
+           $nvpstr.= "&L_SHIPPINGOPTIONAMOUNT0=$shipping_cost";
+           $nvpstr.= "&L_SHIPPINGOPTIONLABEL0=UPS Ground 7 Days";
+           $nvpstr.= "&L_SHIPPINGOPTIONNAME0=Free";
+           $nvpstr.= "&L_SHIPPINGOPTIONISDEFAULT0=true";
+           //$nvpstr.= "&INSURANCEAMT=1.00&INSURANCEOPTIONOFFERED=true";
+           $nvpstr.= "&CALLBACK=https://www.ppcallback.com/callback.pl";
+           $nvpstr.= "&SHIPPINGAMT=$shipping_cost";
+           //$nvpstr.= "&SHIPDISCAMT=-3.00&TAXAMT=2.00";
+           
+           //$nvpstr.= "&L_ITEMWEIGHTVALUE1=0.5&L_ITEMWEIGHTUNIT1=lbs";
+           $nvpstr.= "&ReturnUrl=".$returnURL;
+           $nvpstr.= "&CANCELURL=".$cancelURL;
+           $nvpstr.= "&CURRENCYCODE=".$currencyCodeType;
+           $nvpstr.= "&PAYMENTACTION=".$paymentType;
 		   
            $nvpstr = $nvpHeader.$nvpstr;
            

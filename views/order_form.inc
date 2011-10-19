@@ -56,7 +56,7 @@ headline_message(lang::translate('order_checkout_legend'))
 if (get_module_ini('order_use_country')) { 
     
     $countries = orderHelpers::getCountriesForDropDown();
-    $country_dropdown = html::selectClean('country', $countries, 'name', 'id', @$_POST['country'], null, $_POST['country']);
+    $country_dropdown = html::selectClean('country', $countries, 'name', 'id', @$_POST['country'], null, @$_POST['country']);
     //$region_input = html::textClean('region', @$_POST['region']);   
     
     ?>
