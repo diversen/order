@@ -134,7 +134,7 @@ class orderCategory {
         // scale image into blob
 
         $length = get_module_ini('order_category_image_size');
-        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+        if (is_uploaded_file($_FILES['file']['tmp_name'])) {            
             $res = uploadBlob::scaleImageToBlob(
                 'file', self::$table, 'file', $id, $length);
             if (!$res) {
