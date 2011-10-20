@@ -1,6 +1,6 @@
 <?php
 
-echo "hello world";
-orderPaypal::shippingToPaypalURL();
+
+//orderPaypal::shippingToPaypalURL();
 
 include "SetExpressCheckout.php";

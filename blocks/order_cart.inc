@@ -18,7 +18,7 @@ function block_order_cart () {
         $num_items = $num_items + $val['add_order'];
         $sub_total = $val['add_order'] * $item['price'];
         $total = $sub_total + $total;
-        $weight = $weight + ($val['add_order'] * locfloat_to_sysfloat($item['weight']));
+        $weight = $weight + ($val['add_order'] * $item['weight']);
     }
 
     echo "<h3>" . lang::translate('order_basket') . "</h3>\n";
@@ -41,7 +41,7 @@ function block_order_cart () {
     echo "</td>";
     
     echo "<td>";
-    echo order::getCurrencySymbol() . '&nbsp;' . $total;
+    echo order::getCurrencySymbol() . '&nbsp;' . format_float_mon($total);
     echo "</td>";
 
     echo "</tr>\n";
@@ -53,7 +53,9 @@ function block_order_cart () {
     
     echo "<td>";
     echo order::getCurrencySymbol() . '&nbsp;';
-    echo $total * get_module_ini('order_added_tax');
+    $total_with_tax = $total * get_module_ini('order_added_tax');
+    echo format_float_mon($total_with_tax);
+    
     echo "</td>";
 
     echo "</tr>\n";
@@ -73,7 +75,7 @@ function block_order_cart () {
     
     else if ($total <  $shipping_free) {
         $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
-        $shipping_free_needed.= $shipping_free - $total;
+        $shipping_free_needed.= format_float_mon($shipping_free - $total);
         $shipping_free_str = lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '';
     } else {
         $shipping_is_free = true;
@@ -85,7 +87,8 @@ function block_order_cart () {
         echo "0";
         $shipping_cost = 0;
     } else {
-        echo $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+        $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+        echo format_float_mon($shipping_cost);
     }
 
     echo "</td>";
@@ -107,7 +110,8 @@ function block_order_cart () {
     echo "<td>";
 
     echo order::getCurrencySymbol() . "&nbsp;";
-    echo $shipping_cost + $total;
+    $total_with_shipping = $shipping_cost + $total;
+    echo format_float_mon($total_with_shipping);
     echo "</td>";
     echo "</tr>\n";
 

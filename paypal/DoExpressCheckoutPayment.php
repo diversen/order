@@ -16,7 +16,7 @@ Calls CallerService.php and APIError.php.
 
 require_once 'CallerService.php';
 
-session_start();
+//session_start();
 
 
 ini_set('session.bug_compat_42',0);
@@ -51,21 +51,13 @@ $ack = strtoupper($resArray["ACK"]);
 
 if($ack != 'SUCCESS' && $ack != 'SUCCESSWITHWARNING'){
 	$_SESSION['reshash']=$resArray;
-	$location = "APIError.php";
+	$location = "APIError";
 		 header("Location: $location");
                }
 
 ?>
 
 
-<html>
-<head>
-    <title>PayPal PHP SDK - DoExpressCheckoutPayment API</title>
-    <link href="sdk.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-		<br>
-		<center>
 		<font size=2 color=black face=Verdana><b>DoExpressCheckoutPage</b></font>
 		<br><br>
 
@@ -78,7 +70,3 @@ if($ack != 'SUCCESS' && $ack != 'SUCCESSWITHWARNING'){
    		 	require_once 'ShowAllResponse.php';
     	 ?>
     </table>
-    </center>
-    <a class="home" id="CallsLink" href="index.html">Home</a>
-</body>
-</html>

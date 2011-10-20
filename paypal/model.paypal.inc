@@ -5,7 +5,13 @@ class orderPaypal {
     
     static function displayMethodLink () {
         $text = "Paypal";
-        return html::createLink('/order/paypal/index', $text);
+        return html::createLink('/order/paypal/ReviewOrder', $text);
+        
+        //$str = "<form action=\"/order/paypal/ReviewOrder\" method=\"POST\">\n";
+	//$str.= "<input type=\"hidden\" name=\"paymentType\" value=\"$paymentType\" />\n";
+        
+        //$str.= "<input type=\"image\" name=\"submit\" src=\"https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif\" />";
+        //$str.= "</form>";
     } 
     
     public static function displayConfirm (){
@@ -56,6 +62,7 @@ class orderPaypal {
         
         //if (!empty($_POST['region'])) {
             $shipto_address.= "&SHIPTOSTATE=$_POST[region]";
+            $shipto_address.= "&NOSHIPPING=1";
         //}
         return  $shipto_address;
 

@@ -13,15 +13,7 @@ GetExpressCheckoutDetails.php and DoExpressCheckoutPayment.php.
 $resArray=$_SESSION['reshash']; 
 ?>
 
-<html>
-<head>
-<title>PayPal API Error</title>
-<link href="sdk.css" rel="stylesheet" type="text/css"/>
-</head>
 
-<body alink=#0000FF vlink=#0000FF>
-
-<center>
 
 <table width="280">
 <tr>
@@ -73,8 +65,5 @@ $resArray=$_SESSION['reshash'];
 ?>
 </center>
 	</table>
-<br>
-<a class="home"  id="CallsLink" href="index.html"><font color=blue><B>Home<B><font></a>
-</body>
-</html>
+
 

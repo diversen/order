@@ -58,6 +58,7 @@ require_once 'CallerService.php';
    */
 
 $token = $_REQUEST['token'];
+$paymentType = 'Sale';
 
 if(! isset($token)) {
     //echo "not set"; die;
@@ -72,10 +73,13 @@ if(! isset($token)) {
 		   $url=dirname('http://'.$serverName.':'.$serverPort.$_SERVER['REQUEST_URI']);
                    //die;
 
-		   $currencyCodeType=$_REQUEST['currencyCodeType'];
-		   $paymentType=$_REQUEST['paymentType'];
+		   //$currencyCodeType=$_REQUEST['currencyCodeType'];
+                   
+                   $currencyCodeType =  order::getCurrencySymbol();
+                   
+		   //$paymentType=$_REQUEST['paymentType'];
    
-
+                   /*
            $personName        = $_REQUEST['PERSONNAME'];
 		   $SHIPTOSTREET      = $_REQUEST['SHIPTOSTREET'];
 		   $SHIPTOCITY        = $_REQUEST['SHIPTOCITY'];
@@ -89,7 +93,7 @@ if(! isset($token)) {
 		   $L_AMT1            = $_REQUEST['L_AMT1'];
 		   $L_QTY1            =	$_REQUEST['L_QTY1'];
 
-
+*/
 
 		 /* The returnURL is the location where buyers return when a
 			payment has been succesfully authorized.
@@ -98,8 +102,8 @@ if(! isset($token)) {
 			*/
 
 		   $returnURL =urlencode($url.'/ReviewOrder?currencyCodeType='.$currencyCodeType.'&paymentType='.$paymentType);
-		   $cancelURL =urlencode("$url/SetExpressCheckout?paymentType=$paymentType" );
-
+		   // $cancelURL =urlencode("$url/SetExpressCheckout?paymentType=$paymentType" );
+                    $cancelURL =urlencode("$url/cancel" );
 		 /* Construct the parameter string that describes the PayPal payment
 			the varialbes were set in the web form, and the resulting string
 			is stored in $nvpstr
@@ -109,10 +113,10 @@ if(! isset($token)) {
            
            //$amt = 5.00+2.00+1.00+$itemamt;
            //$maxamt= $amt+25.00;
-           echo $items_url = orderPaypal::itemsToPaypalURL();
+           $items_url = orderPaypal::itemsToPaypalURL();
            
           $itemamt = orderPaypal::getTotalPrice();
-          echo $shipping_cost = orderPaypal::getShippingCost();
+          $shipping_cost = orderPaypal::getShippingCost();
           //die; 
           $amt = $itemamt + $shipping_cost;
            //die;//汉语漢語
@@ -195,6 +199,9 @@ if(! isset($token)) {
 						header("Location: $location");
 					}
 } else {
+    
+    //include "DoExpressCheckoutPayment.php";
+    //return;
 		 /* At this point, the buyer has completed in authorizing payment
 			at PayPal.  The script will now call PayPal with the details
 			of the authorization, incuding any shipping information of the

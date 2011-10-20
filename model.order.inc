@@ -326,7 +326,7 @@ class order  {
     
     
     
-    public function process (){
+    public static function process (){
         $subject = lang::translate('order_checkout_order_details');
 
         load_post('order_form');
@@ -362,7 +362,7 @@ class order  {
      * 
      * @return string   international currency symbol (e.g. USD, DKK) 
      */
-    static function getCurrencySymbol () {
+    public static function getCurrencySymbol () {
         $currency = get_module_ini('order_currency');
         if ($currency) {
             return $currency;
@@ -380,7 +380,7 @@ class order  {
     /**
      * display all items in shop
      */
-    static public function displayCart (){
+    public static function displayCart (){
         $db = new db();
         //$template = '';
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
@@ -391,9 +391,6 @@ class order  {
     // {{{ displayItem ($id)
     public function displayItem ($id){
      
-        
-        
-        //die;
         $val = $this->getItem($id);
         $items = self::getBasketItems();
 
@@ -412,9 +409,7 @@ class order  {
             // finder  
             $val['add_order'] = 1;
         }
-        
-        
-        
+               
         $url = "/order/item/$val[id]/";
         $url.= rawurlencode($val['item_name']);
         if (isset($_GET['order_item'])) {

@@ -5,7 +5,7 @@ echo "<tr><td colspan=2>\n";
 echo $vars['item_name'] . " ";
 echo '(' . lang::translate('order_price') . ' ' .
     order::getCurrencySymbol() . ' ' .
-    $vars['price'] . ')';
+    format_float_mon($vars['price']) . ')';
 echo "</td></tr>\n";
 echo "<tr><td colspan=2>\n";
 

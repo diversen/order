@@ -51,7 +51,7 @@ foreach ($order_items as $key => $val){
     echo $link = create_link("/order/item/$item[id]/" . 
             rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
     echo order::getCurrencySymbol();
-    echo ' ' . $item['price'];
+    echo ' ' . format_float_mon($item['price']);
 
     echo orderSelect::getSelectListAsHumanFields($item['id'], $val);
 
@@ -79,9 +79,9 @@ foreach ($order_items as $key => $val){
     $sub_total = $val['add_order'] * $item['price'];
     //$sub_total_weight = $val * $item['weight'];
 
-    echo $sub_total;
+    echo format_float_mon($sub_total);
     $total = $sub_total + $total;
-    $weight = $weight + ($val['add_order'] * locfloat_to_sysfloat($item['weight']));
+    $weight = $weight + ($val['add_order'] * $item['weight']);
     echo "</td>\n";
     echo "<td>&nbsp;</td>";
     echo "<td>&nbsp;</td>\n";
@@ -93,7 +93,7 @@ echo "<td colspan=\"4\">";
 echo lang::translate('order_basket_total_price_items');
 echo "</td>";
 echo "<td>";
-echo order::getCurrencySymbol() . '&nbsp;' . $total;
+echo order::getCurrencySymbol() . '&nbsp;' . format_float_mon($total);
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
@@ -105,7 +105,8 @@ echo lang::translate('order_amount_value_added_tax');
 echo "</td>";
 echo "<td>";
 echo order::getCurrencySymbol() . '&nbsp;';
-echo $total * get_module_ini('order_added_tax');
+$total_with_tax = $total * get_module_ini('order_added_tax');
+echo format_float_mon($total_with_tax);
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
@@ -132,7 +133,9 @@ if ($shipping_is_free) {
     echo "0";
     $shipping_cost = 0;
 } else {
-    echo $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+    $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+    $shipping_cost = format_float_mon($shipping_cost);
+    echo $shipping_cost;
 }
 echo "</td>\n";
 echo "<td>&nbsp</td>\n";
@@ -144,7 +147,8 @@ echo lang::translate('order_amount_total');
 echo "</td>\n";
 echo "<td>\n";
 echo order::getCurrencySymbol() . "&nbsp;";
-echo $shipping_cost + $total;
+$total = $shipping_cost + $total;
+echo format_float_mon($total);
 //echo orderShipping::getWeightToCost('private', $weight) . ' ';
 echo "</td>\n";
 echo "<td>&nbsp</td>\n";

@@ -36,6 +36,7 @@ $_SESSION['TotalAmount']= $resArray['AMT'] + $resArray['SHIPDISCAMT'];
    If the response from PayPal was a success, display the response parameters
    */
 
+header ("Location: DoExpressCheckoutPayment");
 ?>
 
 

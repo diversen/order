@@ -78,9 +78,12 @@ define('PROXY_PORT', '808');
    https://www.sandbox.paypal.com/webscr&cmd=_express-checkout&token=
    For the live site, the URL is
    https://www.paypal.com/webscr&cmd=_express-checkout&token=
+ * 
+ * &useraction=commit
    */
-define('PAYPAL_URL', 'https://www.sandbox.paypal.com/webscr&cmd=_express-checkout&token=');
+//define('PAYPAL_URL', 'https://www.sandbox.paypal.com/webscr&cmd=_express-checkout&token=');
 
+define('PAYPAL_URL', 'https://www.sandbox.paypal.com/webscr&useraction=commit&cmd=_express-checkout&token=');
 
 /**
 # Version: this is the API version in the request.

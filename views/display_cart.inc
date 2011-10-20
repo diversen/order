@@ -20,8 +20,7 @@ foreach ($vars as $key => $val){
             "/order/download/$val[id]/thumb/$val[md5]", $options
         );
     }
-    //echo "</td>\n";
-    //echo "<td>\n";
+
     echo "<br />\n";
     echo create_link(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
@@ -33,9 +32,8 @@ foreach ($vars as $key => $val){
         echo "</div>";
     }
 
-    //echo "<br />";
     echo order::getCurrencySymbol() . ' ' .
-          $val['price'] . ',-' .
+    format_float_mon($val['price']) . 
           "<br />\n";
     /*
     if (session::isAdmin()){
