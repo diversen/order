@@ -1,7 +1,5 @@
 <?php
 
-
-
 echo "<table class = \"order_cart\">\n";
 $i = 0;
 echo "<tr>\n";

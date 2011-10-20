@@ -130,7 +130,7 @@ class orderCategory {
         }
     }
 
-    static function updateImage ($id) {
+    public static function updateImage ($id) {
         // scale image into blob
 
         $length = get_module_ini('order_category_image_size');
