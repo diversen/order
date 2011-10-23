@@ -16,6 +16,7 @@ class orderGallery {
         return $gallery_id;
     }
         // }}}
+    /*
     public static function form($item_id) {
         html::$autoLoadTrigger = 'gallery_submit';
         html::init();
@@ -39,7 +40,7 @@ class orderGallery {
         html::formEnd();
         echo html::getStr();       
     }
-    
+    */
     //public static function displayGallery () {
         
     //}
@@ -74,7 +75,7 @@ class orderGallery {
         return html::createLink("/order/gallery/edit/$id", lang::translate('order_gallery_edit'));
     }
     
-   
+    /*
     public static function updateGalleryControl ($frag = 3) {
 
         $item_id = URI::getInstance()->fragment($frag);
@@ -109,10 +110,8 @@ class orderGallery {
         }
         orderGallery::form($item_id);
     }
-    
+    */
     public static function displayGallery ($gallery_id) {
-
-        //$item_id = URI::getInstance()->fragment($frag);
         
         if ($gallery_id) {
             $options = array ();

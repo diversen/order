@@ -15,11 +15,7 @@ $_MODULE_MENU = array (
         'auth' => 'admin'
     ),
     
-    array(
-        'title' => lang::translate('order_shipping_max_admin_main_menu'),
-        'url' => '/order/shipping_free/index',
-        'auth' => 'admin'
-    ),
+   
     array(
         'title' => lang::translate('order_category_admin_main_menu'),
         'url' => '/order/category/index',

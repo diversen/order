@@ -17,6 +17,12 @@ $_SUB_MODULE_MENU = array (
         'url' => '/order/shipping/private',
         'auth' => 'admin'
     ),
+    
+    array(
+        'title' => lang::translate('order_shipping_max_admin_main_menu'),
+        'url' => '/order/shipping/free',
+        'auth' => 'admin'
+    ),
     /*
     array(
         'title' => lang::translate('order_shipping_company_menu'),

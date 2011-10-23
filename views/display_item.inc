@@ -15,11 +15,7 @@ if ($vars['stock'] != '0') {
         if (!isset($vars['selected'])) {
             $vars['selected'] = array();
         }
-        //print $vars['id'];
-        
-
     }
-    
     
     echo "<form name=\"view_item\" method =\"post\">\n";
     echo "<table>\n";    
@@ -42,19 +38,6 @@ if ($vars['stock'] != '0') {
     echo "</td>";
     echo "</tr>\n";
     echo "</table>";
-    
-    
-    
-
-    
-    
-    /*
-    
-    $total = $vars['price'] * $vars['add_order'];
-    echo
-        lang::translate('order_price') . ': ' .
-        $total . ' ' .
-        order::getCurrencySymbol(); */
     echo "</form>\n";
 } else {
     echo "<div id=\"form_error\">";
@@ -76,11 +59,7 @@ if (!empty($vars['file'])){
 
 $use_gallery = get_module_ini('order_use_gallery');
 if (isset($use_gallery)) {
-    //include_model('order/gallery');
-    //orderGallery::updateGalleryControl();
-    $item_id = URI::getInstance()->fragment(2);
-    $gallery_id = orderGallery::getGalleryIdFromItemId($item_id);
-    
+    $gallery_id = URI::getInstance()->fragment(2);    
     $options = array ();
     $options['gallery_id'] = $gallery_id;
     if ($gallery_id) {
@@ -88,14 +67,12 @@ if (isset($use_gallery)) {
         $rows = $gallery->getAllFileInfo($gallery_id);
         $options['no_admin'] = 1;
         $str = $gallery->getThumbTableHTML($rows, $options);
-            //html::addHtml ($str);
         echo $str;
     }
 }
 
 echo "</td><td class=\"order-align-top\">\n";
 echo $vars['item_description'];
-
 templateView::includeModuleView('order', 'admin_options_item', &$vars);
 echo "</td></tr>\n";
 echo "</table>\n";
