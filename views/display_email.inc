@@ -42,10 +42,19 @@ echo format_float_mon($total_with_tax) . "\n";
 
 $shipping_is_free = false;
 $shipping_free = orderShippingFree::getShippingFreePrivate();
-if ($total <  $shipping_free) {
-    //
+if (count($order_items) == 0) {
+    $shipping_is_free = true;
+    $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
+} else if ($shipping_free == 0) {
+    $shipping_free_str = '';
+    $shipping_is_free = false;
+} else if ( $total <  $shipping_free ) {
+    $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
+    $shipping_free_needed.= format_float_mon($shipping_free - $total);
+    $shipping_free_str = lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '';
 } else {
     $shipping_is_free = true;
+    $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
 }
 
 if ($shipping_is_free) {

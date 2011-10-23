@@ -44,7 +44,7 @@ class orderShippingFree {
         }*/
     }
 
-    static function getShippingFreePrivate() {
+    public static function getShippingFreePrivate() {
         $db = new db();
         $row = $db->selectOne(self::$table, null, array('type' => 'private'));
         //echo_r($free);
@@ -114,6 +114,7 @@ class orderShippingFree {
                 if ($res) {
                     $message = lang::translate('order_shipping_free_update_confirm');
                     session::setActionMessage($message);
+                    header ("Location: /order/shipping/free");
                 } else {
                     $message = "Update failed in: " . __FILE__;
                     cos_error_log($message);
