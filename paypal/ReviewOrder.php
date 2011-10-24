@@ -113,16 +113,15 @@ if(! isset($token)) {
            
            //$amt = 5.00+2.00+1.00+$itemamt;
            //$maxamt= $amt+25.00;
-           $items_url = orderPaypal::itemsToPaypalURL();
+           orderPaypal::init();
            
-          $itemamt = orderPaypal::getTotalPrice();
-          $shipping_cost = orderPaypal::getShippingCost();
-          //die; 
-          $amt = $itemamt + $shipping_cost;
-           //die;//汉语漢語
+           //$items_url = orderPaypal::$itemsURL;//orderPaypal::itemsToPaypalURL();           
+           $itemamt = orderPaypal::getTotalPrice();
+           $shipping_cost = orderPaypal::getShippingCost();          
+           $amt = $itemamt + $shipping_cost;
            $maxamt= $amt;
            
-           $nvpstr="";
+           $nvpstr='';
            
            
 		   
@@ -130,7 +129,7 @@ if(! isset($token)) {
             * Setting up the Shipping address details
             */
            
-           $shiptoAddress = orderPaypal::shippingToPaypalURL();
+           //$shiptoAddress = orderPaypal::getShippingURL();
            
            //orderShipping::getWeightToCost($type, $weight);
            //die;
@@ -139,9 +138,9 @@ if(! isset($token)) {
            //$shiptoAddress = "&SHIPTONAME=$personName&SHIPTOSTREET=$SHIPTOSTREET&SHIPTOCITY=$SHIPTOCITY&SHIPTOSTATE=$SHIPTOSTATE&SHIPTOCOUNTRYCODE=$SHIPTOCOUNTRYCODE&SHIPTOZIP=$SHIPTOZIP";
            //print $shiptoAddress; 
            //die;
-           $nvpstr = "&ADDRESSOVERRIDE=1$shiptoAddress";
+           $nvpstr = orderPaypal::getShippingURL();;
            
-           $nvpstr.= $items_url;
+           $nvpstr.= orderPaypal::getItemsURL();
             //$nvpstr.= "&L_NAME0=".$L_NAME0."&L_NAME1=".$L_NAME1;
            //$nvpstr.= "&L_AMT0=".$L_AMT0."&L_AMT1=".$L_AMT1;
            //$nvpstr.= "&L_QTY0=".$L_QTY0."&L_QTY1=".$L_QTY1;
@@ -157,6 +156,9 @@ if(! isset($token)) {
            //$nvpstr.= "&L_SHIPPINGOPTIONlABEL1=UPS Next Day Air";
            //$nvpstr.= "&L_SHIPPINGOPTIONNAME1=UPS Air";
            //$nvpstr.= "&L_SHIPPINGOPTIONISDEFAULT1=true";
+           //orderShipping::getShippingInfo($order_items, $total, $weight)
+           
+           /*
            $nvpstr.= "&L_SHIPPINGOPTIONAMOUNT0=$shipping_cost";
            $nvpstr.= "&L_SHIPPINGOPTIONLABEL0=UPS Ground 7 Days";
            $nvpstr.= "&L_SHIPPINGOPTIONNAME0=Free";
@@ -165,14 +167,18 @@ if(! isset($token)) {
            $nvpstr.= "&CALLBACK=https://www.ppcallback.com/callback.pl";
            $nvpstr.= "&SHIPPINGAMT=$shipping_cost";
            //$nvpstr.= "&SHIPDISCAMT=-3.00&TAXAMT=2.00";
-           
+           */
            //$nvpstr.= "&L_ITEMWEIGHTVALUE1=0.5&L_ITEMWEIGHTUNIT1=lbs";
+           
+           $nvpstr.= orderPaypal::getShippingInfoURL();
+           
            $nvpstr.= "&ReturnUrl=".$returnURL;
            $nvpstr.= "&CANCELURL=".$cancelURL;
            $nvpstr.= "&CURRENCYCODE=".$currencyCodeType;
            $nvpstr.= "&PAYMENTACTION=".$paymentType;
 		   
            $nvpstr = $nvpHeader.$nvpstr;
+           //print_r( $nvpstr); die;
            
 		 	/* Make the call to PayPal to set the Express Checkout token
 			If the API call succeded, then redirect the buyer to PayPal

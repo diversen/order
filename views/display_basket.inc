@@ -3,7 +3,6 @@
 $order_items = $vars['order_items'];
 $total_weight = 0;
 
-//echo_r($order_items);
 echo "<table class=\"order_basket_full\">\n";
 echo "<tr>";
 echo "<td colspan=\"2\"></td>\n";
@@ -56,8 +55,6 @@ foreach ($order_items as $key => $val){
     echo orderSelect::getSelectListAsHumanFields($item['id'], $val);
 
     //echo orderSelect::getSelectChildListAsHumanFields($item['id'], $val);
-    
-    //print_r($val);
     echo "</td><td>\n";
     
     if (!isset($vars['disable_item_edit_buttons'])) {
@@ -115,6 +112,8 @@ echo "<tr>\n";
 echo "<td  colspan=\"4\">\n";
 echo lang::translate('order_amount_added_shipping_cost') . " ";
 
+$shipping_info = orderShipping::getShippingInfo($order_items, $total, $weight);
+/*
 $shipping_is_free = false;
 $shipping_free = orderShippingFree::getShippingFreePrivate();
 if (count($order_items) == 0) {
@@ -130,19 +129,22 @@ if (count($order_items) == 0) {
 } else {
     $shipping_is_free = true;
     $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
-}
+}*/
 
 echo "</td>\n";
 echo "<td>\n";
+
 echo order::getCurrencySymbol() . "&nbsp;";
-if ($shipping_is_free) {
+
+if ($shipping_info['shipping_is_free']) {
     echo "0";
-    $shipping_cost = 0;
+    //$shipping_cost = 0;
 } else {
-    $shipping_cost = orderShipping::getWeightToCost('private', $weight);
-    $shipping_cost = format_float_mon($shipping_cost);
-    echo $shipping_cost;
+    //$shipping_cost = orderShipping::getWeightToCost('private', $weight);
+    //$shipping_cost = format_float_mon($shipping_cost);
+    echo $shipping_info['shipping_cost'];
 }
+
 echo "</td>\n";
 echo "<td>&nbsp</td>\n";
 echo "</tr>\n";
@@ -153,18 +155,15 @@ echo lang::translate('order_amount_total');
 echo "</td>\n";
 echo "<td>\n";
 echo order::getCurrencySymbol() . "&nbsp;";
-$total = $shipping_cost + $total;
+$total = $shipping_info['shipping_cost'] + $total;
 echo format_float_mon($total);
 //echo orderShipping::getWeightToCost('private', $weight) . ' ';
 echo "</td>\n";
 echo "<td>&nbsp</td>\n";
 echo "</tr>\n";
 
-
 echo "<td colspan=5>";
 echo "&nbsp;";
 echo "</td>";
 echo "</tr>";
 echo "</table>";
-
-

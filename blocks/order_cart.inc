@@ -66,6 +66,8 @@ function block_order_cart () {
     echo "</td>";
 
     echo "<td>";
+    
+    /*
     $shipping_is_free = false;
     $shipping_free = orderShippingFree::getShippingFreePrivate();
     if (count($order_items) == 0) {
@@ -81,15 +83,16 @@ function block_order_cart () {
     } else {
         $shipping_is_free = true;
         $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
-    }
-
+    }*/
+    
+    $shipping_info = orderShipping::getShippingInfo($order_items, $total, $weight);
     echo order::getCurrencySymbol() . "&nbsp;";
-    if ($shipping_is_free) {
+    if ($shipping_info['shipping_is_free']) {
         echo "0";
-        $shipping_cost = 0;
+        //$shipping_cost = 0;
     } else {
-        $shipping_cost = orderShipping::getWeightToCost('private', $weight);
-        echo format_float_mon($shipping_cost);
+        //$shipping_cost = orderShipping::getWeightToCost('private', $weight);
+        echo $shipping_info['shipping_cost'];
     }
 
     echo "</td>";
@@ -98,7 +101,7 @@ function block_order_cart () {
     echo "<tr>\n";
     echo "<td colspan=\"2\">";
 
-    echo $shipping_free_str;
+    echo $shipping_info['shipping_free_str'];
     echo "</td>";
     echo "</tr>\n";
 
@@ -111,7 +114,7 @@ function block_order_cart () {
     echo "<td>";
 
     echo order::getCurrencySymbol() . "&nbsp;";
-    $total_with_shipping = $shipping_cost + $total;
+    $total_with_shipping = $shipping_info['shipping_cost'] + $total;
     echo format_float_mon($total_with_shipping);
     echo "</td>";
     echo "</tr>\n";

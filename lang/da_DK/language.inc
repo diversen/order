@@ -231,3 +231,7 @@ $_COS_LANG_MODULE['Opret '] = 'Opret ';
 
 $_COS_LANG_MODULE['order_payment_select_payment_option'] = '2/4. Vælg betalingsform';
 $_COS_LANG_MODULE['order_payment_select_payment_overview'] = '3/4. Oversigt';
+
+$_COS_LANG_MODULE['order_legend_country'] = 'Land';
+$_COS_LANG_MODULE['order_legend_region'] = 'Region';
+$_COS_LANG_MODULE['order_display_confirm_details'] = 'Ordre Oversigt';

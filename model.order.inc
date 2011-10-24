@@ -12,7 +12,7 @@ template::setJs('/js/jquery.validate.js');
 template::setInlineJs(_COS_PATH . '/modules/order/order.js');
 
 include_model('order/shipping');
-include_model('order/shipping_free');
+include_model('order/shippingfree');
 include_model('order/category');
 include_model('order/select');
 include_model('order/gallery');
