@@ -165,7 +165,6 @@ $_COS_LANG_MODULE['order_process_confirm_message'] = 'Confirm message';
 $_COS_LANG_MODULE['order_process_greetings'] = 'Order Process greetings';
 $_COS_LANG_MODULE['order_form_accept_text'] = 'Accept Text ';
 $_COS_LANG_MODULE['order_form_accept_text_init_value'] = 'Accepts Init Value';
-$_COS_LANG_MODULE['order_basket'] = 'Basket';
 $_COS_LANG_MODULE['order_total_num_items'] = 'Items';
 $_COS_LANG_MODULE['order_item_select_legend'] = 'Select boxes';
 $_COS_LANG_MODULE['Opret '] = 'XXX: Not used Not used';
