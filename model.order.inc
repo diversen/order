@@ -382,9 +382,8 @@ class order  {
      */
     public static function displayAllCartItems (){
         $db = new db();
-        //$template = '';
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
-        templateView::includeModuleView('order', 'display_cart', $all_items);
+        templateView::includeModuleView('order', 'category/cart_category', $all_items);
     }
     // }}}
     
