@@ -177,5 +177,5 @@ $_COS_LANG_MODULE['order_item_select_legend'] = 'Add New Dropdown option';
 $_COS_LANG_MODULE['order_select_form_title_field'] = 'Dropdown Title';
 $_COS_LANG_MODULE['order_select_form_option_field'] = 'Set your options and seperate with comma (,)';
 
-$_COS_LANG_MODULE['order_amount_before_shipping_free'] = 'Køb for %1% mere og få fri fragt!';
+$_COS_LANG_MODULE['order_amount_before_shipping_free'] = 'Buy for %1% more and get free shipping!';
 $_COS_LANG_MODULE['order_config_description'] = 'Description';
