@@ -1,3 +1,3 @@
 <?php
 
-order::displayCart();
+order::displayAllCartItems();

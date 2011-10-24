@@ -4,12 +4,17 @@ include_model ("order");
 include_once  "upload.php";
 
 class orderCategory {
-    static $table = 'order_category';
-    static $errors = array();
-    static function validate() {
+    public static $table = 'order_category';
+    public static $errors = array();
+    public static function validate() {
         
     }
-    static function showForm ($method = 'insert') {
+    
+    /**
+     * 
+     * @param type $method (delete, update or insert)
+     */
+    public static function showForm ($method = 'insert') {
         html::$autoLoadTrigger = 'submit';
         
         if ($method == 'delete') {
@@ -46,7 +51,6 @@ class orderCategory {
             html::submit('submit', $button_text);
             html::formEnd();
             echo html::$formStr;
-            return;
         }
 
         $button_text = lang::translate('order_insert');
@@ -68,48 +72,66 @@ class orderCategory {
         return;
     }
 
-    static function getCategory ($id) {
+    /**
+     * get a category from id. 
+     * @param int $id the category id
+     * @return array $category
+     */
+    public static function getCategory ($id) {
         $db = new db();
         return $db->selectOne(self::$table, 'id', $id);
     }
 
-    static function getAll ($fields = null) {
+    /**
+     * get all categories. 
+     * @param  string $fields to get
+     * @return array $categories 
+     */
+    public static function getAll ($fields = null) {
         $db = new db();
         return $db->selectAll(self::$table, $fields, null, null, null, 'order', true);        
     }
-
-    static function displayHTMLMenu () {
+    
+    /**
+     * display all categoies as a HTML menu on top of pages. 
+     */
+    public static function displayHTMLMenu () {
         $vars = self::getAll(array('id, name', 'description'));
-        templateView::includeModuleView('order', 'cats_menu', $vars);
+        templateView::includeModuleView('order', 'category/top_menu', $vars);
     }
     
-    static function displayBlockMenu () {
+    /**
+     * display all categories as HTML block. 
+     */
+    public static function displayBlockMenu () {
         $vars = self::getAll(array('id, name', 'description'));
-        templateView::includeModuleView('order', 'cat_text_block', $vars);
+        templateView::includeModuleView('order', 'category/block', $vars);
     }
    
-    static function displayCats () {
+    /**
+     * display categories as admin list. 
+     */
+    public static function displayCats () {
         $vars = self::getAll(array('id, name', 'description'));
-        templateView::includeModuleView('order', 'display_cats', $vars);
+        templateView::includeModuleView('order', 'category/admin_list', $vars);
     }
 
-    /*
-    static function displayCatsCart () {
-        $vars = self::getAll();
-        templateView::includeModuleView('order', 'display_cats_full', $vars);
-    }*/
-
-    // {{{ displayCart
-    static public function displayCatItems (){
+    /**
+     * displays a full user cart category
+     */
+    public static function displayCatItems (){
         $db = new db();
         $search = array ('category' => $_GET['cat']);
-        $template = 'display_cart';
+        $template = 'category/cart_category';
         $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
         echo templateView::includeModuleView('order', $template, $all_items, 1);
     }
-    // }}}
 
-    static function add () {
+    /**
+     * add a category
+     * @return boolean true on success and false on failure.  
+     */
+    public static function add () {
 
         $db = new db();
         db::$dbh->beginTransaction();
@@ -130,9 +152,12 @@ class orderCategory {
         }
     }
 
+    /**
+     * updates a image on update category
+     * @param type $id the id of the category to update
+     * @return boolean true on success and false on failure. 
+     */
     public static function updateImage ($id) {
-        // scale image into blob
-
         $length = get_module_ini('order_category_image_size');
         if (is_uploaded_file($_FILES['file']['tmp_name'])) {            
             $res = uploadBlob::scaleImageToBlob(
@@ -148,7 +173,11 @@ class orderCategory {
         return true;
     }
 
-    static function update() {
+    /**
+     * updates a category
+     * @return boolean true on success and false on failure
+     */
+    public static function update() {
         $id = uri::$fragments[3];
         $values = db::prepareToPost($_POST);
         $values['md5'] = md5(uniqid());
@@ -165,29 +194,33 @@ class orderCategory {
             db::$dbh->commit();
             return true;
         }
-        //return self::updateImage($id);
     }
 
-    static function delete() {
+    /**
+     * deletes a category
+     * @return boolean true on success and false on failure
+     */
+    public static function delete() {
         $id = uri::$fragments[3];
         $db = new db();
         return $db->delete(self::$table, 'id', $id);
     }
-
-    static function displayCatsFull () {
+    
+    /**
+     * display all categories. 
+     */
+    public static function displayCatsFull () {
         $vars = self::getAll();
-        templateView::includeModuleView('order', 'display_cats_full', $vars);
-        
+        templateView::includeModuleView('order', 'category/cart_all', $vars);       
     }
 
+    /**
+     * display jquery sorting of categories. 
+     */
     public function displaySortItems(){
         $db = new db();
 
-        //$todos = $this->selectAll('order_items');
-        //$otods = $this->select();
         $items = $db->selectAll(self::$table, null, null, null, null, 'order', true);
-
-        //$todos = $this->get();
         $str = "<div id=\"order_category_list\"><div id=\"response\"></div>";
         $str.= "<ul id=\"sort_items\">\n";
         foreach ($items as $key => $val){

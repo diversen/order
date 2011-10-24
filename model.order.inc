@@ -380,7 +380,7 @@ class order  {
     /**
      * display all items in shop
      */
-    public static function displayCart (){
+    public static function displayAllCartItems (){
         $db = new db();
         //$template = '';
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);

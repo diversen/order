@@ -10,3 +10,8 @@ if ( !isset($_GET['cat']) || $_GET['cat'] == 0)  {
     orderCategory::displayHTMLMenu();
     orderCategory::displayCatItems();
 }
+
+$categories = orderCategory::getAll();
+if (empty($categories)) {
+    order::displayAllCartItems();
+}
