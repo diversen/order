@@ -37,7 +37,7 @@ $_COS_LANG_MODULE['order_sub_total'] = 'Sub Total';
 $_COS_LANG_MODULE['order_item_update'] = 'Update';
 
 $_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Shipping is free';
-$_COS_LANG_MODULE['order_buy'] = 'Buy';
+$_COS_LANG_MODULE['order_buy'] = 'Checkout';
 $_COS_LANG_MODULE['order_price'] = 'Price';
 $_COS_LANG_MODULE['order_item_enter_amount'] = 'Amount';
 $_COS_LANG_MODULE['order_update_cart_item'] = 'Update';
@@ -63,7 +63,7 @@ $_COS_LANG_MODULE['order_basket_total_price_items'] = 'Total';
 $_COS_LANG_MODULE['order_amount_value_added_tax'] = 'Added Tax';
 $_COS_LANG_MODULE['order_amount_added_shipping_cost'] = 'Shipping Cost';
 $_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Free Shipping!';
-$_COS_LANG_MODULE['order_buy'] = 'Buy';
+
 $_COS_LANG_MODULE['order_shipping_free_float_error'] = 'Wrong float number format';
 $_COS_LANG_MODULE['order_shipping_free_legend_edit'] = 'Edit Free Shipping';
 $_COS_LANG_MODULE['order_shipping_free_private_label'] = 'Private';

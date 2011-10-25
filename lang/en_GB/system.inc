@@ -15,6 +15,7 @@ $_COS_LANG_MODULE['order_sort_products_menu_item'] = 'Sort Products';
 $_COS_LANG_MODULE['order_shop'] = 'Shop';
 
 $_COS_LANG_MODULE['order_edit_product_base_info'] = 'Edit Base Info';
+$_COS_LANG_MODULE['order_basket'] = 'Basket';
 
 
 
