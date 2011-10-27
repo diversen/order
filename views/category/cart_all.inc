@@ -7,7 +7,7 @@ echo "<tr>\n";
 $per_row = get_module_ini('order_items_per_row');
 
 foreach ($vars as $key => $val){
-    echo "<td>";
+    echo "<td class='order-align-top'>";
 
     $options = array ();
     $options['alt'] = $val['description'];

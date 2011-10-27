@@ -6,10 +6,12 @@
 include_once "helpers.inc";
 include_once "upload.php";
 
-template::setInlineJs(_COS_PATH . '/modules/order/lang/da_DK/da_DK.js');
 template::setJs('/js/jquery.validate.js');
+template::setInlineJs(get_module_path('order') . '/lang/da_DK/da_DK.js');
 //template::setJs('/js/jquery.chained.js');
-template::setInlineJs(_COS_PATH . '/modules/order/order.js');
+
+template::setInlineJs(get_module_path('order') . '/assets/order.js');
+template::setInlineCss(get_module_path('order') . '/assets/order.css');
 
 include_model('order/shipping');
 include_model('order/shippingfree');
@@ -22,7 +24,7 @@ include_module('gallery/admin');
 
 class order  {
     public static $errors = array();
-    static $options = array();
+    public static $options = array();
     public static $table = 'order_items';
     public static $moduleName = 'order';
 
@@ -30,7 +32,7 @@ class order  {
      *
      * @param id    used when we update or delete
      */
-    static function form($method, $frag = 3){
+    public static function form($method, $frag = 3){
 
         html::$autoLoadTrigger = 'submitted';
         html::formStart('order_item_form');
@@ -70,7 +72,7 @@ class order  {
         html::text('item_name_alt');
 
         html::label('item_description', lang::translate('order_item_form_desc'));
-        html::textarea('item_description');
+        html::textareaMed('item_description');
 
         html::label('category', lang::translate('order_item_form_category'));
 
@@ -100,8 +102,7 @@ class order  {
     }
 
     public static function updateItemControl ($frag = 3) {
-
-        
+       
         $id = URI::getInstance()->fragment($frag);
         templateView::includeModuleView('order/products', 'admin_menu', $vars = array ('id' => $id));
         template::setTitle(lang::translate('order_edit_html_title'));
@@ -111,9 +112,13 @@ class order  {
             $cart->sanitize();
             if (empty($cart->errors)){
                 $res = $cart->updateItem($id);
-                session::setActionMessage(
-                        lang::translate('order_action_message_product_updated'));
-                    header("Location: /order/products/edit/$id");
+                if ($res) {
+                    session::setActionMessage(
+                            lang::translate('order_action_message_product_updated'));
+                        header("Location: /order/products/edit/$id");
+                } else {
+                    view_form_errors(order::$errors);
+                }
             } else {
                 view_form_errors($cart->errors);
             }
@@ -223,15 +228,20 @@ class order  {
         }
     }
 
-    static function updateImage ($id) {
+    public static function updateImage ($id) {
 
         $order_image_size = get_module_ini('order_image_size');
         $order_image_size_thumb = get_module_ini('order_image_size_thumb');
 
-        $options = array ('quality' => get_module_ini('order_image_quality'));
-        if (is_uploaded_file($_FILES['file']['tmp_name'])) {
+        $options = array (
+            'quality' => get_module_ini('order_image_quality'),
+            'maxsize' => get_module_ini('order_image_maxsize'));
+
+        if (file_exists($_FILES['file']['tmp_name'])) {
+            
             $res = uploadBlob::scaleImageToBlob(
                 'file', self::$table, 'file', $id, $order_image_size, null, $options);
+            //echo $res; die ('flaf');
             if (!$res) {
                 self::$errors = uploadBlob::$errors;
                 return false;

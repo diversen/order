@@ -37,7 +37,7 @@ class orderProducts extends order {
                     session::setActionMessage(lang::translate('order_confirm_product_inserted'));
                     header("Location: /order/products/edit/$id");
                 } else {
-                    view_form_errors(order::$errors);
+                    view_form_errors($cart->errors);
                     $message = "Could not add product item in: " . __FILE__;
                     cos_error_log($message);
                 }

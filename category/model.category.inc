@@ -43,7 +43,7 @@ class orderCategory {
             html::label('name', lang::translate('order_category_name_label'));
             html::text('name');
             html::label('description', lang::translate('order_category_description_label'));
-            html::textarea('description');
+            html::textareaSmall('description');
             html::label('file', lang::translate('order_category_file_label'));
             html::file('file');
 
@@ -51,6 +51,7 @@ class orderCategory {
             html::submit('submit', $button_text);
             html::formEnd();
             echo html::$formStr;
+            return;
         }
 
         $button_text = lang::translate('order_insert');
@@ -62,7 +63,7 @@ class orderCategory {
         html::label('name', lang::translate('order_category_name_label'));
         html::text('name');
         html::label('description', lang::translate('order_category_description_label'));
-        html::textarea('description');
+        html::textareaSmall('description');
         html::label('file', lang::translate('order_category_file_label'));
         html::file('file');
         html::label('submit', '');

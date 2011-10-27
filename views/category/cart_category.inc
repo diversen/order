@@ -8,7 +8,7 @@ $per_row = get_module_ini('order_items_per_row');
 
 
 foreach ($vars as $key => $val){
-    echo "<td>";
+    echo "<td class='order-align-top'>";
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
@@ -21,7 +21,8 @@ foreach ($vars as $key => $val){
         );
     }
 
-    echo "<br />\n";
+    echo "<td/>\n";
+    echo "<td class='order-align-top'>\n";
     echo create_link(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
             $val['item_name']);
@@ -35,24 +36,7 @@ foreach ($vars as $key => $val){
     echo order::getCurrencySymbol() . ' ' .
     format_float_mon($val['price']) . 
           "<br />\n";
-    /*
-    if (session::isAdmin()){
-        $link = create_link(
-            "/order/products/edit/$val[id]",
-            lang::translate('order_edit')
-        );
-        echo $link;
-        echo MENU_SUB_SEPARATOR;
-        $link = create_link(
-            "/order/delete/$val[id]",
-            lang::translate('order_delete')
-        );
 
-        echo $link;
-        
-    }
-     * /
-     */
     templateView::includeModuleView('order', 'admin_options_item', &$val);
     echo "</td>\n";
     $i++;
