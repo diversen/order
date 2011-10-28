@@ -27,6 +27,9 @@ class order  {
     public static $options = array();
     public static $table = 'order_items';
     public static $moduleName = 'order';
+    public static $maxsize = 4000000;
+    public static $allowMime = 
+        array ('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
 
     /**
      *
@@ -229,32 +232,46 @@ class order  {
     }
 
     public static function updateImage ($id) {
-
+      
+        //$options['filename'] = 'file';
+        $options['maxsize'] = self::$maxsize;
+        $options['allow_mime'] = self::$allowMime;
+         
+        $fp = uploadBlob::getFP('file', $options);
+        if (!$fp) {
+            self::$errors = uploadBlob::$errors;
+            return false;
+        } 
+        
+        imagescale::setOptions($options);
         $order_image_size = get_module_ini('order_image_size');
+        
+        // we got a valid file pointer where we checked for errors
+        // now we use the tmp name for the file when scaling. 
+        $res = imagescale::byX(
+            $_FILES['file']['tmp_name'], 
+            $_FILES['file']['tmp_name'] . '-scaled', 
+            $order_image_size);
+        
+        $fp = uploadBlob::getFPFromFile($_FILES['file']['tmp_name'] . '-scaled');
+        $values['file'] = $fp;    
+        $values['content_type'] = $_FILES['file']['type'];        
+        
         $order_image_size_thumb = get_module_ini('order_image_size_thumb');
-
-        $options = array (
-            'quality' => get_module_ini('order_image_quality'),
-            'maxsize' => get_module_ini('order_image_maxsize'));
-
-        if (file_exists($_FILES['file']['tmp_name'])) {
-            
-            $res = uploadBlob::scaleImageToBlob(
-                'file', self::$table, 'file', $id, $order_image_size, null, $options);
-            //echo $res; die ('flaf');
-            if (!$res) {
-                self::$errors = uploadBlob::$errors;
-                return false;
-            }
-            $res = uploadBlob::scaleImageToBlob(
-                'file', self::$table, 'file_thumb', $id, $order_image_size_thumb, null, $options);
-            
-            if (!$res) {
-                self::$errors = uploadBlob::$errors;
-                return false;
-            }
-        }
-        return true;
+        
+        $res = imagescale::byX(
+            $_FILES['file']['tmp_name'], 
+            $_FILES['file']['tmp_name'] . '-thumb', 
+            $order_image_size_thumb);
+        
+        $fp = uploadBlob::getFPFromFile($_FILES['file']['tmp_name'] . '-thumb');
+        $values['file_thumb'] = $fp;
+        $bind = array('file' => PDO::PARAM_LOB, 'file_thumb' => PDO::PARAM_LOB );   
+        
+        $db = new db();
+        $res = $db->update(self::$table, $values, $id, $bind);
+        return $res;
+       
     }
 
     public static function getItemsInBlock (){

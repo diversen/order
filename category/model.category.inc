@@ -1,11 +1,15 @@
 <?php
 
 include_model ("order");
-include_once  "upload.php";
+include_once "upload.php";
+include_once "imagescale.php";
 
 class orderCategory {
     public static $table = 'order_category';
     public static $errors = array();
+    public static $maxsize = 2000000;
+    public static $allowMime = 
+        array ('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
     public static function validate() {
         
     }
@@ -143,14 +147,17 @@ class orderCategory {
         $db->insert(self::$table, $values);
         $id = db::$dbh->lastInsertId();
 
-        $res = self::updateImage($id);
-        if (!$res) {
-            db::$dbh->rollBack();
-            return false;
-        } else {
-            db::$dbh->commit();
-            return true;
+        if (!empty($_FILES['file']['name']) ){
+            $res = self::updateImage($id);
+            if (!$res) {
+                db::$dbh->rollBack();
+                return false;
+            }
         }
+        //} else {
+        $res = db::$dbh->commit();
+        return $res;
+        //}
     }
 
     /**
@@ -159,19 +166,35 @@ class orderCategory {
      * @return boolean true on success and false on failure. 
      */
     public static function updateImage ($id) {
-        $length = get_module_ini('order_category_image_size');
-        if (is_uploaded_file($_FILES['file']['tmp_name'])) {            
-            $res = uploadBlob::scaleImageToBlob(
-                'file', self::$table, 'file', $id, $length);
-            if (!$res) {
-                self::$errors = uploadBlob::$errors;
-                return false;
-
-            } else {
-                return true;
-            }
-        }
-        return true;
+       
+        $width = get_module_ini('order_category_image_size');
+        
+        //$options['filename'] = 'file';
+        $options['maxsize'] = self::$maxsize;
+        $options['allow_mime'] = self::$allowMime;
+                
+        $fp = uploadBlob::getFP('file', $options);
+        if (!$fp) {
+            self::$errors = uploadBlob::$errors;
+            return false;
+        } 
+        
+        $values['file'] = $fp;
+        
+        // we got a valid file pointer where we checked for errors
+        // now we use the tmp name for the file when scaling. 
+        $res = imagescale::byX(
+            $_FILES['file']['tmp_name'], 
+            $_FILES['file']['tmp_name'], 
+            $width);
+        
+        //$values['id'] = $id;
+        $values['content_type'] = $_FILES['file']['type'];        
+        $bind = array('file' => PDO::PARAM_LOB);
+        
+        $db = new db();
+        $res = $db->update(self::$table, $values, $id, $bind);
+        return $res;
     }
 
     /**
