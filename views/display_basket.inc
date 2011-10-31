@@ -31,14 +31,16 @@ foreach ($order_items as $key => $val){
 
     $options = array ();
     $options['alt'] = $item['item_name_alt'];
-    $options['width'] = get_module_ini('order_image_size_basket');
+    $options['width'] = get_module_ini('gallery_med_size');
 
-    if (!empty($item['file'])){
+    $image_url = gallery::getDefaultImageUrl($item['id'], 'med');
+    
+    if (!empty($image_url)){
         $link =
             create_image_link(
                 "/order/item/$item[id]/"  .
                 rawurlencode($item['item_name']),
-                "/order/download/$item[id]/thumb/$item[md5]", $options);
+                $image_url, $options);
         echo $link;
         // USED this to be able to edit exact item rawurlencode($item['item_name']) . "?order_item=$key",
 

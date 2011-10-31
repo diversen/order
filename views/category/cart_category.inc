@@ -12,15 +12,30 @@ foreach ($vars as $key => $val){
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
-    $options['width'] = get_module_ini('order_image_size_thumb');
+    $options['width'] = get_module_ini('gallery_med_size');
+    
+    $image_url = gallery::getDefaultImageUrl($val['id'], 'med');
+    
+    if (!empty($image_url)){
+        $link =
+            create_image_link(
+                "/order/item/$val[id]/"  .
+                rawurlencode($val['item_name']),
+                $image_url, $options);
+        echo $link;
+        // USED this to be able to edit exact item rawurlencode($item['item_name']) . "?order_item=$key",
 
+    } else {
+        echo "&nbsp;";
+    }
+    /*
     if (!empty($val['file'])){
         echo create_image_link(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
             "/order/download/$val[id]/thumb/$val[md5]", $options
         );
     }
-
+    */
     echo "<td/>\n";
     echo "<td class='order-align-top'>\n";
     echo create_link(
