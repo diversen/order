@@ -48,6 +48,7 @@ echo "</td></tr>";
 echo "<tr><td class=\"order-align-top\">\n";
 
 $options = array();
+/*
 $options['alt'] = $vars['item_name_alt'];
 $options['width'] = get_module_ini('order_image_size');
 
@@ -55,7 +56,7 @@ if (!empty($vars['file'])){
   echo $link = create_image_link(
     "/order/item/$vars[id]/" . rawurlencode($vars['item_name']),
     "/order/download/$vars[id]/full/$vars[md5]", $options);
-}
+}*/
 
 $use_gallery = get_module_ini('order_use_gallery');
 if (isset($use_gallery)) {
@@ -66,6 +67,7 @@ if (isset($use_gallery)) {
         $gallery = new gallery();
         $rows = $gallery->getAllFileInfo($gallery_id);
         $options['no_admin'] = 1;
+        $options['default'] = $gallery->getDefaultImage($gallery_id);
         $str = $gallery->getThumbTableHTML($rows, $options);
         echo $str;
     }

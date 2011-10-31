@@ -5,22 +5,19 @@ include_model ("order");
 class orderProducts extends order {
 
     public function displaySortItems(){
-        $db = new db();
+        
+        include_module ('jquerysort');
+        $options = array ();
+        $options['table'] = self::$table;
+        
+        $options['field'] = 'item_order';
+        $options['title'] = 'item_name';
 
-        //$todos = $this->selectAll('order_items');
-        //$otods = $this->select();
-        $items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
-
-        //$todos = $this->get();
-        $str = "<div id=\"list\"><div id=\"response\"></div>";
-        $str.= "<ul id=\"sort_items\">\n";
-        foreach ($items as $key => $val){
-            $str.= "<li id = \"arrayorder_$val[id]\">$val[item_name] $val[item_order]";
-            $str.= "</li><div class=\"clear\"></div>";
-        }
-        $str.= "</ul></div>\n";
-        echo $str;
+        jquerysort::setOptions($options);
+        jquerysort::setJs();
+        echo jquerysort::getHTML();
     }
+    
     static function addControl () {
         if (!session::checkAccessControl('order_allow')){
             return;

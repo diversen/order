@@ -167,6 +167,9 @@ class orderCategory {
      */
     public static function updateImage ($id) {
        
+        if (empty($_FILES['file']['name'])) {
+            return true;
+        }
         $width = get_module_ini('order_category_image_size');
         
         //$options['filename'] = 'file';
@@ -242,16 +245,15 @@ class orderCategory {
      * display jquery sorting of categories. 
      */
     public function displaySortItems(){
-        $db = new db();
-
-        $items = $db->selectAll(self::$table, null, null, null, null, 'order', true);
-        $str = "<div id=\"order_category_list\"><div id=\"response\"></div>";
-        $str.= "<ul id=\"sort_items\">\n";
-        foreach ($items as $key => $val){
-            $str.= "<li id = \"arrayorder_$val[id]\">$val[name] $val[order]";
-            $str.= "</li><div class=\"clear\"></div>";
-        }
-        $str.= "</ul></div>\n";
-        echo $str;
+        include_module ('jquerysort');
+        $options = array ();
+        $options['table'] = self::$table;
+        
+        $options['field'] = 'order';
+        $options['title'] = 'name';
+        //jquerysort::setTable(self::$table);
+        jquerysort::setOptions($options);
+        jquerysort::setJs();
+        echo jquerysort::getHTML();
     }
 }

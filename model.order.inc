@@ -91,8 +91,8 @@ class order  {
         html::label('weight', lang::translate('order_item_form_weight'));
         html::text('weight');
 
-        html::label('file', lang::translate('order_item_form_upload_image'));
-        html::file('file');
+        //html::label('file', lang::translate('order_item_form_upload_image'));
+        //html::file('file');
         
         html::hidden('submitted', 'submitted');
 
@@ -218,8 +218,11 @@ class order  {
         
         $db->insert(self::$table, $values);
         $id = db::$dbh->lastInsertId();
-
-        $res = self::updateImage($id);
+        db::$dbh->commit();
+        return $id;
+        
+        // $res = self::updateImage($id);
+        /*
         if (!$res) {
             error_log('error_image_scale');
             db::$dbh->rollBack();
@@ -228,11 +231,14 @@ class order  {
         } else {
             db::$dbh->commit();
             return $id;
-        }
+        }*/
     }
 
     public static function updateImage ($id) {
       
+        if (empty($_FILES['file']['name'])) {
+            return true;
+        }
         //$options['filename'] = 'file';
         $options['maxsize'] = self::$maxsize;
         $options['allow_mime'] = self::$allowMime;
@@ -593,7 +599,10 @@ class order  {
         
         db::$dbh->beginTransaction();
         $db->update(self::$table, $values, $id);
-
+        db::$dbh->commit();
+            return true;
+            /*
+        
         $res = self::updateImage($id);
         if (!$res) {
             db::$dbh->rollBack();
@@ -601,7 +610,7 @@ class order  {
         } else {
             db::$dbh->commit();
             return true;
-        }
+        }*/
     }
 
     public function deleteItem($id){

@@ -165,7 +165,7 @@ $(document).ready(function() {
 /*
 http://papermashup.com/drag-drop-with-php-jquery/
 */
-
+/*
 $(document).ready(function(){
     function slideout(){
         setTimeout(function(){
@@ -188,7 +188,8 @@ $(document).ready(function(){
             });
         });
     });
-
+*/
+/*
 $(document).ready(function(){
     function slideout(){
         setTimeout(function(){
@@ -210,4 +211,4 @@ $(document).ready(function(){
                 }
             });
         });
-    });
+    }); */

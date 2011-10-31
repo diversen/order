@@ -180,7 +180,7 @@ $_COS_LANG_MODULE['order_category_confirm_category_added'] = 'Kategori er blevet
 $_COS_LANG_MODULE['order_category_legend_delete'] = 'Slet kategori';
 $_COS_LANG_MODULE['order_category_name_label'] = 'Navn';
 $_COS_LANG_MODULE['order_category_file_label'] = 'Tilføj evt. Billede';
-$_COS_LANG_MODULE['order_category_legend_insert'] = 'Indæst ny kategori';
+$_COS_LANG_MODULE['order_category_legend_insert'] = 'Indsæt ny kategori';
 $_COS_LANG_MODULE['order_category_confirm_category_updated'] = 'Kategori er blevet opdateret';
 
 $_COS_LANG_MODULE['order_category_description_label'] = 'Evt en beskrivelse';
@@ -192,7 +192,7 @@ $_COS_LANG_MODULE['order_basket_total_price_items'] = 'Varenes pris incl moms';
 $_COS_LANG_MODULE['order_amount_before_shipping_free'] = 'Køb for %1% mere og få fri fragt!';
 $_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Er gratis!';
 
-$_COS_LANG_MODULE['order_category_legend_update'] = 'Opdater vare';
+$_COS_LANG_MODULE['order_category_legend_update'] = 'Opdater Kategori';
 
 
 

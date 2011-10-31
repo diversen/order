@@ -1,4 +1,5 @@
-<style type="text/css">
+<!--<style type="text/css">
+    
 #order_category_list ul {
 	padding:0px;
 	margin: 0px;
@@ -15,7 +16,7 @@
 	color:#fff;
 	list-style: none;
 }
-</style>
+</style>-->
 <?php
 
 if (!session::checkAccessControl('order_allow')){
