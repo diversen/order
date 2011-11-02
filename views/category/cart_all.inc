@@ -15,6 +15,8 @@ foreach ($vars as $key => $val){
     $options['width'] = get_module_ini('order_category_image_size');
 
     headline_message($val['name']);
+    
+    $image = gallery::getDefaultImage($val['id']);
 
     if (!empty($val['file'])){
         echo create_image_link(

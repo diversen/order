@@ -12,11 +12,12 @@ foreach ($vars as $key => $val){
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
-    $options['width'] = get_module_ini('gallery_med_size');
+    $options['width'] = get_module_ini('gallery_small_size');
     
-    $image_url = gallery::getDefaultImageUrl($val['id'], 'med');
+    $image_url = gallery::getDefaultImageUrl($val['id'], 'small');
     
     if (!empty($image_url)){
+
         $link =
             create_image_link(
                 "/order/item/$val[id]/"  .
