@@ -15,6 +15,7 @@ Calls CallerService.php and APIError.php.
 **********************************************************/
 
 require_once 'CallerService.php';
+include_model ('order/sales');
 
 //session_start();
 
@@ -52,21 +53,50 @@ $ack = strtoupper($resArray["ACK"]);
 if($ack != 'SUCCESS' && $ack != 'SUCCESSWITHWARNING'){
 	$_SESSION['reshash']=$resArray;
 	$location = "APIError";
-		 header("Location: $location");
-               }
+	header("Location: $location");
+}
 
-?>
+// process email sending buyer and shop owner. 
+ //$cart = new order();
+ //$res = $cart->process();
+include_model ('order/sales');
+
+ 
+
+// get buyer info.
+load_post('order_form');
+//print_r($_POST);
 
 
-		<font size=2 color=black face=Verdana><b>DoExpressCheckoutPage</b></font>
-		<br><br>
+$ary = array();
+$ary['full_name'] = $_POST['name'];
+$ary['email'] = $_POST['email'];
+$ary['full_shipping_info'] = serialize($_POST);
+$ary['transaction_details'] = serialize($resArray);
+$ary['payment_module'] = 'paypal';
+$ary['status'] = $resArray['PAYMENTSTATUS'];
 
-		<b>Order Processed! Thank you for your payment!</b><br><br>
+
+//print_r($_POST);
 
 
-    <table width =400>
-                                        
-         <?php 
-   		 	require_once 'ShowAllResponse.php';
-    	 ?>
-    </table>
+
+// get sales / order info. 
+
+ob_start();
+order::displayOrderEmail();
+$message = ob_get_contents();
+ob_end_clean();
+
+$ary['order_details'] = $message;
+
+//print $message;
+
+//print_r($resArray);
+//require_once 'ShowAllResponse.php';
+
+print_r($ary);
+
+$sale = new orderSales();
+$sale->insert($ary);
+

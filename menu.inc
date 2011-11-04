@@ -15,10 +15,15 @@ $_MODULE_MENU = array (
         'auth' => 'admin'
     ),
     
-   
     array(
         'title' => lang::translate('order_category_admin_main_menu'),
         'url' => '/order/category/index',
+        'auth' => 'admin'
+    ),
+    
+    array(
+        'title' => lang::translate('order_sales_admin_main_menu'),
+        'url' => '/order/sales/index',
         'auth' => 'admin'
     ),
 

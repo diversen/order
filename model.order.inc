@@ -357,7 +357,12 @@ class order  {
     }
     
     
-    
+    /**
+     * last part of processing an order.
+     * Sends an email to buyer,
+     * and send sends an email to shop owner.  
+     * @return type 
+     */
     
     public static function process (){
         $subject = lang::translate('order_checkout_order_details');
@@ -378,8 +383,17 @@ class order  {
         ob_end_clean();
 
         $res_consumer = mail_utf8($_POST['email'], $subject, $message, $from, $order_reply_to);
+        if (!$res_consumer) {
+            $error = "Could not send order email to $_POST[email]\n";
+            error_log($error);
+        }
+        
         $res_invoice = mail_utf8($order_invoice_to, $subject, $message, $from, $order_reply_to);
-
+        if (!$res_invoice) {
+            $error = "Could not send order email to $_POST[email]\n";
+            error_log($error);
+        }
+        
         //setcookie ("order_items", "", time() - 3600, "/");
         self::clearBasketItems();
         header("Location: /order/done");
