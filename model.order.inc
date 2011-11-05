@@ -3,6 +3,10 @@
 /**
  * Main class in order / shopping cart system
  */
+
+/**
+ * @ignore
+ */
 include_once "helpers.inc";
 include_once "upload.php";
 
@@ -19,18 +23,28 @@ include_model('order/category');
 include_model('order/select');
 include_model('order/gallery');
 
-
-//include_module('gallery/admin');
-
-
+/**
+ * order class if the class for adding items to cart etc. 
+ * updating cart, checkout, etc. 
+ */
 class order  {
+    
+    /**
+     *
+     * @var array $errors array holding errors
+     */
     public static $errors = array();
-    public static $options = array();
+    
+    /**
+     *
+     * @var string  $table name of the order items table 
+     */
     public static $table = 'order_items';
+    
+    /**
+     * @var string  $mdouleName name of the module
+     */
     public static $moduleName = 'order';
-    public static $maxsize = 4000000;
-    public static $allowMime = 
-        array ('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
 
 
     /**
@@ -407,6 +421,10 @@ class order  {
 
                 
         $order_items = cache::get('order_basket_items', $_COOKIE['order_client_id'], get_module_ini('order_cookie_time'));
+        if (!isset($order_items)) {
+            $order_items = array ();
+        }
+        
         foreach ($order_items as $key => $val) {
             $row = self::getItem($val['item_id']);
             if (empty($row)) {

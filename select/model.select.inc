@@ -110,7 +110,7 @@ class orderSelect {
         echo html::getStr();   
 
         $selects = self::getSelectsAsObject($item_id);
-        echo templateView::includeModuleView('order/select', 'select_list_admin', $selects, 1);
+        echo templateView::includeModuleView('order', 'select/select_list_admin', $selects, 1);
         
     }
     
@@ -321,30 +321,30 @@ class orderSelect {
     }
     /**
      * method for getting all select list as drop downs. 
-     * see: views/select_list how they are displayed. 
+     * see: views/select/select_list how they are displayed. 
      * 
      * @param type $item_id the cart item in reference
      * @param type $selected 
      */
     public static function getSelectListsAsDropDowns ($item_id, $selected = array()) {
         $obj = self::getSelectsAsObject($item_id, $selected);
-        echo templateView::includeModuleView('order', 'select_list', $obj, 1);
+        echo templateView::includeModuleView('order', 'select/select_list', $obj, 1);
         /*
         $childs = orderSelect::getSelectChilds($item_id, $selected);
         if (!empty($childs->allChildOptions)) {
-            echo templateView::includeModuleView('order', 'select_list_childs', $childs, 1);
+            echo templateView::includeModuleView('order', 'select/select_list_childs', $childs, 1);
         }*/
     }
     
     /**
      * method for getting all select lists as hidden fields
-     * see: views/select_list_hidden
+     * see: views/select/select_list_hidden
      * @param int $item_id the cart item in reference
      * @param array $selected the values which should be selected 
      */
     public static function getSelectListAsHiddenFields ($item_id, $selected = array()) {
         $obj = self::getSelectsAsObject($item_id, $selected);
-        echo templateView::includeModuleView('order', 'select_list_basket', $obj, 1);
+        echo templateView::includeModuleView('order', 'select/select_list_basket', $obj, 1);
         //$childs = orderSelect::getSelectChilds($item_id, $selected);
         //print_r($childs); die;
         /*
@@ -356,14 +356,14 @@ class orderSelect {
             
                 echo "<input type=\"hidden\" name = \"select[$title]\" value=\"$value\" />";  
             }
-            //echo templateView::includeModuleView('order', 'select_list_childs_basket', $childs, 1);
+            //echo templateView::includeModuleView('order', 'select/select_list_childs_basket', $childs, 1);
         }*/
         
     }
     
     /**
      * method for getting all select lists as human names
-     * @see   files views/select_list_human
+     * @see   files views/select/select_list_human
      * @param int $item_id the cart item in reference
      * @param array $selected the values which should be selected 
      */
@@ -373,7 +373,7 @@ class orderSelect {
             $obj->displayEmail = true;
         }
         
-        echo templateView::includeModuleView('order', 'select_list_human', $obj, 1);
+        echo templateView::includeModuleView('order', 'select/select_list_human', $obj, 1);
         
         /*
         $childs = orderSelect::getSelectChilds($item_id, $selected, $options);
@@ -388,7 +388,7 @@ class orderSelect {
                 echo "<br />" ;
                 echo $value;  
             }
-            //echo templateView::includeModuleView('order', 'select_list_childs_basket', $childs, 1);
+            //echo templateView::includeModuleView('order', 'select/select_list_childs_basket', $childs, 1);
         }*/
     }
     /*
@@ -399,7 +399,7 @@ class orderSelect {
             $obj->displayEmail = true;
         }
         
-        echo templateView::includeModuleView('order', 'select_list_child_human', $obj, 1);
+        echo templateView::includeModuleView('order', 'select/select_list_child_human', $obj, 1);
     }*/
     
     

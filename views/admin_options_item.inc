@@ -1,5 +1,8 @@
 <?php
 
+// admin_options_item.inc
+// base admin options (edit | delete ) for item
+
 $str = '';
 if (session::isAdmin()){
     $str.= create_link(
