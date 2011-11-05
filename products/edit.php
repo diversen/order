@@ -9,4 +9,5 @@ if (!session::checkAccessControl('order_allow')){
     return;
 }
 
-order::updateItemControl();
+$product = new orderProducts();
+$product->updateItemControl();

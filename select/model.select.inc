@@ -1,6 +1,7 @@
 <?php
 
 include_once "selecthelper.inc";
+//template::setJs('/js/jquery.chained.js');
 class orderSelect {
     
     /**

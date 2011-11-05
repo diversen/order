@@ -8,7 +8,7 @@ include_once "upload.php";
 
 template::setJs('/js/jquery.validate.js');
 template::setInlineJs(get_module_path('order') . '/lang/da_DK/da_DK.js');
-//template::setJs('/js/jquery.chained.js');
+
 
 template::setInlineJs(get_module_path('order') . '/assets/order.js');
 template::setInlineCss(get_module_path('order') . '/assets/order.css');
@@ -19,7 +19,8 @@ include_model('order/category');
 include_model('order/select');
 include_model('order/gallery');
 
-include_module('gallery/admin');
+
+//include_module('gallery/admin');
 
 
 class order  {
@@ -31,129 +32,12 @@ class order  {
     public static $allowMime = 
         array ('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
 
+
     /**
-     *
-     * @param id    used when we update or delete
+     * method for validating shipping form
      */
-    public static function form($method, $frag = 3){
-
-        html::$autoLoadTrigger = 'submitted';
-        html::formStart('order_item_form');
-        
-        if ($method == 'delete') {
-            html::legend(lang::translate('order_item_form_delete_legend'));
-            $button_text = lang::translate('order_delete');
-            html::label('submit', '');
-            html::submit('submit', $button_text);
-            html::formEnd();
-            echo html::getStr();
-            return;
-        }
-
-        if ($method == 'update') {
-            html::legend(lang::translate('order_item_form_edit_legend'));
-
-            $id = uri::$fragments[$frag];
-            $row = order::getItem($id);
-            
-            html::init($row);
-            $button_text = lang::translate('order_update');            
-            html::hidden('method', 'item_update');           
-        }
-
-        if ($method == 'insert') {
-            html::init();
-            html::legend(lang::translate('order_item_form_insert_legend'));
-            $button_text = lang::translate('order_insert');
-            html::hidden('method', 'item_insert');
-        }
-
-        html::label('item_name', lang::translate('order_item_form_title'));
-        html::text('item_name');
-
-        html::label('item_name_alt', lang::translate('order_item_form_title_alt'));
-        html::text('item_name_alt');
-
-        html::label('item_description', lang::translate('order_item_form_desc'));
-        html::textareaMed('item_description');
-
-        html::label('category', lang::translate('order_item_form_category'));
-
-        $rows = orderCategory::getAll();     
-        html::select('category', $rows, 'name', 'id');
-
-        html::label('stock', lang::translate('order_item_form_stock'));
-        html::text('stock');
-
-        html::label('price', lang::translate('order_item_form_price'));
-        html::text('price');
-
-        html::label('weight', lang::translate('order_item_form_weight'));
-        html::text('weight');
-
-        //html::label('file', lang::translate('order_item_form_upload_image'));
-        //html::file('file');
-        
-        html::hidden('submitted', 'submitted');
-
-        html::label('submit', '');
-        html::submit('submit', $button_text);
-        
-        html::formEnd();
-        echo html::getStr();        
-        return;
-    }
-
-    public static function updateItemControl ($frag = 3) {
-       
-        $id = URI::getInstance()->fragment($frag);
-        templateView::includeModuleView('order/products', 'admin_menu', $vars = array ('id' => $id));
-        template::setTitle(lang::translate('order_edit_html_title'));
-        $cart = new order();
-        if (isset($_POST['submit']) && $_POST['method'] == 'item_update'){
-            $cart->validate();
-            $cart->sanitize();
-            if (empty($cart->errors)){
-                $res = $cart->updateItem($id);
-                if ($res) {
-                    session::setActionMessage(
-                            lang::translate('order_action_message_product_updated'));
-                        header("Location: /order/products/edit/$id");
-                } else {
-                    view_form_errors(order::$errors);
-                }
-            } else {
-                view_form_errors($cart->errors);
-            }
-        }
-        order::form('update');
-    }
-
-
-    // {{{ valiedate () method for validating insert and edit of items.
-    public function validate(){
-        if (isset($_POST['submit'])){
-            if (empty($_POST['item_name'])){
-                $this->errors[] = lang::translate('order_item_form_error_no_title');
-            }
-            if (!isset($_POST['price'])){
-                $this->errors[] = lang::translate('order_item_form_error_no_valid_price');
-            }
-        }
-        
-        if (!is_numeric($_POST['price'])) {
-            $this->errors[] = lang::translate('order_item_form_error_not_numeric');
-        }
-        
-        if (!is_numeric($_POST['weight'])) {
-            $this->errors[] = lang::translate('order_item_form_error_not_numeric');
-        }
-        
-    }
-    // }}}
-    // {{{ validateOrderForm() 
-    public function validateOrderForm (){
-        $_POST = cos_htmlspecialchars($_POST);
+    public function validateShippingForm (){
+        $_POST = html::specialEncode($_POST);
 
         if (strlen($_POST['name']) < 3){
             self::$errors['name'] = lang::translate('order_order_form_error_name');
@@ -191,103 +75,29 @@ class order  {
             }
         }
     }
-    // }}}
-    // {{{ sanitze()
+    /**
+     * method for sanitizing a submission. 
+     */
     public function sanitize(){
         if (isset($_POST['submit'])){
             $_POST = html::specialEncode($_POST);
         }
     } 
     
+    /**
+     *
+     * @return array $modules all modules set in order.ini order_item_modules 
+     */
     static function getItemModules() {
         return get_module_ini('order_item_modules');
     }
-    
+
+
     /**
-     * Adds a item
-     * @return type 
+     * method for displaying checkout. 
+     * @return void
+     * 
      */
-    public static function addItem(){
-        $db = new db();
-        
-        db::$dbh->beginTransaction();
-        $values = db::prepareToPost();
-        $values['item_name'] = cos_sanitize_url($values['item_name']);
-        $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
-        $values['md5'] = md5(uniqid());
-        
-        $db->insert(self::$table, $values);
-        $id = db::$dbh->lastInsertId();
-        db::$dbh->commit();
-        return $id;
-        
-        // $res = self::updateImage($id);
-        /*
-        if (!$res) {
-            error_log('error_image_scale');
-            db::$dbh->rollBack();
-            self::$errors = uploadBlob::$errors;
-            return false;
-        } else {
-            db::$dbh->commit();
-            return $id;
-        }*/
-    }
-
-    public static function updateImage ($id) {
-      
-        if (empty($_FILES['file']['name'])) {
-            return true;
-        }
-        //$options['filename'] = 'file';
-        $options['maxsize'] = self::$maxsize;
-        $options['allow_mime'] = self::$allowMime;
-         
-        $fp = uploadBlob::getFP('file', $options);
-        if (!$fp) {
-            self::$errors = uploadBlob::$errors;
-            return false;
-        } 
-        
-        imagescale::setOptions($options);
-        $order_image_size = get_module_ini('order_image_size');
-        
-        // we got a valid file pointer where we checked for errors
-        // now we use the tmp name for the file when scaling. 
-        $res = imagescale::byX(
-            $_FILES['file']['tmp_name'], 
-            $_FILES['file']['tmp_name'] . '-scaled', 
-            $order_image_size);
-        
-        $fp = uploadBlob::getFPFromFile($_FILES['file']['tmp_name'] . '-scaled');
-        $values['file'] = $fp;    
-        $values['content_type'] = $_FILES['file']['type'];        
-        
-        $order_image_size_thumb = get_module_ini('order_image_size_thumb');
-        
-        $res = imagescale::byX(
-            $_FILES['file']['tmp_name'], 
-            $_FILES['file']['tmp_name'] . '-thumb', 
-            $order_image_size_thumb);
-        
-        $fp = uploadBlob::getFPFromFile($_FILES['file']['tmp_name'] . '-thumb');
-        $values['file_thumb'] = $fp;
-        $bind = array('file' => PDO::PARAM_LOB, 'file_thumb' => PDO::PARAM_LOB );   
-        
-        $db = new db();
-        $res = $db->update(self::$table, $values, $id, $bind);
-        return $res;
-       
-    }
-
-    public static function getItemsInBlock (){
-        $db = new db();
-        $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0', null, null, 'item_order', true);
-        return $all_items;
-    }
-
-    // }}}
-
     public function displayCheckout(){
 
         $order_items = order::getBasketItems();
@@ -297,7 +107,7 @@ class order  {
         }
 
         if (isset($_POST['submit'])){
-            $this->validateOrderForm();
+            $this->validateShippingForm();
             if (!empty(order::$errors)){
                 view_form_errors(order::$errors);
             } else {
@@ -323,9 +133,12 @@ class order  {
         templateView::includeModuleView('order', 'order_form');
     }
     
-    public static function displayPayment () {
+    /**
+     * method for displaying payment options. 
+     */
+    public function displayPayment () {
         if (isset($_POST['submit'])){
-            self::validateOrderForm();
+            $this->validateShippingForm();
             if (!empty(order::$errors)){
                 view_form_errors(order::$errors);
             } else {
@@ -342,7 +155,6 @@ class order  {
             if (!load_post('order_form')) {
                 if (isset($_COOKIE['order_form_cookie'])) {
                     $_POST = unserialize($_COOKIE['order_form_cookie']);
-                    //$_POST = html::specialEncode($_POST);
                 }
             }
         }
@@ -356,14 +168,12 @@ class order  {
         
     }
     
-    
     /**
-     * last part of processing an order.
-     * Sends an email to buyer,
-     * and send sends an email to shop owner.  
-     * @return type 
-     */
-    
+     * 
+     * method for processing a payment 
+     * @deprecated moved to individual payments modules. 
+     * @return void 
+     */    
     public static function process (){
         $subject = lang::translate('order_checkout_order_details');
 
@@ -479,77 +289,69 @@ class order  {
     }
 
     /**
-     * adds a item to basket. 
+     * adds a item to basket. an addtion to the basket always comes ffrom an POST
+     * operation. 
      * 
      * @param array $options array ('redirect' => '/location/to/redirect');
      */
     public function addToBasket ($options = null){        
-        // check selects
-
-        $db = new db();
-        //if (isset($_POST['submit'])); die('a');
-        if (!empty($_POST)) {
-            //print_r($_POST); die;
-            
-            
-            
-        }
-        
+        $db = new db();        
         if (isset($_POST['add_order'])){
-            
-            // number of items added to basket
             $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
-            
-            // items id. 
             $item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);           
-            
-            // item in basket
-            $order_item = filter_var(@$_REQUEST['order_item'], FILTER_VALIDATE_INT);
-            
-            
+            $order_item = filter_var($_POST['order_item'], FILTER_VALIDATE_INT);
+                     
             if (is_int($add_order) && is_int($item_id)){
-                    $order_items = self::getBasketItems();
+                $order_items = self::getBasketItems();
 
-                    unset($_POST['order_submit']);
-                    unset($_POST['add_order']);
-                    unset($_POST['item_update']);
-                    unset($_POST['order_item']);
+                unset($_POST['order_submit']);
+                unset($_POST['add_order']);
+                unset($_POST['item_update']);
+                unset($_POST['order_item']);
                     
-                    $match = false;
+                $match = false;
                     
-                    if (!empty($order_items)) {                    
+                if (!empty($order_items)) {                    
                         
-                        foreach ($order_items as $key => $val) {
-                            unset($val['add_order']);
-                            if ($val == $_POST) {
-                                $match = true;
-                                break;
-                            } 
-                        }
                         
-                        if ($match) {                           
-                            if ($add_order <= 0) {
-                                //unset ($order_items[$key]);
-                                unset ($order_items[$order_item]);
-                            } else {
-                                $_POST['add_order'] = $add_order;
-                                $order_items[$key] = $_POST;
-
-                            }
+                    foreach ($order_items as $key => $val) {
+                        unset($val['add_order']);
+                            
+                        // check for exact match between item in basket
+                        // and item being submitted. This means we can
+                        // operate on anything on the $_POST array. 
+                        if ($val == $_POST) {
+                            $match = true;
+                            break;
+                        } 
+                    }
+                        
+                    // match we update the $order_items[$key] array
+                    // with new value. 
+                    if ($match) {                           
+                        if ($add_order <= 0) {
+                            unset ($order_items[$order_item]);
                         } else {
-                            if ($add_order <= 0) {
-                                unset ($order_items[$order_item]);
-                            } else {
-                                $_POST['add_order'] = $add_order;
-                                $order_items[] = $_POST;
-                            }                            
+                            $_POST['add_order'] = $add_order;
+                            $order_items[$key] = $_POST;
+
                         }
-                        
+                    // no match but if there is an add_order we add 
+                    // the item to the $order_items array
                     } else {
-                        $_POST['add_order'] = $add_order;
-                        $order_items[] = $_POST; 
-                    } 
-                    self::setBasketItems($order_items);
+                        if ($add_order <= 0) {
+                            unset ($order_items[$order_item]);
+                        } else {
+                            $_POST['add_order'] = $add_order;
+                            $order_items[] = $_POST;
+                        }                            
+                    }
+                // first item into basket. 
+                } else {
+                    $_POST['add_order'] = $add_order;
+                    $order_items[] = $_POST; 
+                } 
+                self::setBasketItems($order_items);
 
                 if (isset($options['redirect'])){
                     $header = "Location: $options[redirect]";
@@ -561,11 +363,16 @@ class order  {
                         $redirect = "/order/cart";
                     }                    
                     header ("Location: $redirect");
+                    exit;
                 }               
             }
         }    
     } 
 
+    /**
+     * sets the basket items into the cache.
+     * @param array $values the values of the basket 
+     */
     public static function setBasketItems ($values = array()) {
         if (isset($_COOKIE['order_client_id'])){
             $id = $_COOKIE['order_client_id'];
@@ -577,12 +384,20 @@ class order  {
         cache::set('order_basket_items', $id, $values);    
     }
     
+    /**
+     * delete all basket items from cache. 
+     * Should be called after successfull checkput 
+     */
     public static function clearBasketItems () {
         self::setBasketItems(array());       
     }
 
 
-    public static function getBasketItems (){      
+    /**
+     * gets basket item from system cache.
+     * @return array $basket items return the items in basket.  
+     */
+    public function getBasketItems (){      
         if (!isset($_COOKIE['order_client_id'])){
             $id = md5(uniqid());
             $order_cookie_time = time() + get_module_ini('order_cookie_time');
@@ -590,53 +405,48 @@ class order  {
             return array();
         }
 
-        
+                
         $order_items = cache::get('order_basket_items', $_COOKIE['order_client_id'], get_module_ini('order_cookie_time'));
+        foreach ($order_items as $key => $val) {
+            $row = self::getItem($val['item_id']);
+            if (empty($row)) {
+                unset($order_items[$key]);
+                self::setBasketItems($order_items);
+            }
+        }
+        
         if (empty($order_items)) {
             $order_items = array();
         }
         return $order_items;
     }
 
+    /**
+     * method for getting a single item
+     * @param int $id the id of the item
+     * @return array $row the full item. 
+     */
     public static function getItem ($id){
         $db = new db();
         $item = $db->selectOne('order_items', 'id', $id);
         return $item;
     }
 
-    public function updateItem($id){
-        $db = new db();
-        $values = db::prepareToPost();
-        $values['item_name'] = cos_sanitize_url($values['item_name']);
 
-        $values['md5'] = md5(uniqid());
-        
-        db::$dbh->beginTransaction();
-        $db->update(self::$table, $values, $id);
-        db::$dbh->commit();
-            return true;
-            /*
-        
-        $res = self::updateImage($id);
-        if (!$res) {
-            db::$dbh->rollBack();
-            return false;
-        } else {
-            db::$dbh->commit();
-            return true;
-        }*/
+    /**
+     * gets all items which are not out of sale. 
+     * @return array $all_items
+     */
+    public static function getItemsInBlock (){
+        $db = new db();
+        $all_items = $db->selectAll('order_items', array ('id', 'item_name', 'item_name_alt'), 'stock > 0', null, null, 'item_order', true);
+        return $all_items;
     }
 
-    public function deleteItem($id){
-        $db = new db();
-        $res = $db->delete('order_items', 'id', $id);
-        if ($res) {
-            session::setActionMessage(
-                lang::translate('order_product_action_message_product_deleted'));
-            header("Location: /order/products/index");
-        }
-    }
-
+    /**
+     * display a basket with all items and option for adding all items. 
+     * @return type 
+     */
     public static function displayQuickBasket (){
 
         $order_items = order::getBasketItems();
@@ -647,13 +457,15 @@ class order  {
 
         templateView::includeModuleView('order', 'display_quick_basket', $vars);
         return;
-
     }
 
 
+    /**
+     * displays basket. 
+     * @return void
+     */
     public static function displayBasket (){
         $vars['order_items'] = order::getBasketItems();
-        //print_r($vars);
         if (empty($vars['order_items'])){
             echo lang::translate('order_no_items_in_basket');
             return;
@@ -664,6 +476,10 @@ class order  {
 
     }
 
+    /**
+     * displays basket and confirm form. 
+     * @return type 
+     */
     public static function displayConfirm (){
 
         $order_items = order::getBasketItems();
@@ -672,24 +488,22 @@ class order  {
             return;
         }
 
-        //$vars['order_items'] = $order_items;
         load_post('order_form');
-
-        //templateView::includeModuleView('order', 'display_confirm_order', $vars);
-        
-        
+ 
         $vars['order_items'] = $order_items;
-        //print_r($vars);
         if (empty($vars['order_items'])){
             echo lang::translate('order_no_items_in_basket');
             return;
         }
 
-        templateView::includeModuleView('order', 'display_basket', $vars);
-        
+        templateView::includeModuleView('order', 'display_basket', $vars);       
         templateView::includeModuleView('order', 'confirm_form');
     }
 
+    /** 
+     * displays an order email 
+     * @return void
+     */
     public static function displayOrderEmail (){
 
         $order_items = order::getBasketItems();

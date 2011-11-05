@@ -11,9 +11,9 @@ if (!session::checkAccessControl('order_allow')){
 template::setTitle(lang::translate('order_delete_html_title'));
 $id = URI::getInstance()->fragment(3);
 
-$cart = new order();
+$cart = new orderProducts();
 if (isset($_POST['submit'])){
     $res = $cart->deleteItem($id);
     
 }
-order::form('delete');
+$cart->form('delete');

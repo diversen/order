@@ -1,3 +1,4 @@
 <?php
 
-orderProducts::addControl();
+$product = new orderProducts();
+$product->addControl();

@@ -1,5 +1,7 @@
 <?php
 
+include_module('gallery/admin');
+
 class orderGallery {
     
     public static $errors = array();
