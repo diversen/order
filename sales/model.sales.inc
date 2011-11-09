@@ -56,40 +56,60 @@ class orderSales {
         
     }
     
+    public static function countAll () {
+        $db = new dbQ();
+
+        echo $db->numRows(self::$table);
+    }
+    
+    
+    
     public static function getAll($from = 0, $limit = 10) {
 
         $db = new dbQ();
         $db->setSelect(self::$table);
-        $db->limit(0,1);
-        $rows = $db->fetch();
-               
-        /*
-        $db->setUpdate(self::$table);
-        $values = array ('email' => 'test2', 'full_name' => 'argh');
-        $db->setValues($values);
-        $db->filter('id =', 1);
-        $db->condition('AND');
-        $db->filter('email =', 'test2');
-        echo $res = $db->exec();
+        $db->order('id', 'DESC');
+        $db->limit($from, $limit);
         
-        $db->setInsert(self::$table);
-        $values = array ('email' => 'flfie', 'full_name' => 'duda');
-        $db->setValues($values);
-        
-        echo $res = $db->exec();
-        
-        $db->setDelete(self::$table);
-        $db->filter('email =', 'test2');
-        echo $res = $db->exec();
-        */
-        
-        
+        $rows = $db->fetch();        
         return $rows;
     }
     
+    
     public static function displayAll () {
+
         $rows = self::getAll();
-        print_r($rows);
+        echo templateView::get('order', 'sales/display_all', $rows);
+        
+    }
+    
+    public static function displayShipping () {
+        $id = uri::getInstance()->fragment(3);   
+        $row = self::get($id);
+        $_POST = unserialize($row['full_shipping_info']);
+        echo templateView::get('order', 'confirm_form');
+    }
+    
+    public static function get ($id) {
+        $db = new db();
+        $row = $db->selectOne(self::$table, 'id', $id);
+        return $row;
+        
+    }
+    
+    public static function displayTransaction () {
+        $id = uri::getInstance()->fragment(3);   
+        $row = self::get($id);
+        $row = unserialize($row['transaction_details']);
+        echo templateView::get('order', 'sales/transaction', $row);
+        
+    }
+    
+    public static function displayDetails () {
+        $id = uri::getInstance()->fragment(3);   
+        $row = self::get($id);
+
+        echo templateView::get('order', 'sales/details', $row['order_details']);
         
     }
     

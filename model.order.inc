@@ -119,7 +119,7 @@ class order  {
             echo lang::translate('order_checkout_no_items_in_basket');
             return;
         }
-
+        
         if (isset($_POST['submit'])){
             $this->validateShippingForm();
             if (!empty(order::$errors)){
@@ -127,24 +127,52 @@ class order  {
             } else {
                 save_post('order_form');
                 unset($_POST['submit']);
-                $cookie = serialize($_POST);
-                $res = setcookie(
-                    'order_form_cookie',
-                $cookie, get_module_ini('order_cookie_time') +time(), "/");
-                header("Location: /order/confirm");
+                self::setShippingCookie($_POST);
+                header("Location: /order/payment");
                 die();
             }
         } else {            
             if (!load_post('order_form')) {
-                if (isset($_COOKIE['order_form_cookie'])) {
+                $shipping_info = self::getShippingCookie();
+                if (!empty($shipping_info)) {
                     // no need to special encode. Cookies are auto encoded. 
-                    $_POST = unserialize($_COOKIE['order_form_cookie']);
-                    
+                    $_POST = $shipping_info;
                 }
             }
-        }
-              
+        }          
         templateView::includeModuleView('order', 'order_form');
+    }
+    
+    public static function setShippingCookie ($values = array ()) {
+        if (isset($_COOKIE['order_client_id'])){
+            $id = $_COOKIE['order_client_id'];
+        } else {
+            $id = md5(uniqid());
+            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            setcookie('order_client_id', $id, $order_cookie_time, '/');
+        }
+        cache::set('order_shipping_info', $id, $values);    
+    }
+    
+    /**
+     * gets shipping info from system cache.
+     * @return array $shipping_info array with shipping info. empty array
+     *               if shipping info has not been set.   
+     */
+    public static function getShippingCookie (){      
+        if (!isset($_COOKIE['order_client_id'])){
+            $id = md5(uniqid());
+            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            setcookie('order_client_id', $id, $order_cookie_time, '/');
+            return array();
+        }
+
+                
+        $shipping_info = cache::get('order_shipping_info', $_COOKIE['order_client_id'], get_module_ini('order_cookie_time'));
+        if (!isset($shipping_info)) {
+            $shipping_info = array ();
+        }
+        return $shipping_info;
     }
     
     /**

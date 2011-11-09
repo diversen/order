@@ -7,7 +7,7 @@ if (isset($_POST['checkme'])){
 headline_message(lang::translate('order_checkout_legend'))
         
 ?>
-<form action="/order/payment" method="post" id="order_form">
+<form action="" method="post" id="order_form">
 
 
 <table class="checkout">

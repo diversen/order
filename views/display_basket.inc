@@ -31,9 +31,9 @@ foreach ($order_items as $key => $val){
 
     $options = array ();
     $options['alt'] = $item['item_name_alt'];
-    $options['width'] = get_module_ini('gallery_med_size');
+    $options['width'] = get_module_ini('gallery_small_size');
 
-    $image_url = gallery::getDefaultImageUrl($item['id'], 'med');
+    $image_url = gallery::getDefaultImageUrl($item['id'], 'small');
     
     if (!empty($image_url)){
         $link =

@@ -1,0 +1,3 @@
+<?php
+
+orderSales::displayDetails();
