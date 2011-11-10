@@ -15,7 +15,7 @@ echo "</td>";
 echo "<td>\n";
 echo lang::translate('order_amount_total');
 echo "</td>";
-echo "<td>&nbsp;</td>";
+//echo "<td>&nbsp;</td>";
 echo "</tr>\n";
 $total = $sub_total = $weight = 0;
 foreach ($order_items as $key => $val){
@@ -83,7 +83,6 @@ foreach ($order_items as $key => $val){
     $weight = $weight + ($val['add_order'] * $item['weight']);
     echo "</td>\n";
     echo "<td>&nbsp;</td>";
-    echo "<td>&nbsp;</td>\n";
     echo "</tr>\n";
 
 }
@@ -94,7 +93,6 @@ echo "</td>";
 echo "<td>";
 echo order::getCurrencySymbol() . '&nbsp;' . format_float_mon($total);
 echo "</td>\n";
-echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
 
 
@@ -107,7 +105,6 @@ echo order::getCurrencySymbol() . '&nbsp;';
 $tax = $total * get_module_ini('order_added_tax');
 echo format_float_mon($tax);
 echo "</td>\n";
-echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
 
 echo "<tr>\n";
@@ -115,40 +112,22 @@ echo "<td  colspan=\"4\">\n";
 echo lang::translate('order_amount_added_shipping_cost') . " ";
 
 $shipping_info = orderShipping::getShippingInfo($order_items, $total, $weight);
-/*
-$shipping_is_free = false;
-$shipping_free = orderShippingFree::getShippingFreePrivate();
-if (count($order_items) == 0) {
-    $shipping_is_free = true;
-    $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
-} else if ($shipping_free == 0) {
-    $shipping_free_str = '';
-    $shipping_is_free = false;
-} else if ( $total <  $shipping_free ) {
-    $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
-    $shipping_free_needed.= format_float_mon($shipping_free - $total);
-    $shipping_free_str = lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '';
-} else {
-    $shipping_is_free = true;
-    $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
-}*/
 
 echo "</td>\n";
 echo "<td>\n";
 
 echo order::getCurrencySymbol() . "&nbsp;";
 
-if ($shipping_info['shipping_is_free']) {
-    echo "0";
-    //$shipping_cost = 0;
-} else {
-    //$shipping_cost = orderShipping::getWeightToCost('private', $weight);
-    //$shipping_cost = format_float_mon($shipping_cost);
-    echo $shipping_info['shipping_cost'];
-}
+echo $shipping_info['shipping_cost']; 
 
 echo "</td>\n";
-echo "<td>&nbsp</td>\n";
+echo "</tr>\n";
+
+// shipping free string
+echo "<tr>\n";
+echo "<td  colspan=\"5\">\n";
+echo $shipping_info['shipping_free_str'];
+echo "</td>\n";
 echo "</tr>\n";
 
 echo "<tr>\n";
@@ -159,12 +138,10 @@ echo "<td>\n";
 echo order::getCurrencySymbol() . "&nbsp;";
 $total = $shipping_info['shipping_cost'] + $total;
 echo format_float_mon($total);
-//echo orderShipping::getWeightToCost('private', $weight) . ' ';
 echo "</td>\n";
-echo "<td>&nbsp</td>\n";
 echo "</tr>\n";
 
-echo "<td colspan=5>";
+echo "<td colspan=\"4\">\n";
 echo "&nbsp;";
 echo "</td>";
 echo "</tr>";

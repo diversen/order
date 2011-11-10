@@ -9,39 +9,52 @@ class orderShipping {
 
     }
     
+    /**
+     *
+     * @param array $order_items the order items
+     * @param string $total total amount cost
+     * @param string $weight total weight of all items
+     * @return array $info with shipping info.  
+     *               $info['shipping_is_free'] = $shipping_is_free; // boolean
+     *               $info['shipping_free_str'] = $shipping_free_str; // e.g. 
+     *                you need 10.00 dollars and shipping will be free;
+     *               $info['shipping_cost'] = $shipping_cost; // shipping cost
+     *               $info['total_cost'] = $shipping_cost + $total; // total cost
+     */
     public static function getShippingInfo ($order_items, $total, $weight) {
         $shipping_is_free = false;
         $shipping_free = orderShippingFree::getShippingFreePrivate();
+
+        // no items - free shipping
         if (count($order_items) == 0) {
             $shipping_is_free = true;
-            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
+            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';       
+        // no option for shipping free if shipping free is 0        
         } else if ($shipping_free == 0) {
-            // no option for free shipping
             $shipping_free_str = '';
-            $shipping_is_free = false;
+        // if total amount is less than shipping_free amount 
+        // we set a string with amount we need in order to get free shipping
         } else if ( $total <  $shipping_free ) {
             $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
             $shipping_free_needed.= format_float_mon($shipping_free - $total);
             $shipping_free_str = lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '';
         } else {
+        // shipping is free
             $shipping_is_free = true;
             $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
         }
         
         if ($shipping_is_free) {
-            //echo "0";
             $shipping_cost = 0;
         } else {
             $shipping_cost = orderShipping::getWeightToCost('private', $weight);
-            $shipping_cost = format_float_mon($shipping_cost);
-            //echo $shipping_cost;
         }
         
         $ret = array ();
         $ret['shipping_is_free'] = $shipping_is_free;
         $ret['shipping_free_str'] = $shipping_free_str;
-        $ret['shipping_cost'] = $shipping_cost;
-        $ret['total_cost'] = $shipping_cost + $total;
+        $ret['shipping_cost'] = format_float_mon($shipping_cost);
+        $ret['total_cost'] = format_float_mon($shipping_cost + $total);
         return $ret;
     }
 

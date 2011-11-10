@@ -1,4 +1,7 @@
 <?php
 
-//echo "hello world";
+if (!session::checkAccessControl('order_allow')){
+    return;
+}
+
 orderSales::displayAll();

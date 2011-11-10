@@ -1,5 +1,9 @@
 <?php
 
+if (!session::checkAccessControl('order_allow')){
+    return;
+}
+
 
 include_module ('order');
 // this file check which selects has been set. 

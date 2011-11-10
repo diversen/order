@@ -235,3 +235,8 @@ $_COS_LANG_MODULE['order_payment_select_payment_overview'] = '3/4. Oversigt';
 $_COS_LANG_MODULE['order_legend_country'] = 'Land';
 $_COS_LANG_MODULE['order_legend_region'] = 'Region';
 $_COS_LANG_MODULE['order_display_confirm_details'] = 'Ordre Oversigt';
+
+$_COS_LANG_MODULE['order_sales_shipping_info'] = 'Lervering';
+$_COS_LANG_MODULE['order_sales_details_info'] = 'Ordren';
+$_COS_LANG_MODULE['order_sales_transaction_info'] = 'Transaktion';
+

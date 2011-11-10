@@ -47,7 +47,6 @@ class orderShippingFree {
     public static function getShippingFreePrivate() {
         $db = new db();
         $row = $db->selectOne(self::$table, null, array('type' => 'private'));
-        //echo_r($free);
         return $row['cost'];
 
     }

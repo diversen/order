@@ -569,4 +569,21 @@ class order  {
         return;
     }
     // }}}
+    // {{{
+    /** 
+     * displays an order email 
+     * @return void
+     */
+    public static function displaySystemOrder (){
+
+        $order_items = order::getBasketItems();
+        if (empty($order_items)){
+            echo lang::translate('order_no_items_in_basket');
+            return;
+        }
+
+        $vars['order_items'] = $order_items;
+        return templateView::get('order', 'sales/system_order', $vars);
+    }
+    // }}}
 }

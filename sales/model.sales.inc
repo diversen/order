@@ -106,10 +106,11 @@ class orderSales {
     }
     
     public static function displayDetails () {
-        $id = uri::getInstance()->fragment(3);   
+        $id = uri::getInstance()->fragment(3); 
+        echo "<h3>" . lang::translate('order_order_details') . "</h3>\n";
         $row = self::get($id);
-
-        echo templateView::get('order', 'sales/details', $row['order_details']);
+        echo $row['order_details'];
+        //echo templateView::get('order', 'sales/details', $row['order_details']);
         
     }
     

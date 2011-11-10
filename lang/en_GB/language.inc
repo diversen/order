@@ -178,3 +178,7 @@ $_COS_LANG_MODULE['order_select_form_option_field'] = 'Set your options and sepe
 
 $_COS_LANG_MODULE['order_amount_before_shipping_free'] = 'Buy for %1% more and get free shipping!';
 $_COS_LANG_MODULE['order_config_description'] = 'Description';
+
+$_COS_LANG_MODULE['order_sales_shipping_info'] = 'Shipping';
+$_COS_LANG_MODULE['order_sales_details_info'] = 'the Order';
+$_COS_LANG_MODULE['order_sales_transaction_info'] = 'Transaction';

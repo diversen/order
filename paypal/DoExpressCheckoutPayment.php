@@ -83,12 +83,12 @@ $ary['status'] = $resArray['PAYMENTSTATUS'];
 
 // get sales / order info. 
 
-ob_start();
-order::displayOrderEmail();
-$message = ob_get_contents();
-ob_end_clean();
+//ob_start();
+//order::displayOrderEmail();
+//$message = ob_get_contents();
+//ob_end_clean();
 
-$ary['order_details'] = $message;
+$ary['order_details'] = order::displaySystemOrder();
 
 //print $message;
 
