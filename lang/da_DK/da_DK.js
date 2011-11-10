@@ -1,6 +1,7 @@
 var myDictionary = {
     da_DK : {
-        'order_checkout_wrong_name' : 'Ugyldigt navn - argh'
+        'order_checkout_wrong_name' : 'Ugyldigt navn'
+        
     }
 }
 
