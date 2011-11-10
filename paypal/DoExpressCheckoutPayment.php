@@ -56,18 +56,14 @@ if($ack != 'SUCCESS' && $ack != 'SUCCESSWITHWARNING'){
 	header("Location: $location");
 }
 
-// process email sending buyer and shop owner. 
- //$cart = new order();
- //$res = $cart->process();
-include_model ('order/sales');
 
- 
+include_model ('order/sales');
 
 // get buyer info.
 load_post('order_form');
-//print_r($_POST);
 
 
+// prepare for saving result of transaction
 $ary = array();
 $ary['full_name'] = $_POST['name'];
 $ary['email'] = $_POST['email'];
@@ -77,26 +73,19 @@ $ary['payment_module'] = 'paypal';
 $ary['status'] = $resArray['PAYMENTSTATUS'];
 
 
-//print_r($_POST);
-
-
-
-// get sales / order info. 
-
-//ob_start();
-//order::displayOrderEmail();
-//$message = ob_get_contents();
-//ob_end_clean();
-
 $ary['order_details'] = order::displaySystemOrder();
 
-//print $message;
-
-//print_r($resArray);
-//require_once 'ShowAllResponse.php';
-
-print_r($ary);
-
+// add to sales table
 $sale = new orderSales();
 $sale->insert($ary);
 
+// send emails
+orderPaypal::sendOrderMails();
+
+// clear basket items
+order::clearBasketItems();
+
+$str = lang::translate('order_paypal_process_confirm_message') . "<br /><br />";
+$str.= lang::translate('order_process_greetings') . " $_SERVER[SERVER_NAME]";
+
+echo $str;

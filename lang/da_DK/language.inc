@@ -240,3 +240,12 @@ $_COS_LANG_MODULE['order_sales_shipping_info'] = 'Lervering';
 $_COS_LANG_MODULE['order_sales_details_info'] = 'Ordren';
 $_COS_LANG_MODULE['order_sales_transaction_info'] = 'Transaktion';
 
+
+$_COS_LANG_MODULE['order_sale_order_id'] = 'ID';
+
+$_COS_LANG_MODULE['order_sale_order_status'] = 'Betalings status';
+
+$_COS_LANG_MODULE['order_paypal_invoice_email_message'] = 'Vi takker for din betaling via paypal!';
+
+$_COS_LANG_MODULE['order_paypal_process_confirm_message'] = 
+'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura. Bestillingen fuldføres, når betalingen er registreret og verificeret.';

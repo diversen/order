@@ -120,4 +120,69 @@ class orderPaypal {
         $str.= "&SHIPPINGAMT=$shipping_cost";
         self::$shippingInfoURL = $str;
     }
+    
+    /**
+     * 
+     * method for processing a payment 
+     * @deprecated moved to individual payments modules. 
+     * @return void 
+     */    
+    public static function sendOrderMails (){
+        $subject = lang::translate('order_checkout_order_details');
+
+        load_post('order_form');
+        
+        if (empty($_POST)) return;
+
+        $from = get_main_ini('site_email');
+        $order_reply_to = get_main_ini('site_email');
+        $order_invoice_to = get_main_ini('site_email');
+
+        ob_start();
+
+        self::displayOrderEmail();
+        $message = ob_get_contents();
+
+        ob_end_clean();
+
+        $res_consumer = mail_utf8($_POST['email'], $subject, $message, $from, $order_reply_to);
+        if (!$res_consumer) {
+            $error = "Could not send order email to $_POST[email]\n";
+            error_log($error);
+        }
+        
+        $res_invoice = mail_utf8($order_invoice_to, $subject, $message, $from, $order_reply_to);
+        if (!$res_invoice) {
+            $error = "Could not send order email to $_POST[email]\n";
+            error_log($error);
+        }
+        
+        //header("Location: /order/done");
+        //die;
+    }
+    // }}}
+    
+    /** 
+     * displays an order email 
+     * @return void
+     */
+    public static function displayOrderEmail (){
+
+        $order_items = order::getBasketItems();
+        if (empty($order_items)){
+            echo lang::translate('order_no_items_in_basket');
+            return;
+        }
+
+        $vars['order_items'] = $order_items;
+        templateView::includeModuleView('order', 'display_email', $vars);
+        templateView::includeModuleView ('order', 'confirm_form_email');
+
+        echo "\n\n";
+
+        echo lang::translate('order_paypal_invoice_email_message') . "\n";
+        echo lang::translate('order_checkout_greeting') . " http://$_SERVER[SERVER_NAME]";
+        return;
+    }
+    // }}}
 }

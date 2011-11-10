@@ -182,3 +182,15 @@ $_COS_LANG_MODULE['order_config_description'] = 'Description';
 $_COS_LANG_MODULE['order_sales_shipping_info'] = 'Shipping';
 $_COS_LANG_MODULE['order_sales_details_info'] = 'the Order';
 $_COS_LANG_MODULE['order_sales_transaction_info'] = 'Transaction';
+
+
+
+$_COS_LANG_MODULE['order_sale_order_id'] = 'ID';
+
+$_COS_LANG_MODULE['order_sale_order_status'] = 'Payment Status';
+
+$_COS_LANG_MODULE['order_paypal_invoice_email_message'] = 'Thanks for your paypal payment!';
+
+$_COS_LANG_MODULE['order_paypal_process_confirm_message'] = 
+'You order has been recieved. The order will be shipped, when payment is verified and registered finally.';
+

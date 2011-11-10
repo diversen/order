@@ -21,3 +21,4 @@ $_COS_LANG_MODULE['order_basket'] = 'Basket';
 
 
 $_COS_LANG_MODULE['order_sales_admin_main_menu'] = 'Sales';
+
