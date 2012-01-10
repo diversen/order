@@ -49,7 +49,7 @@ foreach ($order_items as $key => $val){
     }
     echo "</td>";
     echo "<td>";
-    echo $link = create_link("/order/item/$item[id]/" . 
+    echo $link = html::createLink("/order/item/$item[id]/" . 
             rawurlencode ($item['item_name']) , $item['item_name']) . "<br />\n";
     echo order::getCurrencySymbol();
     echo ' ' . format_float_mon($item['price']);

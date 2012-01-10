@@ -64,7 +64,6 @@ class orderShippingFree {
     static function showForm ($method = 'update') {
         html::$autoLoadTrigger = 'submit';
         $row = self::getShippingFreeTable();
-
         html::init($row);
         html::formStart('order_shipping_free_form');
         html::legend(lang::translate('order_shipping_free_legend_edit'));
@@ -75,7 +74,7 @@ class orderShippingFree {
         html::label('submit', '');
         html::submit('submit', lang::translate('order_update'));
         html::formEnd();
-        echo html::$formStr;
+        echo html::getStr();
     }
 
     static function update () {

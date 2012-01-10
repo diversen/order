@@ -39,7 +39,7 @@ foreach ($vars as $key => $val){
     */
     echo "<td/>\n";
     echo "<td class='order-align-top'>\n";
-    echo create_link(
+    echo html::createLink(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
             $val['item_name']);
     echo "<br />";

@@ -21,7 +21,7 @@ function block_item_info(){
     $str.="<ul>\n";
     $items = $cart->getItemsInBlock();
     foreach ($items as $key => $val){
-        $str.= "<li>". create_link("/order/item/$val[id]/" . rawurlencode($val['item_name']), $val['item_name_alt']) . "</li>";
+        $str.= "<li>". html::createLink("/order/item/$val[id]/" . rawurlencode($val['item_name']), $val['item_name_alt']) . "</li>";
     }
     $str.="</ul>\n";
     return $str;

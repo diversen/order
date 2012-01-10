@@ -172,7 +172,7 @@ class orderShipping {
         }
 
         html::formEnd();
-        echo html::$formStr;
+        echo html::getStr();
     }
 
     static function showDeleteForm () {

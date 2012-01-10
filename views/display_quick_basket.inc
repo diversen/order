@@ -44,7 +44,7 @@ foreach ($all_items as $key => $val){
     }
     echo "</td>";
     echo "<td>";
-    $link = create_link(
+    $link = html::createLink(
         "/order/item/$item[id]/" . rawurlencode ($item['item_name']) ,
         $item['item_name']);
     echo $link;
