@@ -137,7 +137,7 @@ if (get_module_ini('order_use_country')) {
     <td colspan="2">* <?=lang::translate('order_legend_city')?></td>
 </tr>
 <tr>
-    <td><input type="text" name="diff_city" size="30" value="<?=@cos_htmlspecialchars($_POST['diff_city'])?>" /></td>
+    <td><input type="text" name="diff_city" size="30" value="<?=@$_POST['diff_city']?>" /></td>
     <td class="status"></td>
 </tr>
 

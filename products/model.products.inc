@@ -39,6 +39,7 @@ class orderProducts extends order {
 
             $id = uri::$fragments[$frag];
             $row = order::getItem($id);
+
             
             html::init($row);
             $button_text = lang::translate('order_update');            
@@ -195,10 +196,9 @@ class orderProducts extends order {
     public function updateItem($id){
         $db = new db();
         $values = db::prepareToPost();
-        $values['item_name'] = cos_sanitize_url($values['item_name']);
+        $values['item_name'] = strings::sanitizeUrlSimple($values['item_name']);
 
         $values['md5'] = md5(uniqid());
-        
         db::$dbh->beginTransaction();
         $db->update(self::$table, $values, $id);
         db::$dbh->commit();

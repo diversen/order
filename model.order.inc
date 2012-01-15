@@ -140,7 +140,7 @@ class order  {
                 }
             }
         }          
-        templateView::includeModuleView('order', 'order_form');
+        echo templateView::get('order', 'order_form');
     }
     
     public static function setShippingCookie ($values = array ()) {
