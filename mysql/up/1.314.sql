@@ -22,6 +22,4 @@ CREATE TABLE `order_item_select_color` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-DROP TABLE IF EXISTS `order_item_select_gallery`;
-
 ALTER TABLE `order_category` ADD COLUMN `md5` varchar(32) NOT NULL;
