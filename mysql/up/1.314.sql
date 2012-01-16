@@ -24,15 +24,4 @@ CREATE TABLE `order_item_select_color` (
 
 DROP TABLE IF EXISTS `order_item_select_gallery`;
 
-CREATE TABLE `order_item_select_gallery` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `gallery_id` int(10) NOT NULL,
-  `order_item_id` int(10) NOT NULL,
-  FOREIGN KEY (`gallery_id`) REFERENCES `gallery` (id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`order_item_id`) REFERENCES `order_items` (id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
 ALTER TABLE `order_category` ADD COLUMN `md5` varchar(32) NOT NULL;
