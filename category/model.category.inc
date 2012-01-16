@@ -29,7 +29,7 @@ class orderCategory {
             html::label('submit', '');
             html::submit('submit', $button_text);
             html::formEnd();
-            echo html::$formStr;
+            echo html::getStr();
             return;
         }
 
@@ -54,7 +54,7 @@ class orderCategory {
             html::label('submit', '');
             html::submit('submit', $button_text);
             html::formEnd();
-            echo html::$formStr;
+            echo html::getStr();
             return;
         }
 
@@ -73,7 +73,7 @@ class orderCategory {
         html::label('submit', '');
         html::submit('submit', $button_text);
         html::formEnd();
-        echo html::$formStr;
+        echo html::getStr();
         return;
     }
 

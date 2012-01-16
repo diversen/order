@@ -35,17 +35,25 @@ foreach ($all_items as $key => $val){
     $options['alt'] = $item['item_name_alt'];
     $options['width'] = '75';/*get_module_ini('order_image_size_thumb')*/;
 
-    if (!empty($item['file'])){
+    //if (!empty($item['file'])){
+        /*
         $link =
             create_image_link(
                 "/order/item/$item[id]/" . rawurlencode($item['item_name']),
-                "/order/download/$item[id]/thumb/$item[md5]", $options);
+                , $options);*/
+        //echo $link;
+        //$image_url = "/order/download/$item[id]/thumb/$item[md5]";
+        $image_url = gallery::getDefaultImageUrl($item['id'], 'small');
+        $link =
+            html::createHrefImage(
+                strings::utf8Slug("/order/item/$item[id]", $item['item_name']),
+                $image_url, $options);
         echo $link;
-    }
+    //}
     echo "</td>";
     echo "<td>";
     $link = html::createLink(
-        "/order/item/$item[id]/" . rawurlencode ($item['item_name']) ,
+        strings::utf8Slug("/order/item/$item[id]", $item['item_name']),
         $item['item_name']);
     echo $link;
     echo "<br />\n";

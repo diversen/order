@@ -17,11 +17,10 @@ foreach ($vars as $key => $val){
     $image_url = gallery::getDefaultImageUrl($val['id'], 'small');
     
     if (!empty($image_url)){
-
+        
         $link =
-            create_image_link(
-                "/order/item/$val[id]/"  .
-                rawurlencode($val['item_name']),
+            html::createHrefImage(
+                strings::utf8Slug("/order/item/$val[id]", $val['item_name']),
                 $image_url, $options);
         echo $link;
         // USED this to be able to edit exact item rawurlencode($item['item_name']) . "?order_item=$key",
@@ -39,9 +38,15 @@ foreach ($vars as $key => $val){
     */
     echo "<td/>\n";
     echo "<td class='order-align-top'>\n";
+    
+    $link = html::createLink(
+        strings::utf8Slug("/order/item/$val[id]", $val['item_name']),
+        $val['item_name']);
+    echo $link;
+    /*
     echo html::createLink(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
-            $val['item_name']);
+            $val['item_name']);*/
     echo "<br />";
     if ($val['stock'] == 0){
         echo "<div id=\"form_error\">";

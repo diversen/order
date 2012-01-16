@@ -307,14 +307,15 @@ class order  {
             // finder  
             $val['add_order'] = 1;
         }
-               
-        $url = "/order/item/$val[id]/";
-        $url.= rawurlencode($val['item_name']);
+        
+        $url = 
+        strings::utf8Slug("/order/item/$val[id]", $val['item_name']);
+
         if (isset($_GET['order_item'])) {
             $url.="?order_item=" . $_GET['order_item'];
         }
         
-        send_301_headers($url);
+        http::permMovedHeader($url);
         
         $title = lang::translate('order_view_single_product');
         $title.= MENU_SUB_SEPARATOR_SEC;
