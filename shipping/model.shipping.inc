@@ -2,7 +2,8 @@
 
 class orderShipping {
 
-    static $table = 'order_shipping_cost';
+    public static $costTable = 'order_shipping_cost';
+    public static $costType = 'order_shipping_cost_type';
 
     static $errors = array();
     static function validate () {
@@ -17,11 +18,13 @@ class orderShipping {
      * @return array $info with shipping info.  
      *               $info['shipping_is_free'] = $shipping_is_free; // boolean
      *               $info['shipping_free_str'] = $shipping_free_str; // e.g. 
-     *                you need 10.00 dollars and shipping will be free;
+     *                you need 10.00 DDK and shipping will be free;
      *               $info['shipping_cost'] = $shipping_cost; // shipping cost
      *               $info['total_cost'] = $shipping_cost + $total; // total cost
      */
     public static function getShippingInfo ($order_items, $total, $weight) {
+               
+        $shipping_info = order::getShippingCookie();
         $shipping_is_free = false;
         $shipping_free = orderShippingFree::getShippingFreePrivate();
 
@@ -47,20 +50,41 @@ class orderShipping {
         if ($shipping_is_free) {
             $shipping_cost = 0;
         } else {
-            $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+            if (!isset($shipping_info['order_shipping_type'])) {
+                //echo "no defaults";
+            }
+            
+            $shipping_cost_all_types = orderShipping::getWeightToCostAllTypes($weight);
+            $shipping_cost = orderShipping::getWeightToCost(1, $weight);
         }
         
         $ret = array ();
         $ret['shipping_is_free'] = $shipping_is_free;
         $ret['shipping_free_str'] = $shipping_free_str;
         $ret['shipping_cost'] = format_float_mon($shipping_cost);
+        $ret['shipping_cost_all_types'] = $shipping_cost_all_types;
         $ret['total_cost'] = format_float_mon($shipping_cost + $total);
         return $ret;
     }
+    
+        
+    public static function getWeightToCostAllTypes($weight) {
+        $types =self::getTypes();
+        $str = '';
+        foreach($types as $key => $val) {
+            //print_r($val);
+            $cost = self::getWeightToCost($val['id'], $weight);
+            $str.=$val['name'] . ' ' . $cost . ' ' . order::getCurrencySymbol() . '<br />';
+            
+        }
+        return $str;    
+    }
 
-    static function sanitize () {
+    public static function sanitize () {
 
-        if (!isset($_POST['submit'])) return;
+        if (!isset($_POST['submit'])) {
+            return;
+        }
 
         $_POST['cost'] = locfloat_to_sysfloat($_POST['cost']);
 
@@ -69,8 +93,7 @@ class orderShipping {
             return;
         }
 
-        if( (float)$_POST['cost'] < 0 ){
-            
+        if( (float)$_POST['cost'] < 0 ){            
             self::$errors[] = lang::translate('order_shipping_form_cost_float_less_than_zero');
             return;
         }
@@ -97,13 +120,18 @@ class orderShipping {
             return;
         }
     }
+    
+    public static function shippingListTypes () {
+        $db = new db();
+        $db->selectAll(self::$costTable);
+    }
 
     static function getAll ($type) {
         $db = new db();
 
         //echo $query = "SELECT * FROM " . self::$table . " ORDER BY CAST(`weight` AS DECIMAL)";
-        $query = "Select * from " .  self::$table . " ";
-        $query.= "WHERE type = " . db::$dbh->quote($type);
+        $query = "Select * from " .  self::$costTable . " ";
+        $query.= "WHERE parent = " . db::$dbh->quote($type);
         $query.= "ORDER BY 0+weight ASC";
         $rows = $db->selectQuery($query);
         return $rows;
@@ -111,15 +139,15 @@ class orderShipping {
 
     static function displayAll ($type) {
         $rows = self::getAll($type);
-        echo templateView::includeModuleView('order', 'shipping_list_all', $rows);
+        echo templateView::includeModuleView('order', 'shipping/shipping_list_all', $rows);
         //include_view('order/shipping', '');
     }
 
-    static function add ($type) {
+    public static function add ($type) {
         $db = new db();
         $values = db::prepareToPost();
-        $values['type'] = $type;
-        $res = $db->insert(self::$table, $values);
+        $values['parent'] = $type;
+        $res = $db->insert(self::$costTable, $values);
         return $res;
     }
 
@@ -127,7 +155,7 @@ class orderShipping {
         $db = new db();
         $values = db::prepareToPost();
         //$values['type'] = $type;
-        $res = $db->update(self::$table, $values, $id);
+        $res = $db->update(self::$costTable, $values, $id);
         return $res;
     }
 
@@ -135,17 +163,163 @@ class orderShipping {
         $db = new db();
         $values = db::prepareToPost();
         //$values['type'] = $type;
-        $res = $db->delete(self::$table, 'id', $id);
+        $res = $db->delete(self::$costTable, 'id', $id);
         return $res;
+    }
+    
+    public static function deleteType ($id) {
+        $db = new db();
+        db::$dbh->beginTransaction();
+        try {            
+            $db->delete(self::$costTable, 'parent', $id);
+            $db->delete(self::$costType, 'id', $id);
+            
+        } catch (PDOException $e) {            
+            db::$dbh->rollBack();
+            cos_error_log($e->getTraceAsString());
+            return false;
+        }
+        return db::$dbh->commit();
     }
 
     static function getOne ($id) {
         $db = new db ();
-        $row = $db->selectOne(self::$table, null, array('id' => $id));
+        $row = $db->selectOne(self::$costTable, null, array('id' => $id));
         return $row;
     }
+    
 
-    static function showForm ($method = 'insert', $row = null) {
+    
+    
+    public static function showCostTypeForm ($method = 'insert', $row = null) {
+        html::$autoLoadTrigger = 'submit';
+        if ($method == 'insert') {
+            html::init();
+        } else {
+            html::init($row);
+        }
+        html::formStart('order_shipping_form');
+        if ($method == 'insert') {
+            html::legend(lang::translate('order_shipping_legend'));
+        } else {
+            html::legend(lang::translate('order_shipping_legend_edit'));
+        }
+
+        html::label('weight', lang::translate('order_shipping_weight_label'));
+        html::text('weight');
+        html::label('cost', lang::translate('order_shipping_cost_label'));
+        html::text('cost');
+        html::label('submit', '');
+        
+        if ($method == 'insert') {
+            html::submit('submit', lang::translate('order_insert'));
+        } else {
+            html::submit('submit', lang::translate('order_update'));
+        }
+
+        html::formEnd();
+        echo html::getStr();
+    }
+    
+    public static function getTypes () {
+        $db = new db();
+        $rows = $db->selectAll(self::$costType);
+        return $rows;
+    }
+    
+    public static function index() {
+        $rows = self::getTypes();
+
+        echo templateView::get('order', 'shipping/cost_types', $rows);
+    }
+
+    public static function editTypeControl() {
+        $db = new db();
+        $id = uri::getInstance()->fragment(3);
+        $row = $db->selectOne(self::$costType, null, array ('id'=>$id));
+        if (isset($_POST['submit'])) {
+            $_POST = html::specialEncode($_POST);
+            if (empty($_POST['name'])) {
+                self::$errors[] = lang::translate('No title');
+            }
+            if (empty(self::$errors)) {
+                self::editType($id);
+                session::setActionMessage(lang::translate('order_shipping_action_type_updated'));
+                http::locationHeader("/order/shipping/index");
+            } else {
+                view_form_errors(self::$errors);
+            }
+        }
+        orderShipping::showTypeForm('update', $row);
+        //echo templateView::get('order', 'shipping/cost_types', $rows);
+    }
+    
+    public static function editType ($id) {
+        $values = db::prepareToPost();
+        $db = new db();
+        return $db->update(self::$costType, $values, array ('id' => $id));
+    }
+    
+    public static function addTypeControl() {        
+        if (isset($_POST['submit'])) {
+            $_POST = html::specialEncode($_POST);
+            if (empty($_POST['name'])) {
+                self::$errors[] = lang::translate('No title');
+            }
+            if (empty(self::$errors)) {
+                $id = self::addType();              
+                session::setActionMessage(lang::translate('order_shipping_action_type_added'));
+                http::locationHeader("/order/shipping/edit_type_table/$id");
+            } else {
+                view_form_errors(self::$errors);
+            }
+        }
+        orderShipping::showTypeForm('insert');
+        //echo templateView::get('order', 'shipping/cost_types', $rows);
+    }
+    
+    public static function addType () {
+        $db = new db();
+        $values = db::prepareToPost();
+        $res = $db->insert(self::$costType, $values);
+        if ($res) {
+            $id = db::$dbh->lastInsertId();
+            return $id;
+        }
+        return false;
+    }
+    
+    public static function showTypeForm ($method = 'insert', $row = null) {
+        html::$autoLoadTrigger = 'submit';
+        if ($method == 'insert') {
+            html::init();
+        } else {
+            html::init($row);
+        }
+        html::formStart('order_shipping_type_form');
+        if ($method == 'insert') {
+            html::legend(lang::translate('order_shipping_type_legend'));
+        } else {
+            html::legend(lang::translate('order_shipping_type_legend_edit'));
+        }
+
+        html::label('name', lang::system('system_form_label_title'));
+        html::text('name');
+        html::label('description', lang::translate('system_form_label_abstract'));
+        html::textareaSmall('description');
+        html::label('submit', '');
+        
+        if ($method == 'insert') {
+            html::submit('submit', lang::translate('order_insert'));
+        } else {
+            html::submit('submit', lang::translate('order_update'));
+        }
+
+        html::formEnd();
+        echo html::getStr();
+    }
+
+    public static function showForm ($method = 'insert', $row = null) {
         html::$autoLoadTrigger = 'submit';
         if ($method == 'insert') {
             html::init();
@@ -175,7 +349,7 @@ class orderShipping {
         echo html::getStr();
     }
 
-    static function showDeleteForm () {
+    public static function showDeleteForm () {
         html::$autoLoadTrigger = 'submit';
         
         html::formStart('order_shipping_form');
@@ -183,29 +357,37 @@ class orderShipping {
         html::label('submit', '');
         html::submit('submit', lang::translate('order_delete'));
         html::formEnd();
-        echo html::$formStr;
+        echo html::getStr();
+    }
+    
+    public static function showDeleteTypeForm () {
+        html::$autoLoadTrigger = 'submit';
+        
+        html::formStart('order_shipping_form');
+        html::legend(lang::translate('order_shipping_legend_form_delete_type'));
+        html::label('submit', '');
+        html::submit('submit', lang::translate('order_delete'));
+        html::formEnd();
+        echo html::getStr();
     }
 
     static function adminOptions ($id) {
 
         $row = self::getOne($id);
-
-
-
         echo html::createLink(
-            "/order/shipping/edit/$id/$row[type]",
+            "/order/shipping/edit/$id/$row[parent]",
             lang::translate('order_edit')
         );
         echo MENU_SUB_SEPARATOR;
         echo html::createLink(
-            "/order/shipping/delete/$id/$row[type]",
+            "/order/shipping/delete/$id/$row[parent]",
             lang::translate('order_delete')
         );
 
     }
 
     
-    static function getWeightToCost($type, $weight) {
+    public static function getWeightToCost($type, $weight) {
         $rows = self::getAll($type);
         $i = count($rows);
         $res = 0;
@@ -223,4 +405,5 @@ class orderShipping {
         }
         return $res;
     }
+
 }

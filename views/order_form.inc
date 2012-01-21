@@ -4,13 +4,35 @@ if (isset($_POST['checkme'])){
     $checked = 'checked ="yes"';
 }
 
-headline_message(lang::translate('order_checkout_legend'))
-        
+headline_message(lang::translate('order_checkout_legend'));
+      
+$shipping_types = array ();
+$default = array ('id' => '', 'name' => lang::translate('order_shipping_checkout_select_shipping')); 
+$shipping_types = orderShipping::getTypes();
+
+array_unshift($shipping_types, $default);
+$shipping_dropdown = html::selectClean(
+        'order_shipping_type', 
+        $shipping_types, 
+        'name', 
+        'id', 
+        @$_POST['order_shipping_type'], 
+        array('class' => 'required'));
+
 ?>
 <form action="" method="post" id="order_form">
 
 
 <table class="checkout">
+    
+<tr>
+    <td colspan="2">* <?=lang::translate('order_legend_select_shipping')?></td>
+</tr>
+<tr>
+ 
+    <td><?=$shipping_dropdown?></td>
+    <td class="status"></td>
+</tr>
 
 <tr>
     <td colspan="2"><?=lang::translate('order_legend_company')?></td>
@@ -53,7 +75,7 @@ headline_message(lang::translate('order_checkout_legend'))
 </tr>
 <?php
 
-if (get_module_ini('order_use_country')) { 
+if (config::getModuleIni('order_use_country')) { 
     
     $countries = orderHelpers::getCountriesForDropDown();
     $country_dropdown = html::selectClean('country', $countries, 'name', 'id', @$_POST['country'], null, @$_POST['country']);
@@ -145,7 +167,7 @@ if (get_module_ini('order_use_country')) {
 
 <table class="checkout">
     <tr>
-    <td><input type="submit" name="submit" value="<?=lang::translate('order_legend_add_order_button')?>" /></td>
+    <td><input type="submit" name="submit" value="<?=lang::translate('order_legend_num_items_button')?>" /></td>
     </tr>
 </table>
 

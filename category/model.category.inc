@@ -170,7 +170,7 @@ class orderCategory {
         if (empty($_FILES['file']['name'])) {
             return true;
         }
-        $width = get_module_ini('order_category_image_size');
+        $width = config::getModuleIni('order_category_image_size');
         
         //$options['filename'] = 'file';
         $options['maxsize'] = self::$maxsize;

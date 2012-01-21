@@ -6,7 +6,6 @@ order_image_size_basket = 75
 order_image_size = 225
 order_image_maxsize = 100000
 order_items_per_row = 2
-order_checkout_module = "paypal"
 order_cookie_time = 3600000
 order_added_tax = 0.20
 order_debug = 0

@@ -76,12 +76,12 @@ class orderPaypal {
            $item = order::getItem($val['item_id']);
            $str.= "&L_NAME$i=" . urlencode($item['item_name']);
            $str.= "&L_AMT$i=$item[price]";
-           $str.= "&L_QTY$i=$val[add_order]";
+           $str.= "&L_QTY$i=$val[num_items]";
            $str.= "&L_NUMBER$i=$item[id]";
            $str.= "&L_DESC$i=" . urlencode($item['item_name_alt']);
-               $total_price = $total_price + $val['add_order'] * $item['price'];
+               $total_price = $total_price + $val['num_items'] * $item['price'];
            $total_weight = $total_weight + $item['weight'];
-           $order_items= $order_items + $val['add_order']; 
+           $order_items= $order_items + $val['num_items']; 
            $i++;          
         }
         

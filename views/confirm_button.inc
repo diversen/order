@@ -37,8 +37,8 @@ if (isset($vars['payment_url'])) {
 		<div id="inline1" style="width:400px;height:400px;overflow:auto;">
 <?php       
 
-$text = get_module_ini('order_form_accept_text');
-$filters = get_module_ini('order_filters');
+$text = config::getModuleIni('order_form_accept_text');
+$filters = config::getModuleIni('order_filters');
 echo get_filtered_content($filters, $text); 
 
 ?>

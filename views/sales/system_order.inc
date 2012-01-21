@@ -20,12 +20,12 @@ foreach ($order_items as $key => $val){
     echo orderSelect::getSelectListAsHumanFields($item['id'], $val, array('display_email' => true));
     echo " ";
     echo order::getCurrencySymbol() . ' ' . format_float_mon($item['price']);
-    echo " * " . $val['add_order'];
+    echo " * " . $val['num_items'];
 
-    $sub_total = $val['add_order'] * $item['price'];
+    $sub_total = $val['num_items'] * $item['price'];
     echo " = " . order::getCurrencySymbol() . " " . format_float_mon($sub_total) . "<br />";
     $total = $sub_total + $total;
-    $weight = $weight + ($item['weight'] * $val['add_order']);
+    $weight = $weight + ($item['weight'] * $val['num_items']);
 }
 
 echo "<br />";
@@ -37,7 +37,7 @@ echo order::getCurrencySymbol() . ' ' . format_float_mon($total) . "<br />";
 echo lang::translate('order_amount_value_added_tax');
 echo ' = ';
 echo order::getCurrencySymbol() . ' ';
-$tax = $total * get_module_ini('order_added_tax');
+$tax = $total * config::getModuleIni('order_added_tax');
 echo format_float_mon($tax) . "<br />";
 
 $shipping_info = orderShipping::getShippingInfo($order_items, $total, $weight);

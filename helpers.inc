@@ -46,12 +46,12 @@ function format_float_mon ($value) {
 
 
 function is_float_val ($val, $accept_zero = true) {
-    if ($accept_zero && ($val == 0) ) {
+    if ($accept_zero && ($val == '0') ) {
         return true;
     }
 
     $isFloat=preg_match('/^\s*([0-9]+(\.[0-9]+)?)\s*$/', $val, $myNum);
-    if ($myNum[1]) {
+    if (isset($myNum[1])) {
         return true;
     } else {
         return false;

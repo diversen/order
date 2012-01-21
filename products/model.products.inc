@@ -198,7 +198,7 @@ class orderProducts extends order {
         $values = db::prepareToPost();
         $values['item_name'] = strings::sanitizeUrlSimple($values['item_name']);
 
-        $values['md5'] = md5(uniqid());
+        //$values['md5'] = md5(uniqid());
         db::$dbh->beginTransaction();
         $db->update(self::$table, $values, $id);
         db::$dbh->commit();
@@ -232,7 +232,7 @@ class orderProducts extends order {
         $values = db::prepareToPost();
         $values['item_name'] = cos_sanitize_url($values['item_name']);
         $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
-        $values['md5'] = md5(uniqid());
+        //$values['md5'] = md5(uniqid());
         
         $db->insert(self::$table, $values);
         $id = db::$dbh->lastInsertId();

@@ -4,7 +4,7 @@ echo "<table class = \"order_cart\">\n";
 $i = 0;
 echo "<tr>\n";
 
-$per_row = get_module_ini('order_items_per_row');
+$per_row = config::getModuleIni('order_items_per_row');
 
 foreach ($vars as $key => $val){
     echo "<td class='order-align-top'>";
@@ -12,7 +12,7 @@ foreach ($vars as $key => $val){
     $options = array ();
     $options['alt'] = $val['description'];
     $options['title'] = $val['description'];
-    $options['width'] = get_module_ini('order_category_image_size');
+    $options['width'] = config::getModuleIni('order_category_image_size');
 
     headline_message($val['name']);
     

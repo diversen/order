@@ -372,8 +372,9 @@ class orderSelect {
         if (isset($options['display_email'])) {
             $obj->displayEmail = true;
         }
+        //print_r($obj);
         
-        echo templateView::includeModuleView('order', 'select/select_list_human', $obj, 1);
+        return templateView::get('order', 'select/select_list_human', $obj);
         
         /*
         $childs = orderSelect::getSelectChilds($item_id, $selected, $options);
@@ -504,13 +505,15 @@ class orderSelect {
         //print_r($selected);
         $ary = array();
         $selects = self::getSelects($item_id);
+        //print_r($selects);
         $obj = new stdClass;
         $obj->item_id = $item_id;
         $obj->titles = $obj->options = $obj->ids = array ();
         $obj->selected = $obj->selectedHuman = array();
 
         $id = 1;
-        foreach ($selects as $item) {        
+        foreach ($selects as $item) {    
+            //print_r($item);
             $obj->ids[$id] = $item['id'];
             $obj->titles[$id] = $item['title'];
             $options = db::init()->select(self::$option_table, null, array ('select_id' => $item['id']));
@@ -525,8 +528,9 @@ class orderSelect {
             $row = db::init()->selectOne(
                     self::$option_table, null, $search = array(
                         'select_id' => $item['id'], 'value' => $val));
-
-            $obj->selectedHuman[$id] = $row['title'];
+            if (!empty($row)) {
+                $obj->selectedHuman[$id] = $row['title'];
+            }
             $id++;
         }
         return $obj;       

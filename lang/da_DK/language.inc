@@ -110,7 +110,7 @@ $_COS_LANG_MODULE['order_legend_city'] = 'By';
 $_COS_LANG_MODULE['order_legend_email'] = 'Email';
 $_COS_LANG_MODULE['order_legend_phone'] = 'Telefon';
 $_COS_LANG_MODULE['order_legend_diffent_shipping'] = 'Anden leveringsadresse';
-$_COS_LANG_MODULE['order_legend_add_order_button'] = 'Gå til valg af betalingform';
+$_COS_LANG_MODULE['order_legend_num_items_button'] = 'Gå til valg af betalingform';
 // Translation of file /home/dennis/www/mandlen/modules/order/add.php
 
 $_COS_LANG_MODULE['order_add_product_html_title'] = 'Tilføj vare';
@@ -249,3 +249,17 @@ $_COS_LANG_MODULE['order_paypal_invoice_email_message'] = 'Vi takker for din bet
 
 $_COS_LANG_MODULE['order_paypal_process_confirm_message'] = 
 'Din ordre er afgivet. Du vil modtage en mail snarest muligt med en endelig faktura. Bestillingen fuldføres, når betalingen er registreret og verificeret.';
+
+$_COS_LANG_MODULE['No title'] = 'No title';
+$_COS_LANG_MODULE['order_shipping_type_legend'] = 'Type';
+$_COS_LANG_MODULE['order_shipping_type_legend_edit'] = 'Ret type';
+$_COS_LANG_MODULE['system_form_label_abstract'] = 'Abstrakt';
+$_COS_LANG_MODULE['order_shipping_menu_edit_base_info'] = 'Ret Primær info';
+$_COS_LANG_MODULE['order_shipping_menu_edit_table'] = 'Ret Vægt tabel';
+
+$_COS_LANG_MODULE['order_shipping_menu_delete_type'] = 'Slet type og tabel';
+
+$_COS_LANG_MODULE['order_shipping_type_action_deleted'] = 'Type blev slettet';
+$_COS_LANG_MODULE['order_shipping_action_type_updated'] = 'Type er opdateret';
+$_COS_LANG_MODULE['order_shipping_action_type_added'] = 'Type tilføjet';
+$_COS_LANG_MODULE['order_shipping_legend_form_delete_type'] = 'Slet type';

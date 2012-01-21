@@ -20,7 +20,10 @@ echo "</tr>\n";
 $total = $sub_total = $weight = 0;
 foreach ($order_items as $key => $val){
 
-    if ($val['add_order'] == 0) continue;
+    if (!isset($val['num_items']) || $val['num_items'] == 0) {
+        unset($order_items[$key]);
+        continue;
+    }
     $item = order::getItem($val['item_id']);
     if (empty($item)) {
         unset($order_items[$key]);
@@ -31,7 +34,7 @@ foreach ($order_items as $key => $val){
 
     $options = array ();
     $options['alt'] = $item['item_name_alt'];
-    $options['width'] = get_module_ini('gallery_small_size');
+    $options['width'] = config::getModuleIni('gallery_small_size');
 
     $image_url = gallery::getDefaultImageUrl($item['id'], 'small');
     
@@ -65,7 +68,7 @@ foreach ($order_items as $key => $val){
         echo "<form name=\"checkout\" method =\"post\" action=\"\">";
         echo "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
         echo "<input type=\"hidden\" name = \"order_item\" value =\"$key\" />";
-        echo "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val[add_order]\" />";
+        echo "<input type=\"text\" name=\"num_items\" size =\"2\" maxlength=\"2\" value=\"$val[num_items]\" />";
     
         echo orderSelect::getSelectListAsHiddenFields($item['id'], $val);
    
@@ -73,16 +76,16 @@ foreach ($order_items as $key => $val){
     
         echo "</form>\n";
     } else {
-        echo $val['add_order'];
+        echo $val['num_items'];
     }
     echo "</td><td>\n";
     echo order::getCurrencySymbol() . '&nbsp;';
-    $sub_total = $val['add_order'] * $item['price'];
+    $sub_total = $val['num_items'] * $item['price'];
     //$sub_total_weight = $val * $item['weight'];
 
     echo format_float_mon($sub_total);
     $total = $sub_total + $total;
-    $weight = $weight + ($val['add_order'] * $item['weight']);
+    $weight = $weight + ($val['num_items'] * $item['weight']);
     echo "</td>\n";
     echo "<td>&nbsp;</td>";
     echo "</tr>\n";
@@ -104,7 +107,7 @@ echo lang::translate('order_amount_value_added_tax');
 echo "</td>";
 echo "<td>";
 echo order::getCurrencySymbol() . '&nbsp;';
-$tax = $total * get_module_ini('order_added_tax');
+$tax = $total * config::getModuleIni('order_added_tax');
 echo format_float_mon($tax);
 echo "</td>\n";
 echo "</tr>\n";

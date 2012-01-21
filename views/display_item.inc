@@ -11,7 +11,7 @@ echo "<tr><td colspan=2>\n";
 
 if ($vars['stock'] != '0') {
 
-    if (get_module_ini('order_use_select')) {
+    if (config::getModuleIni('order_use_select')) {
         if (!isset($vars['selected'])) {
             $vars['selected'] = array();
         }
@@ -29,7 +29,7 @@ if ($vars['stock'] != '0') {
     echo lang::translate('order_item_enter_amount');
     echo "</td>";
     echo "<td>";
-    echo "<input id=\"order_amount\" maxlength=\"2\" name=\"add_order\" align=\"left\" size=\"2\" value=\"$vars[add_order]\" />\n";    
+    echo "<input id=\"order_amount\" maxlength=\"2\" name=\"num_items\" align=\"left\" size=\"2\" value=\"$vars[num_items]\" />\n";    
     echo "</td>\n";
     echo "<td>";
     echo "<input type =\"submit\" name = \"order_submit\" value=\"" .
@@ -58,7 +58,7 @@ if (!empty($vars['file'])){
     "/order/download/$vars[id]/full/$vars[md5]", $options);
 }*/
 
-$use_gallery = get_module_ini('order_use_gallery');
+$use_gallery = config::getModuleIni('order_use_gallery');
 if (isset($use_gallery)) {
     $gallery_id = URI::getInstance()->fragment(2);    
     $options = array ();

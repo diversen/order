@@ -1,8 +1,8 @@
 <?php
 
-$ini = get_module_ini('order_menu_items');
+$ini = config::getModuleIni('order_menu_items');
 
-$_INSTALL['VERSION'] = 1.321;
+$_INSTALL['VERSION'] = 1.422;
 
 if (in_array('order_shop', $ini)) {
     $_INSTALL['MAIN_MENU_ITEMS'][0] = array (
@@ -13,8 +13,8 @@ if (in_array('order_shop', $ini)) {
         'weight' => 10, // weight
     );
     
-    if (get_module_ini('order_menu_auth')) {
-        $_INSTALL['MAIN_MENU_ITEMS'][0]['auth'] = get_module_ini('order_menu_auth');
+    if (config::getModuleIni('order_menu_auth')) {
+        $_INSTALL['MAIN_MENU_ITEMS'][0]['auth'] = config::getModuleIni('order_menu_auth');
     }
 }
 

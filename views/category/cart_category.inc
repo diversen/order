@@ -4,7 +4,7 @@ echo "<table class = \"order_cart\">\n";
 $i = 0;
 echo "<tr>\n";
 
-$per_row = get_module_ini('order_items_per_row');
+$per_row = config::getModuleIni('order_items_per_row');
 
 
 foreach ($vars as $key => $val){
@@ -12,7 +12,7 @@ foreach ($vars as $key => $val){
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
-    $options['width'] = get_module_ini('gallery_small_size');
+    $options['width'] = config::getModuleIni('gallery_small_size');
     
     $image_url = gallery::getDefaultImageUrl($val['id'], 'small');
     

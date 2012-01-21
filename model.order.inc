@@ -53,6 +53,27 @@ class order  {
     public function validateShippingForm (){
         $_POST = html::specialEncode($_POST);
 
+        if (!empty($_POST['order_shipping_type'])) {
+            $shipping_types = orderShipping::getTypes();
+            
+            $ret = false;
+            foreach ($shipping_types as $key => $val) {
+                //print_r($val);
+                if ($val['id'] == $_POST['order_shipping_type']) {
+                    $ret = true;
+                    break;
+                } else {
+                    $ret = false;
+                }
+            }
+            
+            if (!$ret) {
+                self::$errors[] = lang::translate('order_order_form_error_shipping_type');
+            }          
+        } else {
+            self::$errors[] = lang::translate('order_order_form_error_shipping_type');
+        }
+        
         if (strlen($_POST['name']) < 3){
             self::$errors['name'] = lang::translate('order_order_form_error_name');
         }
@@ -103,14 +124,12 @@ class order  {
      * @return array $modules all modules set in order.ini order_item_modules 
      */
     static function getItemModules() {
-        return get_module_ini('order_item_modules');
+        return config::getModuleIni('order_item_modules');
     }
 
 
     /**
      * method for displaying checkout. 
-     * @return void
-     * 
      */
     public function displayCheckout(){
 
@@ -143,12 +162,17 @@ class order  {
         echo templateView::get('order', 'order_form');
     }
     
+    /**
+     * method for setting a cookie with shipping info. 
+     * This is entered in displayCheckout
+     * @param type $values 
+     */
     public static function setShippingCookie ($values = array ()) {
         if (isset($_COOKIE['order_client_id'])){
             $id = $_COOKIE['order_client_id'];
         } else {
             $id = md5(uniqid());
-            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            $order_cookie_time = time() + config::getModuleIni('order_cookie_time');
             setcookie('order_client_id', $id, $order_cookie_time, '/');
         }
         cache::set('order_shipping_info', $id, $values);    
@@ -162,13 +186,12 @@ class order  {
     public static function getShippingCookie (){      
         if (!isset($_COOKIE['order_client_id'])){
             $id = md5(uniqid());
-            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            $order_cookie_time = time() + config::getModuleIni('order_cookie_time');
             setcookie('order_client_id', $id, $order_cookie_time, '/');
             return array();
         }
-
                 
-        $shipping_info = cache::get('order_shipping_info', $_COOKIE['order_client_id'], get_module_ini('order_cookie_time'));
+        $shipping_info = cache::get('order_shipping_info', $_COOKIE['order_client_id'], config::getModuleIni('order_cookie_time'));
         if (!isset($shipping_info)) {
             $shipping_info = array ();
         }
@@ -177,6 +200,11 @@ class order  {
     
     /**
      * method for displaying payment options. 
+     * will load different options from order.ini setting: order_payment_modules
+     * e.g. 
+     * 
+     * order_payment_modules[] = 'paypal'
+     * order_payment_modules[] = 'email'
      */
     public function displayPayment () {
         if (isset($_POST['submit'])){
@@ -189,7 +217,7 @@ class order  {
                 $cookie = serialize($_POST);
                 $res = setcookie(
                     'order_form_cookie',
-                $cookie, get_module_ini('order_cookie_time') +time(), "/");
+                $cookie, config::getModuleIni('order_cookie_time') +time(), "/");
                 header("Location: /order/payment");
                 die();
             }
@@ -201,7 +229,7 @@ class order  {
             }
         }
                 
-        $payment_modules = get_module_ini('order_payment_modules');
+        $payment_modules = config::getModuleIni('order_payment_modules');
         moduleLoader::includeModules($payment_modules);
         
         echo templateView::includeModuleView(
@@ -251,18 +279,16 @@ class order  {
         header("Location: /order/done");
         die;
     }
-    // }}}
         
     
     /**
      *
-     * Get currency symbol. If set in module ini (order_currency), then this 
-     * will be used. Otherwise base it on locales. 
-     * 
-     * @return string   international currency symbol (e.g. USD, DKK) 
+     * Get currency symbol. If not set in module ini (order_currency), then this 
+     * will be used. Based on current setting of locales. 
+     * @return string $str international currency symbol (e.g. USD, DKK) 
      */
     public static function getCurrencySymbol () {
-        $currency = get_module_ini('order_currency');
+        $currency = config::getModuleIni('order_currency');
         if ($currency) {
             return $currency;
         }
@@ -272,21 +298,68 @@ class order  {
         }
         return $currency = trim($local['int_curr_symbol']);
     }
+    
+    public static function getFullCartInfo () {
+        $order_items = order::getBasketItems();
+        $total_weight = 0;
+        $total = $sub_total = $weight = $num_items = 0;
 
-
-
-    // {{{ displayCart
+        $full_info = array ();
+        $full_info['items'] = array();
+        //print_r($order_items);
+        foreach ($order_items as $key => $val){
+            if (!isset($val['num_items']) || $val['num_items'] == 0) {
+                unset($order_items[$key]);
+                continue;
+            }
+            $item = order::getItem($val['item_id']);
+            if (empty($item)) {
+                unset($order_items[$key]);
+                continue;
+            }
+            $full_info['items'][$item['id']] = $item;
+            //$full_info['items'][$item[$id]]['num_items'] =
+            $num_items = $num_items + $val['num_items'];
+            
+            $full_info['items'][$item['id']]['num_items'] = $val['num_items'];
+                      
+            $sub_total = $val['num_items'] * $item['price'];
+            $full_info['items'][$item['id']]['sub_total'] = $sub_total;
+            
+            //$full_info['total'] =
+            $total = $sub_total + $total;
+            
+            //$full_info['weight'] =
+            $sub_weight = $val['num_items'] * $item['weight'];
+            $full_info['items'][$item['id']]['sub_weight'] = $sub_weight;
+            
+            $weight = $weight + $sub_weight;
+        }
+        $full_info['num_items'] = $num_items;
+        $full_info['weight'] = $weight;
+        $full_info['total'] = $total;
+        
+        $tax = $total * config::getModuleIni('order_added_tax');
+        $full_info['tax'] = $tax;
+         
+        
+        return $full_info;
+    }
+    
     /**
-     * display all items in shop
+     * 
+     * display all items in a shopping category
      */
     public static function displayAllCartItems (){
         $db = new db();
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
         templateView::includeModuleView('order', 'category/cart_category', $all_items);
     }
-    // }}}
-    
-    // {{{ displayItem ($id)
+
+    /**
+     * method for displaying a single shop item
+     * @param int $id the id of the shopping item 
+     */
     public function displayItem ($id){
      
         $val = $this->getItem($id);
@@ -301,15 +374,14 @@ class order  {
             $int_options = array("options" => array("min_range" => 0 ));
             $get_id = filter_var($_GET['order_item'], FILTER_VALIDATE_INT, $int_options);
             
-            $val['add_order'] = $items[$get_id]['add_order'];
+            $val['num_items'] = $items[$get_id]['num_items'];
             $val['selected'] = $items[$get_id];
         } else {
             // finder  
-            $val['add_order'] = 1;
+            $val['num_items'] = 1;
         }
         
-        $url = 
-        strings::utf8Slug("/order/item/$val[id]", $val['item_name']);
+        $url = strings::utf8Slug("/order/item/$val[id]", $val['item_name']);
 
         if (isset($_GET['order_item'])) {
             $url.="?order_item=" . $_GET['order_item'];
@@ -325,40 +397,40 @@ class order  {
         $meta_desc = html::specialEncode($val['item_name_alt']);
         template::setMeta(array('description' => $meta_desc));
 
-        $filters = get_module_ini('order_filters');
+        $filters = config::getModuleIni('order_filters');
         $val['item_description'] = get_filtered_content($filters, $val['item_description']);
   
         echo templateView::includeModuleView('order', 'display_item', $val, 1);
     }
 
     /**
-     * adds a item to basket. an addtion to the basket always comes ffrom an POST
+     * adds a item to basket. an addtion to the basket always comes from an POST
      * operation. 
      * 
      * @param array $options array ('redirect' => '/location/to/redirect');
      */
     public function addToBasket ($options = null){        
         $db = new db();        
-        if (isset($_POST['add_order'])){
-            $add_order = filter_var($_POST['add_order'], FILTER_VALIDATE_INT);
+        if (isset($_POST['num_items'])){
+            $num_items = filter_var($_POST['num_items'], FILTER_VALIDATE_INT);
             $item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);           
             $order_item = filter_var($_POST['order_item'], FILTER_VALIDATE_INT);
-                     
-            if (is_int($add_order) && is_int($item_id)){
+                
+            // TODO: This needs to be more clear
+            if (is_int($num_items) && is_int($item_id)){
                 $order_items = self::getBasketItems();
 
                 unset($_POST['order_submit']);
-                unset($_POST['add_order']);
+                unset($_POST['num_items']);
                 unset($_POST['item_update']);
                 unset($_POST['order_item']);
                     
                 $match = false;
-                    
+                
                 if (!empty($order_items)) {                    
-                        
-                        
+                                    
                     foreach ($order_items as $key => $val) {
-                        unset($val['add_order']);
+                        unset($val['num_items']);
                             
                         // check for exact match between item in basket
                         // and item being submitted. This means we can
@@ -372,26 +444,26 @@ class order  {
                     // match we update the $order_items[$key] array
                     // with new value. 
                     if ($match) {                           
-                        if ($add_order <= 0) {
+                        if ($num_items <= 0) {
                             unset ($order_items[$order_item]);
                         } else {
-                            $_POST['add_order'] = $add_order;
+                            $_POST['num_items'] = $num_items;
                             $order_items[$key] = $_POST;
 
                         }
-                    // no match but if there is an add_order we add 
+                    // no match but if there is an num_items we add 
                     // the item to the $order_items array
                     } else {
-                        if ($add_order <= 0) {
+                        if ($num_items <= 0) {
                             unset ($order_items[$order_item]);
                         } else {
-                            $_POST['add_order'] = $add_order;
+                            $_POST['num_items'] = $num_items;
                             $order_items[] = $_POST;
                         }                            
                     }
                 // first item into basket. 
                 } else {
-                    $_POST['add_order'] = $add_order;
+                    $_POST['num_items'] = $num_items;
                     $order_items[] = $_POST; 
                 } 
                 self::setBasketItems($order_items);
@@ -401,7 +473,7 @@ class order  {
                     header ($header);
                 } else {
                     session::setActionMessage(lang::translate('order_item_added_to_basket'));
-                    $redirect = get_module_ini('order_redirect_update_item');
+                    $redirect = config::getModuleIni('order_redirect_update_item');
                     if (!isset($redirect)) {
                         $redirect = "/order/cart";
                     }                    
@@ -421,7 +493,7 @@ class order  {
             $id = $_COOKIE['order_client_id'];
         } else {
             $id = md5(uniqid());
-            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            $order_cookie_time = time() + config::getModuleIni('order_cookie_time');
             setcookie('order_client_id', $id, $order_cookie_time, '/');
         }
         cache::set('order_basket_items', $id, $values);    
@@ -443,13 +515,13 @@ class order  {
     public function getBasketItems (){      
         if (!isset($_COOKIE['order_client_id'])){
             $id = md5(uniqid());
-            $order_cookie_time = time() + get_module_ini('order_cookie_time');
+            $order_cookie_time = time() + config::getModuleIni('order_cookie_time');
             setcookie('order_client_id', $id, $order_cookie_time, '/');
             return array();
         }
 
                 
-        $order_items = cache::get('order_basket_items', $_COOKIE['order_client_id'], get_module_ini('order_cookie_time'));
+        $order_items = cache::get('order_basket_items', $_COOKIE['order_client_id'], config::getModuleIni('order_cookie_time'));
         if (!isset($order_items)) {
             $order_items = array ();
         }
@@ -509,7 +581,6 @@ class order  {
 
     /**
      * displays basket. 
-     * @return void
      */
     public static function displayBasket (){
         $vars['order_items'] = order::getBasketItems();
@@ -525,7 +596,6 @@ class order  {
 
     /**
      * displays basket and confirm form. 
-     * @return type 
      */
     public static function displayConfirm (){
 
@@ -549,7 +619,6 @@ class order  {
 
     /** 
      * displays an order email 
-     * @return void
      */
     public static function displayOrderEmail (){
 
@@ -569,8 +638,7 @@ class order  {
         echo lang::translate('order_checkout_greeting') . " $_SERVER[SERVER_NAME]";
         return;
     }
-    // }}}
-    // {{{
+    
     /** 
      * displays an order email 
      * @return void
@@ -586,5 +654,4 @@ class order  {
         $vars['order_items'] = $order_items;
         return templateView::get('order', 'sales/system_order', $vars);
     }
-    // }}}
 }

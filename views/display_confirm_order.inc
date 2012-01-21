@@ -60,10 +60,10 @@ foreach ($order_items as $key => $val){
     echo $val;
     echo "</td><td>\n";
     echo order::getCurrencySymbol() . '&nbsp;';
-    $sub_total = $val['add_order'] * $item['price'];
+    $sub_total = $val['num_items'] * $item['price'];
     echo $sub_total;
     $total = $sub_total + $total;
-    $weight = $weight + ($val['add_order'] * locfloat_to_sysfloat($item['weight']));
+    $weight = $weight + ($val['num_items'] * locfloat_to_sysfloat($item['weight']));
 
     echo "</td>\n";
     echo "<td>&nbsp;</td>";

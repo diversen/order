@@ -33,3 +33,8 @@ $_COS_LANG_MODULE['order_sales_admin_main_menu'] = 'Ordrer';
 
 
 
+
+$_COS_LANG_MODULE['order_shipping_main_type_menu'] = 'Oversigt Typer';
+$_COS_LANG_MODULE['order_shipping_add_type_menu'] = 'Tilføj Type';
+
+

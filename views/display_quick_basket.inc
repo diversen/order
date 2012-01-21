@@ -72,19 +72,19 @@ foreach ($all_items as $key => $val){
     echo "</td><td>\n";
     echo "<form name=\"checkout\" method =\"post\" action=\"\">";
     echo "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
-    echo "<input type=\"text\" name=\"add_order\" size =\"2\" maxlength=\"2\" value=\"$val[add_order]\" />";// . "<br />";
+    echo "<input type=\"text\" name=\"num_items\" size =\"2\" maxlength=\"2\" value=\"$val[num_items]\" />";// . "<br />";
     echo "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
     echo "</form>\n";
     echo "</td><td>\n";
     echo order::getCurrencySymbol() . '&nbsp;';
     //var_dump( locfloat_to_sysfloat($item['price']));
     //print_r($val);
-    $sub_total = $val['add_order'] * locfloat_to_sysfloat($item['price']);
+    $sub_total = $val['num_items'] * locfloat_to_sysfloat($item['price']);
 
     echo $sub_total;
     $total = $sub_total + $total;
 
-    $weight = $weight + ($val['add_order'] * locfloat_to_sysfloat($item['weight']));
+    $weight = $weight + ($val['num_items'] * locfloat_to_sysfloat($item['weight']));
 
     echo "</td>\n";
     echo "<td>&nbsp;</td>";
@@ -109,7 +109,7 @@ echo lang::translate('order_amount_value_added_tax');
 echo "</td>";
 echo "<td>";
 echo order::getCurrencySymbol() . '&nbsp;';
-echo $total * get_module_ini('order_added_tax');
+echo $total * config::getModuleIni('order_added_tax');
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
