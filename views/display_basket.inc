@@ -19,7 +19,6 @@ echo "</td>";
 echo "</tr>\n";
 $total = $sub_total = $weight = 0;
 foreach ($order_items as $key => $val){
-
     if (!isset($val['num_items']) || $val['num_items'] == 0) {
         unset($order_items[$key]);
         continue;

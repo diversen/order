@@ -35,8 +35,8 @@ $_COS_LANG_MODULE['order_shipping_add_action_error_message'] = 'Fejl: Kunne ikke
 
 // Translation of file /home/dennis/www/mandlen/modules/order/model.order.inc
 
-$_COS_LANG_MODULE['order_item_form_title'] = 'Title';
-$_COS_LANG_MODULE['order_item_form_title_alt'] = 'Alternativ titel';
+$_COS_LANG_MODULE['order_item_form_title'] = 'Titel';
+$_COS_LANG_MODULE['order_item_form_title_alt'] = 'Kort berskrivelse af varen (Til søge robotter)';
 $_COS_LANG_MODULE['order_item_form_desc'] = 'Beskrivelse';
 $_COS_LANG_MODULE['order_item_form_stock'] = 'Antal i beholdning';
 $_COS_LANG_MODULE['order_item_form_price'] = 'Pris i kroner';

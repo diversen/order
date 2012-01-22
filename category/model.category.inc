@@ -120,13 +120,32 @@ class orderCategory {
         $vars = self::getAll(array('id, name', 'description'));
         templateView::includeModuleView('order', 'category/admin_list', $vars);
     }
+    
+    public static function redirect () {
+        if (isset($_GET['cat']) && $_GET['cat'] > 0 ) {
+            $cat = self::getCategory($_GET['cat']);
+            $url = strings::utf8Slug("/order/cart/$cat[id]", $cat['name']);
+            http::permMovedHeader($url);
+        } 
+        
+        if (isset($_GET['cat']) && $_GET['cat'] == 0 ) {
+            $url = "/order/cart";
+            http::permMovedHeader($url);
+        }
+
+    }
+    
+    public static function getCatId () {
+        $id = uri::getInstance()->fragment(2);
+        return $id;
+    }
 
     /**
      * displays a full user cart category
      */
-    public static function displayCatItems (){
+    public static function displayCatItems ($id){
         $db = new db();
-        $search = array ('category' => $_GET['cat']);
+        $search = array ('category' => $id);
         $template = 'category/cart_category';
         $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
         echo templateView::includeModuleView('order', $template, $all_items, 1);

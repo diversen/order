@@ -15,33 +15,12 @@ function locfloat_to_sysfloat($value)
 
 }
 
-function sysfloat_to_locfloat($value)
-{
-    $larr = localeconv();
-    $replace = array(
-        $larr['mon_decimal_point'],
-    );
 
-    $search = array('.');
-    $res = str_replace($search, $replace, $value);
-    return $res;
-
-}
-
-function sysfloat_to_locfloat_mon ($value) {
-    $larr = localeconv();
-    $replace = array(
-        $larr['mon_decimal_point'],
-    );
-
-    $search = array('.');
-    $res = str_replace($search, $replace, $value);
-    return $res;
-}
 
 function format_float_mon ($value) {
-    $value = number_format($value, 2);
-    return sysfloat_to_locfloat($value);
+    //return money_format('%i', $value) . "\n";
+    return $value = number_format($value, 2, ',' , '.');
+    //return sysfloat_to_locfloat($value);
 }
 
 

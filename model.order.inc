@@ -341,8 +341,7 @@ class order  {
         
         $tax = $total * config::getModuleIni('order_added_tax');
         $full_info['tax'] = $tax;
-         
-        
+                 
         return $full_info;
     }
     
@@ -362,6 +361,7 @@ class order  {
      */
     public function displayItem ($id){
      
+
         $val = $this->getItem($id);
         $items = self::getBasketItems();
 
@@ -412,14 +412,10 @@ class order  {
     public function addToBasket ($options = null){        
         $db = new db();        
         if (isset($_POST['num_items'])){
-            $num_items = filter_var($_POST['num_items'], FILTER_VALIDATE_INT);
-            $item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);           
-            $order_item = filter_var($_POST['order_item'], FILTER_VALIDATE_INT);
-                
-            // TODO: This needs to be more clear
+            (int)$num_items = filter_var($_POST['num_items'], FILTER_VALIDATE_INT);
+            (int)$item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);           
             if (is_int($num_items) && is_int($item_id)){
                 $order_items = self::getBasketItems();
-
                 unset($_POST['order_submit']);
                 unset($_POST['num_items']);
                 unset($_POST['item_update']);
@@ -445,7 +441,8 @@ class order  {
                     // with new value. 
                     if ($match) {                           
                         if ($num_items <= 0) {
-                            unset ($order_items[$order_item]);
+                            //die('unsetting');
+                            unset ($order_items[$key]);
                         } else {
                             $_POST['num_items'] = $num_items;
                             $order_items[$key] = $_POST;
@@ -455,7 +452,7 @@ class order  {
                     // the item to the $order_items array
                     } else {
                         if ($num_items <= 0) {
-                            unset ($order_items[$order_item]);
+                            unset ($order_items[$key]);
                         } else {
                             $_POST['num_items'] = $num_items;
                             $order_items[] = $_POST;
@@ -463,8 +460,11 @@ class order  {
                     }
                 // first item into basket. 
                 } else {
-                    $_POST['num_items'] = $num_items;
-                    $order_items[] = $_POST; 
+                    if ($num_items > 0) {                      
+                        $_POST['num_items'] = $num_items;
+                        $order_items[] = $_POST;
+                    } 
+                    
                 } 
                 self::setBasketItems($order_items);
 
@@ -517,6 +517,7 @@ class order  {
             $id = md5(uniqid());
             $order_cookie_time = time() + config::getModuleIni('order_cookie_time');
             setcookie('order_client_id', $id, $order_cookie_time, '/');
+            $_COOKIE['order_client_id'] = $id;
             return array();
         }
 
@@ -584,6 +585,7 @@ class order  {
      */
     public static function displayBasket (){
         $vars['order_items'] = order::getBasketItems();
+
         if (empty($vars['order_items'])){
             echo lang::translate('order_no_items_in_basket');
             return;

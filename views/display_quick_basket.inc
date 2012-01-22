@@ -2,16 +2,15 @@
 
 
 $order_items = order::getBasketItems();
-        if (empty($order_items)){
-            echo lang::translate('order_no_items_in_basket');
-            return;
-        }
+$ary = array ();
+foreach ($order_items as $key => $val) {
+    if (isset($val['num_items']) && isset($val['item_id'])) {
+        $ary[$val['item_id']] = $val['num_items']; 
+    }
+}
 
-        //load_post('order_form');                
-        //$vars['order_items'] = $order_items;
-
+$order_items = $ary;
 $all_items = $vars['all_items'];
-//$order_items = $vars['order_items'];
 
 echo "<table class=\"order_cart\">\n";
 echo "<tr>";
@@ -30,7 +29,6 @@ echo "</tr>\n";
 $weight = $total = $sub_total = 0;
 
 foreach ($all_items as $key => $val){
-
     $item = order::getItem($val['id']);
 
     if (isset($order_items[$item['id']])){
@@ -45,46 +43,36 @@ foreach ($all_items as $key => $val){
     $options['alt'] = $item['item_name_alt'];
     $options['width'] = '75';/*get_module_ini('order_image_size_thumb')*/;
 
-    //if (!empty($item['file'])){
-        /*
-        $link =
-            create_image_link(
-                "/order/item/$item[id]/" . rawurlencode($item['item_name']),
-                , $options);*/
-        //echo $link;
-        //$image_url = "/order/download/$item[id]/thumb/$item[md5]";
-        $image_url = gallery::getDefaultImageUrl($item['id'], 'small');
-        $link =
-            html::createHrefImage(
-                strings::utf8Slug("/order/item/$item[id]", $item['item_name']),
-                $image_url, $options);
-        echo $link;
-    //}
+    $image_url = gallery::getDefaultImageUrl($item['id'], 'small');
+    $link =
+        html::createHrefImage(
+            strings::utf8Slug("/order/item/$item[id]", $item['item_name']),
+            $image_url, $options);
+    echo $link;
     echo "</td>";
     echo "<td>";
-    print_r($val);
+
     $link = html::createLink(
         strings::utf8Slug("/order/item/$item[id]", $item['item_name']),
         $item['item_name']);
+    
     echo $link;
     echo "<br />\n";
     echo order::getCurrencySymbol() . '&nbsp;' . $item['price'];
     echo "</td><td>\n";
     echo "<form name=\"checkout\" method =\"post\" action=\"\">";
     echo "<input type=\"hidden\" name = \"item_id\" value =\"$item[id]\" />";
-    echo "<input type=\"text\" name=\"num_items\" size =\"2\" maxlength=\"2\" value=\"$val[num_items]\" />";// . "<br />";
+    echo "<input type=\"text\" name=\"num_items\" size =\"2\" maxlength=\"2\" value=\"$val\" />";// . "<br />";
     echo "<input class=\"order_cart\" type =\"submit\" name=\"item_update\" value=\"" . lang::translate('order_item_update') . "\" /> ";
     echo "</form>\n";
     echo "</td><td>\n";
     echo order::getCurrencySymbol() . '&nbsp;';
-    //var_dump( locfloat_to_sysfloat($item['price']));
-    //print_r($val);
-    $sub_total = $val['num_items'] * locfloat_to_sysfloat($item['price']);
 
-    echo $sub_total;
+    $sub_total = $val * locfloat_to_sysfloat($item['price']);
+    echo format_float_mon($sub_total);
     $total = $sub_total + $total;
 
-    $weight = $weight + ($val['num_items'] * locfloat_to_sysfloat($item['weight']));
+    $weight = $weight + ($val * locfloat_to_sysfloat($item['weight']));
 
     echo "</td>\n";
     echo "<td>&nbsp;</td>";
@@ -97,11 +85,10 @@ echo "<td colspan=\"4\">";
 echo lang::translate('order_basket_total_price_items');
 echo "</td>";
 echo "<td>";
-echo order::getCurrencySymbol() . '&nbsp;' . $total;
+echo order::getCurrencySymbol() . '&nbsp;' . format_float_mon($total);
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
-
 
 echo "<tr>\n";
 echo "<td colspan=\"4\">";
@@ -109,7 +96,7 @@ echo lang::translate('order_amount_value_added_tax');
 echo "</td>";
 echo "<td>";
 echo order::getCurrencySymbol() . '&nbsp;';
-echo $total * config::getModuleIni('order_added_tax');
+echo format_float_mon($total * config::getModuleIni('order_added_tax'));
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
@@ -136,7 +123,8 @@ if ($shipping_is_free) {
     echo "0";
     $shipping_cost = 0;
 } else {
-    echo $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+    $shipping_cost = orderShipping::getWeightToCost('private', $weight);
+    echo format_float_mon($shipping_cost);
 }
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
@@ -148,16 +136,13 @@ echo lang::translate('order_amount_total');
 echo "</td>\n";
 echo "<td>\n";
 echo order::getCurrencySymbol() . '&nbsp;';
-echo $shipping_cost + $total;
+
+$total_with_shipping = $shipping_cost + $total;
+echo $total_with_shipping;
 //echo orderShipping::getWeightToCost('private', $weight) . ' ';
 echo "</td>\n";
 echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
-
-//echo "<td colspan=\"6\">";
-//echo "&nbsp;";
-//echo "</td>";
-
 echo "</table>\n";
 
 echo "<table><tr>\n";

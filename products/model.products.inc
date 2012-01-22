@@ -57,7 +57,7 @@ class orderProducts extends order {
         html::text('item_name');
 
         html::label('item_name_alt', lang::translate('order_item_form_title_alt'));
-        html::text('item_name_alt');
+        html::textareaSmall('item_name_alt');
 
         html::label('item_description', lang::translate('order_item_form_desc'));
         html::textareaMed('item_description');
@@ -230,8 +230,8 @@ class orderProducts extends order {
         
         db::$dbh->beginTransaction();
         $values = db::prepareToPost();
-        $values['item_name'] = cos_sanitize_url($values['item_name']);
-        $values['item_name_alt'] = cos_sanitize_url($values['item_name_alt']);
+        $values['item_name'] = strings::sanitizeUrlSimple($values['item_name']);
+        //$values['item_name_alt'] = strings::sanitizeUrlSimple($values['item_name_alt']);
         //$values['md5'] = md5(uniqid());
         
         $db->insert(self::$table, $values);

@@ -17,10 +17,11 @@ foreach ($vars as $key => $val){
     headline_message($val['name']);
     
     $image = gallery::getDefaultImage($val['id']);
-
+    $url = strings::utf8Slug("/order/cart/$val[id]", $val['name']);
+    
     if (!empty($val['file'])){
         echo create_image_link(
-            "/order/cart?cat=$val[id]",
+            $url,
             "/order/download/$val[id]/category/$val[md5]", $options
         );
     }
