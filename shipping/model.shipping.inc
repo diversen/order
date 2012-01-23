@@ -2,16 +2,35 @@
 
 class orderShipping {
 
+    /**
+     *
+     * db table with values of a type. 
+     * @var string $costTable
+     */
     public static $costTable = 'order_shipping_cost';
+    
+    /**
+     * 
+     * db table with different cost types (e.g. private and international)
+     * @var type $costType
+     */
     public static $costType = 'order_shipping_cost_type';
 
-    static $errors = array();
+    /**
+     * holding errors
+     * @var array $errors 
+     */
+    public static $errors = array();
+    
+    /**
+     * not implemented
+     */
     static function validate () {
 
     }
     
     /**
-     *
+     * method for getting shipping info as a array 
      * @param array $order_items the order items
      * @param string $total total amount cost
      * @param string $weight total weight of all items
@@ -23,61 +42,48 @@ class orderShipping {
      *               $info['total_cost'] = $shipping_cost + $total; // total cost
      */
     public static function getShippingInfo ($order_items, $total, $weight) {
-               
-        $shipping_info = order::getShippingCookie();
-        $shipping_is_free = false;
-        $shipping_free = orderShippingFree::getShippingFreePrivate();
+         
 
-        // no items - free shipping
-        if (count($order_items) == 0) {
-            $shipping_is_free = true;
-            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';       
-        // no option for shipping free if shipping free is 0        
-        } else if ($shipping_free == 0) {
-            $shipping_free_str = '';
-        // if total amount is less than shipping_free amount 
-        // we set a string with amount we need in order to get free shipping
-        } else if ( $total <  $shipping_free ) {
-            $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
-            $shipping_free_needed.= format_float_mon($shipping_free - $total);
-            $shipping_free_str = lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . '';
-        } else {
-        // shipping is free
-            $shipping_is_free = true;
-            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
+        $types = self::getTypes();
+        $shipping_info = order::getShippingCookie();
+        $order_shipping_type = null;
+        $ret = array();
+        if (isset($shipping_info['order_shipping_type'])) {
+            $order_shipping_type = $shipping_info['order_shipping_type'];
         }
         
-        if ($shipping_is_free) {
-            $shipping_cost = 0;
-        } else {
-            if (!isset($shipping_info['order_shipping_type'])) {
-                //echo "no defaults";
-            }
-            
-            $shipping_cost_all_types = orderShipping::getWeightToCostAllTypes($weight);
+        if (count($types) == 1) {
             $shipping_cost = orderShipping::getWeightToCost(1, $weight);
+            $ret['shipping_cost'] = $shipping_cost;
+            $ret['type'] = self::getType(1);
+            
+            
+        } else if ($order_shipping_type) {
+            $shipping_cost = orderShipping::getWeightToCost($order_shipping_type, $weight);
+            $ret['shipping_cost'] = $shipping_cost;
+            $ret['type'] = self::getType($order_shipping_type);
+            
+        } else {
+            $shipping_cost = null; 
         }
-        
-        $ret = array ();
-        $ret['shipping_is_free'] = $shipping_is_free;
-        $ret['shipping_free_str'] = $shipping_free_str;
-        $ret['shipping_cost'] = format_float_mon($shipping_cost);
-        $ret['shipping_cost_all_types'] = $shipping_cost_all_types;
-        $ret['total_cost'] = format_float_mon($shipping_cost + $total);
-        return $ret;
+
+        $ret['shipping_cost_all_types'] = orderShipping::getWeightToCostAllTypes($weight);
+        $ret['shipping_cost'] = $shipping_cost;
+        $ret['total_cost'] = $shipping_cost + $total;
+        return $ret;       
     }
     
         
-    public static function getWeightToCostAllTypes($weight) {
+    public static function getWeightToCostAllTypes($weight, $newline = "\n") {
         $types =self::getTypes();
-        $str = '';
+        $str = '';      
+        $str = lang::translate('order_total_weight') . " " . format_float_mon($weight) . " Kg$newline";
         foreach($types as $key => $val) {
-            //print_r($val);
             $cost = self::getWeightToCost($val['id'], $weight);
-            $str.=$val['name'] . ' ' . $cost . ' ' . order::getCurrencySymbol() . '<br />';
+            $str.= $val['name'] . ' ' . format_float_mon($cost) . ' ' . order::getCurrencySymbol() . $newline;
             
         }
-        return $str;    
+        return rtrim($str);    
     }
 
     public static function sanitize () {
@@ -221,15 +227,34 @@ class orderShipping {
         echo html::getStr();
     }
     
+    /**
+     *
+     * returns all types of shipping
+     * @return array $types
+     */
     public static function getTypes () {
+        static $types = null;
+        if ($types) return $types;   
         $db = new db();
-        $rows = $db->selectAll(self::$costType);
-        return $rows;
+        $types = $db->selectAll(self::$costType);
+        return $types;
+    }
+    
+    /**
+     *
+     * returns all types of shipping
+     * @return array $types
+     */
+    public static function getType ($id) {
+        static $types = null;
+        if ($types) return $types;   
+        $db = new db();
+        $types = $db->selectOne(self::$costType, null, array ('id' => $id));
+        return $types;
     }
     
     public static function index() {
         $rows = self::getTypes();
-
         echo templateView::get('order', 'shipping/cost_types', $rows);
     }
 

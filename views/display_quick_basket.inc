@@ -106,7 +106,7 @@ echo "<td  colspan=\"4\">\n";
 echo lang::translate('order_amount_added_shipping_cost') . " ";
 
 $shipping_is_free = false;
-$shipping_free = orderShippingFree::getShippingFreePrivate();
+$shipping_free = orderShippingFree::getShippingFree();
 if ($total <  $shipping_free) {
     $shipping_free_needed = order::getCurrencySymbol() . '&nbsp;';
     $shipping_free_needed.= $shipping_free - $total;

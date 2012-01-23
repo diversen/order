@@ -5,25 +5,6 @@ include_module('order');
 function block_order_cart () {
 
     $cart_info = order::getFullCartInfo();
-//print_r($cart_info); die;
-    /**
-    $order_items = order::getBasketItems();
-    //print_r($order_items);
-    $total_weight = 0;
-    $total = $sub_total = $weight = $num_items = 0;
-
-    foreach ($order_items as $key => $val){
-        if ($val['num_items'] == 0) continue;
-        $item = order::getItem($val['item_id']);
-        if (empty($item)) {
-            unset($order_items[$key]);
-            continue;
-        }
-        $num_items = $num_items + $val['num_items'];
-        $sub_total = $val['num_items'] * $item['price'];
-        $total = $sub_total + $total;
-        $weight = $weight + ($val['num_items'] * $item['weight']);
-    }*/
 
     echo "<h3>" . lang::translate('order_basket') . "</h3>\n";
     echo "<table class=\"order_basket\">\n";
@@ -57,58 +38,71 @@ function block_order_cart () {
     
     echo "<td>";
     echo order::getCurrencySymbol() . '&nbsp;';
-    /*
-    $tax = $total * config::getModuleIni('order_added_tax');
-    echo format_float_mon($tax);
-    */
+
     echo format_float_mon($cart_info['tax']);
     echo "</td>";
-
     echo "</tr>\n";
 
-    echo "<tr>\n";
-    echo "<td>\n";
-    echo lang::translate('order_amount_added_shipping_cost') . " ";
-    echo "</td>";
-    echo "<td>";
+    // shipping info
     
-    $order_items = order::getBasketItems();
+    $order_items = order::getBasketItems();    
+    $shipping_free_info = orderShippingfree::getShippingFreeInfo(
+            $order_items, 
+            $cart_info['total']);
     
     $shipping_info = orderShipping::getShippingInfo(
             $order_items, 
             $cart_info['total'], 
             $cart_info['weight']);
+
+    
+    
     
     //print_r($shipping_info);
-    echo order::getCurrencySymbol() . "&nbsp;";
-    if ($shipping_info['shipping_is_free']) {
-        echo "0";
-    } else {
-        echo $shipping_info['shipping_cost'];
-    }
-
-    echo "</td>";
-    echo "</tr>\n";
 
     echo "<tr>\n";
     echo "<td colspan=\"2\">";
-
-    echo $shipping_info['shipping_free_str'];
-
+    echo $shipping_free_info['shipping_free_str'];
+    
+    // no cost type selected
+    if (!isset($shipping_info['shipping_cost'])) {
+        echo lang::translate('order_amount_added_shipping_cost_final');
+    }
+    
+    
     echo "</td>";
     echo "</tr>\n";
 
+    // no shipping free
+    if (!$shipping_free_info['shipping_is_free']) {
+        
+       
+        //print_r($shipping_info);
+        
+        // shipping type has been set
+        if (isset($shipping_info['shipping_cost'])) {
+            echo "<tr>\n";
+            echo "<td>";
+            echo $shipping_info['type']['name'];
+            echo "</td>";
+            echo "<td>";
+            echo order::getCurrencySymbol() . ' ' . format_float_mon($shipping_info['shipping_cost']) . ' ';           
+            echo "</tr>\n";
+            $cart_info['total']+= $shipping_info['shipping_cost'];
+        }
+        
+    }
+    
+    
     echo "<tr>\n";
     echo "<td>\n";
-
     echo lang::translate('order_amount_total');
-
     echo "</td>";
     echo "<td>";
 
     echo order::getCurrencySymbol() . "&nbsp;";
-    $total_with_shipping = $shipping_info['shipping_cost'] + $cart_info['total'];
-    echo format_float_mon($total_with_shipping);
+    echo format_float_mon($cart_info['total']);
+
     echo "</td>";
     echo "</tr>\n";
 

@@ -79,8 +79,8 @@ class orderPaypal {
            $str.= "&L_QTY$i=$val[num_items]";
            $str.= "&L_NUMBER$i=$item[id]";
            $str.= "&L_DESC$i=" . urlencode($item['item_name_alt']);
-               $total_price = $total_price + $val['num_items'] * $item['price'];
-           $total_weight = $total_weight + $item['weight'];
+               $total_price = $total_price + ($val['num_items'] * $item['price']);
+           $total_weight = $total_weight + ($val['num_items'] * $item['weight']);
            $order_items= $order_items + $val['num_items']; 
            $i++;          
         }
@@ -88,6 +88,7 @@ class orderPaypal {
         self::$totalPrice = $total_price;
         self::$itemsURL = $str;
         $shipping_info = orderShipping::getShippingInfo($order_items, $total_price, $total_weight);        
+        //print_r($shipping_info); die;
         self::$shippingCost = $shipping_info['shipping_cost'];       
         self::setShippingURL();     
         self::setShippingInfoURL();

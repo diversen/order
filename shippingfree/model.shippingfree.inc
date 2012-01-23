@@ -4,8 +4,21 @@ include_module('order/shipping');
 
 class orderShippingFree {
 
+    /**
+     * db table for getting free shipping amount
+     * @var string $table
+     */
     static $table = 'order_shipping_free';
+    
+    /**
+     * var holding errors
+     * @var array $errors
+     */
     static $errors = array();
+    
+    /**
+     * method for validating shippingFree form
+     */
     static function validate () {
 
         if (!isset($_POST['submit'])) return;
@@ -44,14 +57,61 @@ class orderShippingFree {
         }*/
     }
 
-    public static function getShippingFreePrivate() {
+    /**
+     * method for getting amount when shipping is free. 
+     * @return int $cost the amount were shipping is free. 
+     */
+    public static function getShippingFree() {
         $db = new db();
         $row = $db->selectOne(self::$table, null, array('type' => 'private'));
         return $row['cost'];
-
     }
+    
+    /**
+     * method for getting info about shipping free from order_items
+     * and total shopping amount in basket. 
+     * @param array $order_items
+     * @param int $total
+     * @return array $ret  
+     */
+    public static function getShippingFreeInfo ($order_items, $total) {
 
-    static function getShippingFreeTable () {
+        $shipping_is_free = 0;
+        $shipping_free = self::getShippingFree();
+                
+        $ret = array ();  
+        
+        // no items - free shipping
+        if (count($order_items) == 0) {
+            $shipping_is_free = 1;
+            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';       
+        // no option for shipping free if shipping free is 0        
+        } else if ($shipping_free == 0) {
+            $shipping_free_str = '';
+        // if total amount is less than shipping_free amount 
+        // we set a string with amount we need in order to get free shipping
+        } else if ( $total <  $shipping_free ) {
+            $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
+            $shipping_free_needed.= format_float_mon($shipping_free - $total);
+            $shipping_free_str = lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . ' ';
+            //$shipping_free_str.= lang::translate('order_amount_added_shipping_cost_final');
+        } else {
+        // shipping is free
+            $shipping_is_free = 1;
+            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
+        }
+             
+        $ret['shipping_is_free'] = $shipping_is_free;
+        $ret['shipping_free_str'] = $shipping_free_str;
+        return $ret;
+    }
+    
+
+    /**
+     * gets shipping free table row
+     * @return array $row
+     */
+    public static function getShippingFreeTable () {
         $db = new db();
         $rows = $db->selectAll(self::$table);
         $row = array();
@@ -61,7 +121,11 @@ class orderShippingFree {
         return $row;
     }
 
-    static function showForm ($method = 'update') {
+    /**
+     * method for showing form for updating shipping free table 
+     * @param type $method 
+     */
+    public static function showForm ($method = 'update') {
         html::$autoLoadTrigger = 'submit';
         $row = self::getShippingFreeTable();
         html::init($row);
@@ -69,27 +133,23 @@ class orderShippingFree {
         html::legend(lang::translate('order_shipping_free_legend_edit'));
         html::label('private', lang::translate('order_shipping_free_private_label'));
         html::text('private');
-        //html::label('company', lang::translate('order_shipping_free_company_label'));
-        //html::text('company');
         html::label('submit', '');
         html::submit('submit', lang::translate('order_update'));
         html::formEnd();
         echo html::getStr();
     }
 
-    static function update () {
+    /**
+     * method for updating shipping free table
+     * @return boolean $res true on success and false on failure. 
+     */
+    public static function update () {
         $db = new db();
         db::$dbh->beginTransaction();
 
         $search = array ('type' => 'private');
         $values = array ('cost' => $_POST['private']);
         $res = $db->update(self::$table, $values, $search);
-
-        /*
-        $search = array ('type' => 'company');
-        $values = array ('cost' => $_POST['company']);
-        $res2 = $db->update(self::$table, $values, $search);
-        */
         if ($res) {
             db::$dbh->commit();
             return 1;
@@ -99,7 +159,10 @@ class orderShippingFree {
         }
     }
 
-    static function index () {
+    /**
+     * method for displaying admin page for editing shipping free. 
+     */
+    public static function index () {
         template::setTitle(lang::translate('order_shopping_free_html_title'));
         echo lang::translate('order_shipping_free_info');
 

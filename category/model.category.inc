@@ -147,6 +147,12 @@ class orderCategory {
         $db = new db();
         $search = array ('category' => $id);
         $template = 'category/cart_category';
+        
+        $cat = self::getCategory($id);
+        
+        template::setTitle(lang::translate('order_category') . MENU_SUB_SEPARATOR_SEC .  $cat['name']);
+        template::setMeta(array ('description' => $cat['description'] ));
+        
         $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
         echo templateView::includeModuleView('order', $template, $all_items, 1);
     }

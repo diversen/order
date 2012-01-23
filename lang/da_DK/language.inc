@@ -190,7 +190,7 @@ $_COS_LANG_MODULE['order_item_form_category'] = 'Kategori';
 $_COS_LANG_MODULE['order_basket_total_price_items'] = 'Varenes pris incl moms';
 
 $_COS_LANG_MODULE['order_amount_before_shipping_free'] = 'Køb for %1% mere og få fri fragt!';
-$_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Er gratis!';
+$_COS_LANG_MODULE['order_amount_shipping_is_free'] = 'Fragt er gratis!';
 
 $_COS_LANG_MODULE['order_category_legend_update'] = 'Opdater Kategori';
 
@@ -263,3 +263,13 @@ $_COS_LANG_MODULE['order_shipping_type_action_deleted'] = 'Type blev slettet';
 $_COS_LANG_MODULE['order_shipping_action_type_updated'] = 'Type er opdateret';
 $_COS_LANG_MODULE['order_shipping_action_type_added'] = 'Type tilføjet';
 $_COS_LANG_MODULE['order_shipping_legend_form_delete_type'] = 'Slet type';
+
+$_COS_LANG_MODULE['order_category'] = 'Kategori';
+$_COS_LANG_MODULE['order_order_form_error_shipping_type'] = 'Fragt type';
+$_COS_LANG_MODULE['order_shipping_checkout_select_shipping'] = 'Vælg din fragt form';
+$_COS_LANG_MODULE['order_legend_select_shipping'] = 'Fragt';
+
+$_COS_LANG_MODULE['order_total_weight'] = 'Total Vægt';
+$_COS_LANG_MODULE['order_amount_added_shipping_cost_final'] = 'Fragt pris udregnes endeligt ved bestilling';
+
+$_COS_LANG_MODULE['order_shipping'] = 'Fragt';
