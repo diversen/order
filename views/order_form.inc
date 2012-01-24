@@ -47,7 +47,7 @@ $shipping_dropdown = html::selectClean(
 </tr>
 <tr>
     <td><input type="text" name="name" size="30" value="<?=@$_POST['name']?>" class="required" /></td>
-    <td colspan="2" class="status"></td>
+    <td class="status"></td>
 </tr>
 
 <tr>

@@ -2,10 +2,10 @@
 
 echo "<table class=\"order_cart\">";
 echo "<tr><td colspan=2>\n";
-echo $vars['item_name'] . " ";
-echo '(' . lang::translate('order_price') . ' ' .
-    order::getCurrencySymbol() . ' ' .
-    format_float_mon($vars['price']) . ')';
+echo $vars['item_name'] . "<br />";
+
+echo order::getCurrencyShort($vars['price']);
+
 echo "</td></tr>\n";
 echo "<tr><td colspan=2>\n";
 
@@ -20,9 +20,7 @@ if ($vars['stock'] != '0') {
     echo "<form name=\"view_item\" method =\"post\">\n";
     echo "<table>\n";    
     echo "<input type=\"hidden\" name=\"item_id\" value=\"$vars[id]\" />\n";
-    
-    echo orderSelect::getSelectListsAsDropDowns($vars['id'], $vars['selected']);
-      
+
     echo "<tr>";
     echo "<td>\n";
     
@@ -48,15 +46,6 @@ echo "</td></tr>";
 echo "<tr><td class=\"order-align-top\">\n";
 
 $options = array();
-/*
-$options['alt'] = $vars['item_name_alt'];
-$options['width'] = get_module_ini('order_image_size');
-
-if (!empty($vars['file'])){
-  echo $link = create_image_link(
-    "/order/item/$vars[id]/" . rawurlencode($vars['item_name']),
-    "/order/download/$vars[id]/full/$vars[md5]", $options);
-}*/
 
 $use_gallery = config::getModuleIni('order_use_gallery');
 if (isset($use_gallery)) {
@@ -75,6 +64,6 @@ if (isset($use_gallery)) {
 
 echo "</td><td class=\"order-align-top\">\n";
 echo $vars['item_description'];
-templateView::includeModuleView('order', 'admin_options_item', &$vars);
+echo templateView::get('order', 'admin_options_item', $vars);
 echo "</td></tr>\n";
 echo "</table>\n";

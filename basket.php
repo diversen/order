@@ -1,6 +1,9 @@
 <?php
 
 template::setTitle(lang::translate('order_view_basket_html_title'));
-$cart = new order();
-$cart->addToBasket();
-$cart->displayBasket();
+//$cart = new order();
+order::addToBasket();
+//$cart->addToBasket();
+
+order::displayBasket();
+        //;$cart->displayBasket();

@@ -10,18 +10,7 @@
 include_once "helpers.inc";
 include_once "upload.php";
 
-template::setJs('/js/jquery.validate.js');
-template::setInlineJs(get_module_path('order') . '/lang/da_DK/da_DK.js');
-
-
-template::setInlineJs(get_module_path('order') . '/assets/order.js');
-template::setInlineCss(get_module_path('order') . '/assets/order.css');
-
-include_model('order/shipping');
-include_model('order/shippingfree');
-include_model('order/category');
-include_model('order/select');
-include_model('order/gallery');
+order::loadAssets();
 
 /**
  * order class if the class for adding items to cart etc. 
@@ -46,6 +35,24 @@ class order  {
      */
     public static $moduleName = 'order';
 
+    /**
+     * loads assets
+     */
+    public static function loadAssets () {
+        template::setJs('/js/jquery.validate.js');
+        
+        $lang = config::getMainIni('language');
+        template::setInlineJs(get_module_path('order') . "/lang/$lang/$lang.js");
+
+        template::setInlineJs(get_module_path('order') . '/assets/order.js');
+        template::setInlineCss(get_module_path('order') . '/assets/order.css');
+
+        include_model('order/shipping');
+        include_model('order/shippingfree');
+        include_model('order/category');
+        include_model('order/select');
+        include_model('order/gallery');
+    }
 
     /**
      * method for validating shipping form
@@ -280,6 +287,14 @@ class order  {
         die;
     }
         
+    /**
+     *
+     * @param float $value e.g. 20.00
+     * @return string $formatted e.g. DKK 20,00. 
+     */
+    public static function getCurrencyShort ($value) {
+        return order::getCurrencySymbol() . '&nbsp;' . format_float_mon($value);
+    }
     
     /**
      *
@@ -299,26 +314,30 @@ class order  {
         return $currency = trim($local['int_curr_symbol']);
     }
     
+    /**
+     * get all info of all items used for getting
+     * @return array assoc array with info about all items
+     *              // full info about all items
+     *              $full_info['items'] = array ();
+     *               
+     *              $full_info['num_items'] = $num_items;
+     *              $full_info['weight'] = $weight;
+     *              $full_info['total'] = $total;
+     *              $full_info['tax'] = $tax;
+     */
     public static function getFullCartInfo () {
         $order_items = order::getBasketItems();
+
         $total_weight = 0;
         $total = $sub_total = $weight = $num_items = 0;
 
         $full_info = array ();
         $full_info['items'] = array();
-        //print_r($order_items);
+
         foreach ($order_items as $key => $val){
-            if (!isset($val['num_items']) || $val['num_items'] == 0) {
-                unset($order_items[$key]);
-                continue;
-            }
-            $item = order::getItem($val['item_id']);
-            if (empty($item)) {
-                unset($order_items[$key]);
-                continue;
-            }
+
+            $item = self::getItem($val['item_id']);
             $full_info['items'][$item['id']] = $item;
-            //$full_info['items'][$item[$id]]['num_items'] =
             $num_items = $num_items + $val['num_items'];
             
             $full_info['items'][$item['id']]['num_items'] = $val['num_items'];
@@ -326,10 +345,8 @@ class order  {
             $sub_total = $val['num_items'] * $item['price'];
             $full_info['items'][$item['id']]['sub_total'] = $sub_total;
             
-            //$full_info['total'] =
             $total = $sub_total + $total;
             
-            //$full_info['weight'] =
             $sub_weight = $val['num_items'] * $item['weight'];
             $full_info['items'][$item['id']]['sub_weight'] = $sub_weight;
             
@@ -354,53 +371,58 @@ class order  {
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
         templateView::includeModuleView('order', 'category/cart_category', $all_items);
     }
+    
+    /**
+     * method for getting number of items in basket from an id
+     * @param int $id
+     * @return int $id number of items in basket 
+     */
+    public static function getNumItemsInBasket ($id) {
+        $items = self::getBasketItems();
+        foreach ($items as $key => $val){
+            if ($val['item_id'] == $id) {
+                return $val['num_items'];
+            }
+        }
+        return 0;
+        
+    }
 
     /**
      * method for displaying a single shop item
      * @param int $id the id of the shopping item 
      */
-    public function displayItem ($id){
+    public static function displayItem ($id){
      
-
-        $val = $this->getItem($id);
-        $items = self::getBasketItems();
-
+        $val = self::getItem($id);
+        $num_items = self::getNumItemsInBasket($id);
+        
+        // initial value of item is 1
+        if ($num_items == 0) {
+            $num_items = 1;
+        }
+        
         if (empty($val)){
             header ("HTTP/1.1 301 Moved Permanently");
             header ("Location: /order/cart");
         }
         
-        if (isset($_GET['order_item'])) {
-            $int_options = array("options" => array("min_range" => 0 ));
-            $get_id = filter_var($_GET['order_item'], FILTER_VALIDATE_INT, $int_options);
-            
-            $val['num_items'] = $items[$get_id]['num_items'];
-            $val['selected'] = $items[$get_id];
-        } else {
-            // finder  
-            $val['num_items'] = 1;
-        }
-        
         $url = strings::utf8Slug("/order/item/$val[id]", $val['item_name']);
-
-        if (isset($_GET['order_item'])) {
-            $url.="?order_item=" . $_GET['order_item'];
-        }
-        
         http::permMovedHeader($url);
         
         $title = lang::translate('order_view_single_product');
         $title.= MENU_SUB_SEPARATOR_SEC;
         $title.= $val['item_name'];
-        template::setTitle(html::specialEncode($title));
+        template::setTitle($title);
 
         $meta_desc = html::specialEncode($val['item_name_alt']);
         template::setMeta(array('description' => $meta_desc));
 
         $filters = config::getModuleIni('order_filters');
         $val['item_description'] = get_filtered_content($filters, $val['item_description']);
-  
-        echo templateView::includeModuleView('order', 'display_item', $val, 1);
+        $val['num_items'] = $num_items;
+        
+        echo templateView::get('order', 'display_item', $val);
     }
 
     /**
@@ -409,64 +431,14 @@ class order  {
      * 
      * @param array $options array ('redirect' => '/location/to/redirect');
      */
-    public function addToBasket ($options = null){        
+    public static function addToBasket ($options = null){        
         $db = new db();        
         if (isset($_POST['num_items'])){
+            
             (int)$num_items = filter_var($_POST['num_items'], FILTER_VALIDATE_INT);
             (int)$item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);           
             if (is_int($num_items) && is_int($item_id)){
-                $order_items = self::getBasketItems();
-                unset($_POST['order_submit']);
-                unset($_POST['num_items']);
-                unset($_POST['item_update']);
-                unset($_POST['order_item']);
-                    
-                $match = false;
-                
-                if (!empty($order_items)) {                    
-                                    
-                    foreach ($order_items as $key => $val) {
-                        unset($val['num_items']);
-                            
-                        // check for exact match between item in basket
-                        // and item being submitted. This means we can
-                        // operate on anything on the $_POST array. 
-                        if ($val == $_POST) {
-                            $match = true;
-                            break;
-                        } 
-                    }
-                        
-                    // match we update the $order_items[$key] array
-                    // with new value. 
-                    if ($match) {                           
-                        if ($num_items <= 0) {
-                            //die('unsetting');
-                            unset ($order_items[$key]);
-                        } else {
-                            $_POST['num_items'] = $num_items;
-                            $order_items[$key] = $_POST;
-
-                        }
-                    // no match but if there is an num_items we add 
-                    // the item to the $order_items array
-                    } else {
-                        if ($num_items <= 0) {
-                            unset ($order_items[$key]);
-                        } else {
-                            $_POST['num_items'] = $num_items;
-                            $order_items[] = $_POST;
-                        }                            
-                    }
-                // first item into basket. 
-                } else {
-                    if ($num_items > 0) {                      
-                        $_POST['num_items'] = $num_items;
-                        $order_items[] = $_POST;
-                    } 
-                    
-                } 
-                self::setBasketItems($order_items);
+                self::updateBasket($item_id, $num_items);
 
                 if (isset($options['redirect'])){
                     $header = "Location: $options[redirect]";
@@ -483,6 +455,36 @@ class order  {
             }
         }    
     } 
+    
+    /**
+     * method for updating the basket
+     * @param int $item_id the id of the item
+     * @param int $num_items number of the item 
+     */
+    public static function updateBasket( $item_id, $num_items) {
+        
+        $order_items = self::getBasketItems();
+        $match = false;
+        foreach ($order_items as $key => $val) {
+    
+            if ($val['item_id'] == $item_id) {
+                if ($num_items > 0) {
+                    $order_items[$key]['num_items'] = $num_items;
+                } else {
+                    $match = true;
+                    unset($order_items[$key]);                            
+                }
+                $match = true;                       
+            }
+        }
+                
+        if (!$match) {
+            $order_items[] = array ('item_id' => $item_id, 'num_items' => $num_items); 
+        }
+                            
+        self::setBasketItems($order_items);
+    
+    }
 
     /**
      * sets the basket items into the cache.
@@ -512,7 +514,8 @@ class order  {
      * gets basket item from system cache.
      * @return array $basket items return the items in basket.  
      */
-    public function getBasketItems (){      
+    public static function getBasketItems (){    
+        // first item
         if (!isset($_COOKIE['order_client_id'])){
             $id = md5(uniqid());
             $order_cookie_time = time() + config::getModuleIni('order_cookie_time');
@@ -520,24 +523,25 @@ class order  {
             $_COOKIE['order_client_id'] = $id;
             return array();
         }
-
-                
+               
         $order_items = cache::get('order_basket_items', $_COOKIE['order_client_id'], config::getModuleIni('order_cookie_time'));
-        if (!isset($order_items)) {
+        if (empty($order_items)) {
             $order_items = array ();
+            return $order_items;
         }
         
+        // check if any item has been deleted
         foreach ($order_items as $key => $val) {
-            $row = self::getItem($val['item_id']);
-            if (empty($row)) {
+            $item = order::getItem($val['item_id']);
+            if (empty($item)) {
                 unset($order_items[$key]);
-                self::setBasketItems($order_items);
+                
+                //continue;
             }
         }
         
-        if (empty($order_items)) {
-            $order_items = array();
-        }
+        self::setBasketItems($order_items);
+
         return $order_items;
     }
 
@@ -547,8 +551,13 @@ class order  {
      * @return array $row the full item. 
      */
     public static function getItem ($id){
+        
+        static $items;
+        if (isset($items[$id])) return $items[$id];
+        
         $db = new db();
         $item = $db->selectOne('order_items', 'id', $id);
+        $items[$id] = $item;
         return $item;
     }
 
@@ -576,6 +585,7 @@ class order  {
         $vars['all_items'] = order::getItemsInBlock();
 
         templateView::includeModuleView('order', 'display_quick_basket', $vars);
+        templateView::includeModuleView('order', 'display_checkout_submit');
         return;
     }
 
