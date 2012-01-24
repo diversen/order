@@ -91,14 +91,14 @@ class orderShippingFree {
         // if total amount is less than shipping_free amount 
         // we set a string with amount we need in order to get free shipping
         } else if ( $total <  $shipping_free ) {
-            $shipping_free_needed = order::getCurrencySymbol() . "&nbsp;";
+            $shipping_free_needed = order::getCurrencySymbol() . ' ';
             $shipping_free_needed.= format_float_mon($shipping_free - $total);
             $shipping_free_str = lang::translate('order_amount_before_shipping_free', array($shipping_free_needed)) . ' ';
             //$shipping_free_str.= lang::translate('order_amount_added_shipping_cost_final');
         } else {
         // shipping is free
             $shipping_is_free = 1;
-            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . '&nbsp;';
+            $shipping_free_str = lang::translate('order_amount_shipping_is_free') . ' ';
         }
              
         $ret['shipping_is_free'] = $shipping_is_free;

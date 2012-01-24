@@ -292,8 +292,8 @@ class order  {
      * @param float $value e.g. 20.00
      * @return string $formatted e.g. DKK 20,00. 
      */
-    public static function getCurrencyShort ($value) {
-        return order::getCurrencySymbol() . '&nbsp;' . format_float_mon($value);
+    public static function getCurrencyShort ($value, $sep = "&nbsp;") {
+        return order::getCurrencySymbol() . $sep . format_float_mon($value);
     }
     
     /**

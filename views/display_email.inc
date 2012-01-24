@@ -1,6 +1,7 @@
 <?php
 
 // create email
+$full = order::getFullCartInfo();
 
 $order_items = $vars['order_items'];
 echo lang::translate('order_order_details');
@@ -17,38 +18,59 @@ foreach ($order_items as $key => $val){
 
     echo $item['item_name'];
     
-    echo orderSelect::getSelectListAsHumanFields($item['id'], $val, array('display_email' => true));
+    //echo orderSelect::getSelectListAsHumanFields($item['id'], $val, array('display_email' => true));
     echo " ";
-    echo order::getCurrencySymbol() . ' ' . format_float_mon($item['price']);
+    echo order::getCurrencyShort($item['price'], ' ');
     echo " * " . $val['num_items'];
 
     $sub_total = $val['num_items'] * $item['price'];
-    echo " = " . order::getCurrencySymbol() . " " . format_float_mon($sub_total) . "\n";
-    $total = $sub_total + $total;
-    $weight = $weight + ($item['weight'] * $val['num_items']);
+    echo " = " . order::getCurrencyShort($sub_total, ' ') . "\n";
+    //$total = $sub_total + $total;
+    //$weight = $weight + ($item['weight'] * $val['num_items']);
 }
 
 echo "\n";
 
 echo lang::translate('order_basket_total_price_items');
 echo ' = ';
-echo order::getCurrencySymbol() . ' ' . format_float_mon($total) . "\n";
+echo order::getCurrencyShort($full['total'], ' ') . "\n";
 
 echo lang::translate('order_amount_value_added_tax');
 echo ' = ';
-echo order::getCurrencySymbol() . ' ';
-$tax = $total * config::getModuleIni('order_added_tax');
-echo format_float_mon($tax) . "\n";
+//echo order::getCurrencySymbol() . ' ';
+//$tax = $full['total * config::getModuleIni('order_added_tax');
+echo order::getCurrencyShort($full['tax'], ' ') . "\n";
 
-$shipping_info = orderShipping::getShippingInfo($order_items, $total, $weight);
+// calculate shipping row
+//$order_items = order::getBasketItems();    
+$shipping_free_info = orderShippingfree::getShippingFreeInfo(
+    $order_items, 
+    $full['total']);
+    
+$shipping_info = orderShipping::getShippingInfo(
+    $order_items, 
+    $full['total'], 
+    $full['weight']);
 
-echo lang::translate('order_amount_added_shipping_cost');
-echo ' = ';
-echo order::getCurrencySymbol() . ' ';
-echo $shipping_info['shipping_cost'];
-echo "\n";
+
+
+
+if (!$shipping_free_info['shipping_is_free']) {
+    // no shipping free
+    // shipping type has been set
+    if (isset($shipping_info['shipping_cost'])) {
+        echo $shipping_info['type']['name'];
+        echo " = ";
+        echo order::getCurrencyShort($shipping_info['shipping_cost'], ' ');
+        $full['total']+= $shipping_info['shipping_cost'];
+    }       
+} else {
+    echo $shipping_free_info['shipping_free_str'];
+}
+
+echo  "\n";
 
 echo lang::translate('order_amount_total');
 echo ' = ';
-
-echo order::getCurrencySymbol() . ' ' . $shipping_info['total_cost'] . "\n\n";
+echo order::getCurrencyShort($full['total'], ' ');
+echo "\n\n";
