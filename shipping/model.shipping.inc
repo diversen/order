@@ -265,7 +265,7 @@ class orderShipping {
         if (isset($_POST['submit'])) {
             $_POST = html::specialEncode($_POST);
             if (empty($_POST['name'])) {
-                self::$errors[] = lang::translate('No title');
+                self::$errors[] = lang::translate('order_shipping_error_no_title');
             }
             if (empty(self::$errors)) {
                 self::editType($id);
@@ -289,7 +289,7 @@ class orderShipping {
         if (isset($_POST['submit'])) {
             $_POST = html::specialEncode($_POST);
             if (empty($_POST['name'])) {
-                self::$errors[] = lang::translate('No title');
+                self::$errors[] = lang::translate('order_shipping_error_no_title');
             }
             if (empty(self::$errors)) {
                 $id = self::addType();              
@@ -330,7 +330,7 @@ class orderShipping {
 
         html::label('name', lang::system('system_form_label_title'));
         html::text('name');
-        html::label('description', lang::translate('system_form_label_abstract'));
+        html::label('description', lang::system('system_form_label_abstract'));
         html::textareaSmall('description');
         html::label('submit', '');
         

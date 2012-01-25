@@ -156,7 +156,7 @@ $_COS_LANG_MODULE['order_order_form_error_diff_zip_code'] = 'No valid zip code';
 $_COS_LANG_MODULE['order_checkout_no_items_in_basket'] = 'No items in basket!';
 $_COS_LANG_MODULE['order_checkout_order_details'] = 'Checkout details';
 $_COS_LANG_MODULE['order_view_single_product'] = 'order_view_single_product';
-$_COS_LANG_MODULE['order_item_added_to_basket'] = 'Item(s) added to basket';
+$_COS_LANG_MODULE['order_item_added_to_basket'] = 'Basket Updated';
 $_COS_LANG_MODULE['order_product_action_message_product_deleted'] = 'Products has been deleted';
 $_COS_LANG_MODULE['order_no_items_in_basket'] = 'No items in basket';
 $_COS_LANG_MODULE['order_checkout_invoice_email_message'] = 'Email message';
@@ -193,4 +193,25 @@ $_COS_LANG_MODULE['order_paypal_invoice_email_message'] = 'Thanks for your paypa
 
 $_COS_LANG_MODULE['order_paypal_process_confirm_message'] = 
 'You order has been recieved. The order will be shipped, when payment is verified and registered finally.';
+
+
+$_COS_LANG_MODULE['order_shipping_type_action_deleted'] = 'Shipping type has been deleted';
+$_COS_LANG_MODULE['order_total_weight'] = 'Total Weight';
+
+$_COS_LANG_MODULE['order_shipping_action_type_updated'] = 'Shipping type updated';
+$_COS_LANG_MODULE['order_shipping_action_type_added'] = 'Shipping type added';
+$_COS_LANG_MODULE['order_shipping_type_legend'] = 'Shipping type';
+$_COS_LANG_MODULE['order_shipping_type_legend_edit'] = 'Edit shipping type';
+
+$_COS_LANG_MODULE['order_shipping_legend_form_delete_type'] = 'Delete shipping type';
+$_COS_LANG_MODULE['order_shipping_menu_edit_base_info'] = 'Edit base info';
+$_COS_LANG_MODULE['order_shipping_menu_edit_table'] = 'Edit shipping table';
+$_COS_LANG_MODULE['order_shipping_menu_delete_type'] = 'Delete shipping type';
+$_COS_LANG_MODULE['order_amount_added_shipping_cost_final'] = 'Shipping will be added on checkout';
+$_COS_LANG_MODULE['order_shipping_checkout_select_shipping'] = 'Select shipping';
+$_COS_LANG_MODULE['order_legend_select_shipping'] = 'Select Shipping';
+$_COS_LANG_MODULE['order_category'] = 'Category';
+$_COS_LANG_MODULE['order_order_form_error_shipping_type'] = 'Pick a shipping type';
+
+$_COS_LANG_MODULE['order_shipping_error_no_title'] = 'order_shipping_error_no_title';
 

@@ -35,112 +35,101 @@ $(document).ready(function() {
 		rules: {
 
                         
-			name: "required",
+			name: {
+                            required: true,
+                            minlength: 3
+			},
+                        
+                        order_shipping_type: {
+                            required: true
+                        },
+                        
                         
                         diff_name: {
                             required: "#checkme:checked",
-                            minlength:4
+                            minlength: 3
                         },
                    
                         adresse: {
-				required: true,
-				minlength: 4
+                            required: true,
+                            minlength: 4
 			},
 
                         diff_adresse: {
-				required: "#checkme:checked",
-				minlength: 4
+                            required: "#checkme:checked",
+                            minlength: 4
 			},
 
 			postal_code: {
-				required: true,
-                                digits: true,
-				minlength: 4
-                                
+                            required: true,
+                            minlength: 4    
 			},
 
                         diff_postal_code: {
-				required: "#checkme:checked",
-                                digits: true,
-				minlength: 4
+                            required: "#checkme:checked",
+                            minlength: 4
 
 			},
 			city: {
-				required: true,
-				minlength: 1
+                            required: true,
+                            minlength: 2
 			},
 
                         diff_city: {
-				required: "#checkme:checked",
-				minlength: 1
+                            required: "#checkme:checked",
+                            minlength: 2
 			},
+                        
 			email: {
-				required: true,
-				email: true
+                            required: true,
+                            email: true
 			},
 
                         company: {
-                                required: false,
-				minlength: 2
+                            required: false,
+                            minlength: 2
 			},
 
                         phone: {
-                                required: false,
-				digits: true,
-				minlength: 6
-			},
-                        accept: "required"
+                            required: false,
+                            digits: true,
+                            minlength: 6
+			}
+                        //accept: "required"
 			
 
 		},
 		messages: {
-			name: tr('order_checkout_wrong_name'),
-                        diff_name: "Indtast navn",
+                        order_shipping_type: tr('order_valid_shipping_type'),
+			name: tr('order_valid_name'),
+                        diff_name: tr('order_valid_name'),
+			adresse: tr('order_valid_adresse'),
+                        diff_adresse: tr('order_valid_adresse'),
+			postal_code: tr('order_valid_postal_code'),
+                        //digits: jQuery.format('Kun tal')
+                        //minlength: jQuery.format("Mindst {0} karakterer")	
 			
-			adresse: {
-				required: "Indtast adresse",
-				minlength: jQuery.format("Mindst {0} karakterer")
-			},
-                        diff_adresse: {
-				required: "Indtast adresse",
-				minlength: jQuery.format("Mindst {0} karakterer")
-			},
-			postal_code: {
-				required: "Indtast postkode",
-                                digits: jQuery.format('Kun tal'),
-				minlength: jQuery.format("Mindst {0} karakterer")
-				
-			},
-                        diff_postal_code: {
-				required: "Indtast postkode",
-                                digits: jQuery.format('Kun tal'),
-				minlength: jQuery.format("Mindst {0} karakterer")
+                        diff_postal_code: tr('order_valid_postal_code'),
+                            //digits: jQuery.format('Kun tal'),
+                            //minlength: jQuery.format("Mindst {0} karakterer")
+			//},
+                        city: tr('order_valid_city'),
 
-			},
-                        city: {
-				required: "Indtast by",
-				minlength: jQuery.format("Mindst {0} karakterer")
+                        diff_city: tr('order_valid_city'),
 
-			},
-                        diff_city: {
-				required: "Indtast by",
-				minlength: jQuery.format("Mindst {0} karakterer")
-
-			},
 			email: {
-				required: "Indtast en gyldig email",
-                                email: jQuery.format("Skal være email format")
+                            required: tr('order_valid_email'),
+                            //email: jQuery.format("Skal være email format")
+                            email: tr('order_valid_email')
 			},
-                        phone: {
-				required: "Indtast et gyldigt nummer",
-                                digits: jQuery.format('Kun tal'),
-                                minlength: jQuery.format("Mindst {0} tal")
-			},
-                        accept: "Acceptere handelsbetingelser",
+                        phone: tr('order_valid_phone'),
+                            //digits: jQuery.format('Kun tal'),
+                            //minlength: jQuery.format("Mindst {0} tal")
+			//},
+                        accept: tr('order_accept_conditions'),
+                        //accept: "Acceptere handelsbetingelser",
                         
-                        company: "Indtast firma"
-
-
+                        company: tr("order_checkout_company")
 		},
 		// the errorPlacement has to take the table layout into account
 		errorPlacement: function(error, element) {
@@ -161,54 +150,3 @@ $(document).ready(function() {
 		}
 	});
 });
-
-/*
-http://papermashup.com/drag-drop-with-php-jquery/
-*/
-/*
-$(document).ready(function(){
-    function slideout(){
-        setTimeout(function(){
-            $("#response").slideUp("fast", function () {
-            });
-        }, 2000);
-    }
-    $("#response").hide();
-        $(function() {
-            $("#list ul").sortable({
-                opacity: 0.8, cursor: 'move', update: function() {
-                    var order = $(this).sortable("serialize") + '&update=update';
-                    $.post("/order/products/update", order, function(theResponse){
-                        $("#response").html(theResponse);
-                        $("#response").slideDown('fast');
-			slideout();
-
-                    });
-                }
-            });
-        });
-    });
-*/
-/*
-$(document).ready(function(){
-    function slideout(){
-        setTimeout(function(){
-            $("#response").slideUp("fast", function () {
-            });
-        }, 2000);
-    }
-    $("#response").hide();
-        $(function() {
-            $("#order_category_list ul").sortable({
-                opacity: 0.8, cursor: 'move', update: function() {
-                    var order = $(this).sortable("serialize") + '&update=update';
-                    $.post("/order/category/update", order, function(theResponse){
-                        $("#response").html(theResponse);
-                        $("#response").slideDown('fast');
-			slideout();
-
-                    });
-                }
-            });
-        });
-    }); */

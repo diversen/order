@@ -2,7 +2,8 @@
 
 $_COS_LANG_MODULE['content_article_simple_tree_block_header'] = 'Menu';
 $_COS_LANG_MODULE['order_cat_show_all'] = 'Show All';
-$_COS_LANG_MODULE['order_products_admin_main_menu'] = 'Producs';
+$_COS_LANG_MODULE['order_quick_order'] = 'Quick Order';
+$_COS_LANG_MODULE['order_products_admin_main_menu'] = 'Products';
 $_COS_LANG_MODULE['order_shipping_admin_main_menu'] = 'Shipping';
 $_COS_LANG_MODULE['order_shipping_max_admin_main_menu'] = 'Free Shipping';
 $_COS_LANG_MODULE['order_category_admin_main_menu'] = 'Categories';
@@ -21,4 +22,9 @@ $_COS_LANG_MODULE['order_basket'] = 'Basket';
 
 
 $_COS_LANG_MODULE['order_sales_admin_main_menu'] = 'Sales';
+
+
+$_COS_LANG_MODULE['order_shipping_main_type_menu'] = 'List Shipping Types';
+$_COS_LANG_MODULE['order_shipping_add_type_menu'] = 'Add Shipping Type';
+
 

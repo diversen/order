@@ -62,7 +62,7 @@ $shipping_dropdown = html::selectClean(
 <td colspan="2">* <?=lang::translate('order_legend_postal_code')?></td>
 </tr>
 <tr>
-<td><input type="text" name="postal_code"  size="3" MAXLENGTH="4" value="<?=@$_POST['postal_code']?>" /></td>
+<td><input type="text" name="postal_code"  size="12" value="<?=@$_POST['postal_code']?>" /></td>
 <td class="status"></td>
 </tr>
 
@@ -151,7 +151,7 @@ if (config::getModuleIni('order_use_country')) {
     <td colspan="2">* <?=lang::translate('order_legend_postal_code')?></td>
 </tr>
 <tr>
-    <td><input type="text" name="diff_postal_code" size="12" MAXLENGTH="4" value="<?=@$_POST['diff_postal_code']?>" /></td>
+    <td><input type="text" name="diff_postal_code" size="12" value="<?=@$_POST['diff_postal_code']?>" /></td>
     <td class="status"></td>
 </tr>
 
