@@ -7,7 +7,7 @@ echo "<tr>\n";
 $per_row = config::getModuleIni('order_items_per_row');
 
 
-foreach ($vars as $key => $val){
+foreach ($vars as $val){
     echo "<td class='order-align-top'>";
 
     $options = array ();
@@ -28,14 +28,14 @@ foreach ($vars as $key => $val){
     } else {
         echo "&nbsp;";
     }
-    /*
+    
     if (!empty($val['file'])){
         echo create_image_link(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
             "/order/download/$val[id]/thumb/$val[md5]", $options
         );
     }
-    */
+    
     echo "<td/>\n";
     echo "<td class='order-align-top'>\n";
     
