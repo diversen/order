@@ -5,7 +5,7 @@ include_module('order');
 function block_order_cart () {
 
     $cart_info = order::getFullCartInfo();
-
+    echo "<div class =\"block\">\n";
     echo "<h3>" . lang::translate('order_basket') . "</h3>\n";
     echo "<table class=\"order_basket\">\n";
     echo "<tr>\n";
@@ -110,5 +110,6 @@ function block_order_cart () {
 
     echo "</tr>\n";
     echo "</table>";
-    echo "<br />\n";
+    //echo "<br />\n";
+    echo "</div>\n";
 }

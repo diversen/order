@@ -7,8 +7,10 @@
 /**
  * @ignore
  */
-include_once "helpers.inc";
-include_once "upload.php";
+//include_once "coslib/helpers.inc";
+include_once "coslib/upload.php";
+include_once "coslib/cache.php";
+include_once config::getModulePath('order') . "/helpers.inc";
 
 order::loadAssets();
 
