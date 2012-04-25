@@ -49,7 +49,9 @@ $options = array();
 
 $use_gallery = config::getModuleIni('order_use_gallery');
 if (isset($use_gallery)) {
-    $gallery_id = URI::getInstance()->fragment(2);    
+    //$gallery_id = URI::getInstance()->fragment(2); 
+    gallery::viewGallery(2);
+    /*
     $options = array ();
     $options['gallery_id'] = $gallery_id;
     if ($gallery_id) {
@@ -59,7 +61,7 @@ if (isset($use_gallery)) {
         $options['default'] = $gallery->getDefaultImage($gallery_id);
         $str = $gallery->getThumbTableHTML($rows, $options);
         echo $str;
-    }
+    }*/
 }
 
 echo "</td><td class=\"order-align-top\">\n";
