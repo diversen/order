@@ -67,7 +67,7 @@ class order  {
             
             $ret = false;
             foreach ($shipping_types as $key => $val) {
-                //print_r($val);
+
                 if ($val['id'] == $_POST['order_shipping_type']) {
                     $ret = true;
                     break;
@@ -330,7 +330,7 @@ class order  {
     public static function getFullCartInfo () {
         $order_items = order::getBasketItems();
 
-        $total_weight = 0;
+
         $total = $sub_total = $weight = $num_items = 0;
 
         $full_info = array ();
@@ -433,26 +433,25 @@ class order  {
      * 
      * @param array $options array ('redirect' => '/location/to/redirect');
      */
-    public static function addToBasket ($options = null){        
-        $db = new db();        
+    public static function addToBasket ($options = null){       
+      
         if (isset($_POST['num_items'])){
-            
-            (int)$num_items = filter_var($_POST['num_items'], FILTER_VALIDATE_INT);
-            (int)$item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);           
+
+          (int)$num_items = filter_var($_POST['num_items'], FILTER_VALIDATE_INT);
+          (int)$item_id = filter_var($_POST['item_id'], FILTER_VALIDATE_INT);
+
             if (is_int($num_items) && is_int($item_id)){
                 self::updateBasket($item_id, $num_items);
 
                 if (isset($options['redirect'])){
-                    $header = "Location: $options[redirect]";
-                    header ($header);
+                    http::locationHeader($options['redirect']);
                 } else {
                     session::setActionMessage(lang::translate('order_item_added_to_basket'));
                     $redirect = config::getModuleIni('order_redirect_update_item');
                     if (!isset($redirect)) {
                         $redirect = "/order/cart";
                     }                    
-                    header ("Location: $redirect");
-                    exit;
+                    http::locationHeader ($redirect);
                 }               
             }
         }    
@@ -493,12 +492,16 @@ class order  {
      * @param array $values the values of the basket 
      */
     public static function setBasketItems ($values = array()) {
+
         if (isset($_COOKIE['order_client_id'])){
-            $id = $_COOKIE['order_client_id'];
+            $id = $_COOKIE['order_client_id'];            
         } else {
             $id = md5(uniqid());
+            
             $order_cookie_time = time() + config::getModuleIni('order_cookie_time');
             setcookie('order_client_id', $id, $order_cookie_time, '/');
+            
+  
         }
         cache::set('order_basket_items', $id, $values);    
     }
