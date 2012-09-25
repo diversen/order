@@ -374,7 +374,7 @@ class order  {
     public static function displayAllCartItems (){
         $db = new db();
         $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
-        templateView::includeModuleView('order', 'category/cart_category', $all_items);
+        echo view::get('order', 'category/cart_category', $all_items);
     }
     
     /**
@@ -606,7 +606,7 @@ class order  {
 
         if (empty($vars['order_items'])){
             echo lang::translate('order_no_items_in_basket');
-            return;
+            http::locationHeader('/order/cart');
         }
 
         templateView::includeModuleView('order', 'display_basket', $vars);

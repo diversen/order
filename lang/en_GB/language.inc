@@ -213,5 +213,9 @@ $_COS_LANG_MODULE['order_legend_select_shipping'] = 'Select Shipping';
 $_COS_LANG_MODULE['order_category'] = 'Category';
 $_COS_LANG_MODULE['order_order_form_error_shipping_type'] = 'Pick a shipping type';
 
-$_COS_LANG_MODULE['order_shipping_error_no_title'] = 'order_shipping_error_no_title';
+$_COS_LANG_MODULE['order_shipping_error_no_title'] = 'Ingen titel';
 
+
+$_COS_LANG_MODULE['order_item_form_error_only_one_decimal_sep'] = 'Only one decimal seperator (.)';
+$_COS_LANG_MODULE['price_order_item_form_error_not_numeric'] = 'Price needs to be a numeric';
+$_COS_LANG_MODULE['weight_order_item_form_error_not_numeric'] = 'Weight needs to be numeric';

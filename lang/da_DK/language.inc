@@ -273,3 +273,8 @@ $_COS_LANG_MODULE['order_total_weight'] = 'Total Vægt';
 $_COS_LANG_MODULE['order_amount_added_shipping_cost_final'] = 'Fragt pris udregnes endeligt ved bestilling';
 
 $_COS_LANG_MODULE['order_shipping'] = 'Fragt';
+
+$_COS_LANG_MODULE['order_shipping_error_no_title'] = 'Ingen tiel';
+$_COS_LANG_MODULE['order_item_form_error_only_one_decimal_sep'] = 'Sæt kun et komma';
+$_COS_LANG_MODULE['price_order_item_form_error_not_numeric'] = 'Prisen skal være et tal';
+$_COS_LANG_MODULE['weight_order_item_form_error_not_numeric'] = 'Vægt skal være et tal';

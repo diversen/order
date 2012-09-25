@@ -14,10 +14,12 @@ foreach ($vars as $key => $val){
     $options['title'] = $val['description'];
     $options['width'] = config::getModuleIni('order_category_image_size');
 
-    headline_message($val['name']);
     
-    $image = gallery::getDefaultImage($val['id']);
     $url = strings::utf8Slug("/order/cart/$val[id]", $val['name']);
+    echo "<h3>" . html::createLink($url, $val['name']) . "</h3>";
+    
+    //$image = gallery::getDefaultImage($val['id']);
+    
     
     if (!empty($val['file'])){
         echo create_image_link(

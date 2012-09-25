@@ -30,3 +30,5 @@ $_COS_LANG_MODULE['order_shipping_add_type_menu'] = 'Add Shipping Type';
 $_COS_LANG_MODULE['/modules/order/blocks/order_cart.inc-human'] = 'Order Cart';
 
 
+
+$_COS_LANG_MODULE['order_category_edit_items'] = 'Edit categories';
