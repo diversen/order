@@ -10,6 +10,7 @@
 //include_once "coslib/helpers.inc";
 include_once "coslib/upload.php";
 include_once "coslib/cache.php";
+include_once "coslib/intl.php";
 include_once config::getModulePath('order') . "/helpers.inc";
 
 order::loadAssets();
@@ -295,6 +296,7 @@ class order  {
      * @return string $formatted e.g. DKK 20,00. 
      */
     public static function getCurrencyShort ($value, $sep = "&nbsp;") {
+        return intl::formatCurrency(config::getMainIni('locale'), $value);
         return money_format('%i', $value);
         //return order::getCurrencySymbol() . $sep . format_float_mon($value);
     }

@@ -48,7 +48,7 @@ echo "<tr><td class=\"order-align-top\">\n";
 $options = array();
 
 $use_gallery = config::getModuleIni('order_use_gallery');
-if (isset($use_gallery)) {
+if (isset($use_gallery) ) {
     gallery::viewGallery(2, 3, array ('no_redirect' => true));
 }
 

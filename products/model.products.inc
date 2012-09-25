@@ -21,6 +21,7 @@ class orderProducts extends order {
      */
     public static function form($method, $frag = 3){
 
+        //print_r($_POST);
         html::$autoLoadTrigger = 'submitted';
         html::formStart('order_item_form');
         
@@ -39,7 +40,9 @@ class orderProducts extends order {
 
             $id = uri::$fragments[$frag];
             $row = order::getItem($id);
-
+            
+            $row['price'] = intl::formatDecimal(config::getMainIni('locale'), $row['price']);
+            $row['weight'] = intl::formatDecimal(config::getMainIni('locale'), $row['weight']);
             
             html::init($row);
             $button_text = lang::translate('order_update');            
@@ -93,7 +96,7 @@ class orderProducts extends order {
     public function updateItemControl ($frag = 3) {
        
         $id = URI::getInstance()->fragment($frag);
-        templateView::includeModuleView('order/products', 'admin_menu', $vars = array ('id' => $id));
+        echo view::get('order/products', 'admin_menu', $vars = array ('id' => $id));
         template::setTitle(lang::translate('order_edit_html_title'));
 
         if (isset($_POST['submit']) && $_POST['method'] == 'item_update'){
@@ -106,7 +109,7 @@ class orderProducts extends order {
                             lang::translate('order_action_message_product_updated'));
                         header("Location: /order/products/edit/$id");
                 } else {
-                    view_form_errors($thyis->errors);
+                    view_form_errors($this->errors);
                 }
             } else {
                 view_form_errors($this->errors);
@@ -129,13 +132,24 @@ class orderProducts extends order {
             }
         }
         
-        if (!is_numeric($_POST['price'])) {
-            $this->errors[] = lang::translate('order_item_form_error_not_numeric');
+        $_POST['price'] = intl::formatDecimalFromLocale(config::getMainIni('locale'), $_POST['price']);
+        $_POST['weight'] = intl::formatDecimalFromLocale(config::getMainIni('locale'), $_POST['weight']);
+
+        $num_seps = strings::occurences('.', $_POST['price']);        
+        if ($num_seps > 1) {
+            $this->errors[] = lang::translate('order_item_form_error_only_one_decimal_sep');
         }
         
-        if (!is_numeric($_POST['weight'])) {
-            $this->errors[] = lang::translate('order_item_form_error_not_numeric');
+        
+        
+        if (!is_numeric((float)$_POST['price'])) {
+            $this->errors[] = lang::translate('price_order_item_form_error_not_numeric');
         }
+        
+        if (!is_numeric((float)$_POST['weight'])) {
+            $this->errors[] = lang::translate('weight_order_item_form_error_not_numeric');
+        }
+        
         
     }
 
@@ -176,12 +190,12 @@ class orderProducts extends order {
                     session::setActionMessage(lang::translate('order_confirm_product_inserted'));
                     header("Location: /order/products/edit/$id");
                 } else {
-                    view_form_errors($cart->errors);
+                    view_form_errors($this->errors);
                     $message = "Could not add product item in: " . __FILE__;
                     cos_error_log($message);
                 }
             } else {
-                view_form_errors($cart->errors);
+                view_form_errors($this->errors);
             }    
         }
 
@@ -229,11 +243,10 @@ class orderProducts extends order {
         $db = new db();
         
         db::$dbh->beginTransaction();
+
         $values = db::prepareToPost();
         $values['item_name'] = strings::sanitizeUrlSimple($values['item_name']);
-        //$values['item_name_alt'] = strings::sanitizeUrlSimple($values['item_name_alt']);
-        //$values['md5'] = md5(uniqid());
-        
+
         $db->insert(self::$table, $values);
         $id = db::$dbh->lastInsertId();
         db::$dbh->commit();
