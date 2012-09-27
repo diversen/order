@@ -9,11 +9,7 @@ foreach ($vars as $key => $val) {
     echo "</td>";
     echo "</tr>";
     echo "<tr>\n";
-    /*
-    echo "<td>" . html::createLink("/order/shipping/edit_type/$val[id]", 
-            lang::translate('order_shipping_menu_edit_base_info')) . 
-                        MENU_SUB_SEPARATOR .
-            "</td>";*/
+
     echo "<td>" . html::createLink("/order/shipping/edit_type_table/$val[id]", 
             lang::translate('order_shipping_menu_edit_table')) . 
 

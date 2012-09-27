@@ -345,10 +345,15 @@ class orderShipping {
     }
 
     public static function showForm ($method = 'insert', $row = null) {
+        
         html::$autoLoadTrigger = 'submit';
         if ($method == 'insert') {
             html::init();
         } else {
+            $row['weight'] = intl::formatDecimal(
+                    config::getMainIni('locale'), $row['weight']);
+            $row['cost'] = intl::formatDecimal(
+                    config::getMainIni('locale'), $row['cost']);
             html::init($row);
         }
         html::formStart('order_shipping_form');
@@ -358,9 +363,23 @@ class orderShipping {
             html::legend(lang::translate('order_shipping_legend_edit'));
         }
 
-        html::label('weight', lang::translate('order_shipping_weight_label'));
+        $weight_example = intl::formatDecimal(
+                                    config::getMainIni('locale'), 10.50);
+        html::label(
+                'weight', 
+                    lang::translate(
+                            'order_shipping_weight_label', 
+                            array ($weight_example))
+                );
         html::text('weight');
-        html::label('cost', lang::translate('order_shipping_cost_label'));
+        
+        
+        $cost_example = intl::formatDecimal(
+                                    config::getMainIni('locale'), 100.50);
+        html::label('cost', lang::translate(
+                'order_shipping_cost_label', 
+                    array ($cost_example))
+                );
         html::text('cost');
         html::label('submit', '');
         

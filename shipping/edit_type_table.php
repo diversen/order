@@ -5,7 +5,6 @@ if (!session::checkAccessControl('order_allow')){
 }
 
 $id = URI::$fragments[3];
-//$type = URI::$fragments[3];
 
 if (isset($_POST['submit'])) {
     orderShipping::sanitize();
