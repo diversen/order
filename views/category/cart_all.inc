@@ -7,7 +7,7 @@ echo "<tr>\n";
 $per_row = config::getModuleIni('order_items_per_row');
 
 foreach ($vars as $key => $val){
-    echo "<td class='order-align-top'>";
+    echo "<td class=\"order_align_top\">\n";
 
     $options = array ();
     $options['alt'] = $val['description'];
@@ -17,9 +17,6 @@ foreach ($vars as $key => $val){
     
     $url = strings::utf8Slug("/order/cart/$val[id]", $val['name']);
     echo "<h3>" . html::createLink($url, $val['name']) . "</h3>";
-    
-    //$image = gallery::getDefaultImage($val['id']);
-    
     
     if (!empty($val['file'])){
         echo create_image_link(

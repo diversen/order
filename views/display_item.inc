@@ -43,7 +43,7 @@ if ($vars['stock'] != '0') {
     echo "</div>";
 }
 echo "</td></tr>";
-echo "<tr><td class=\"order-align-top\">\n";
+echo "<tr><td class=\"order_align_top\">\n";
 
 $options = array();
 
@@ -54,7 +54,7 @@ if (isset($use_gallery) ) {
         'no_admin' => true));
 }
 
-echo "</td><td class=\"order-align-top\">\n";
+echo "</td><td class=\"order_align_top\">\n";
 echo $vars['item_description'];
 echo templateView::get('order', 'admin_options_item', $vars);
 echo "</td></tr>\n";

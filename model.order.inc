@@ -48,7 +48,7 @@ class order  {
         template::setInlineJs(get_module_path('order') . "/lang/$lang/$lang.js");
 
         template::setInlineJs(get_module_path('order') . '/assets/order.js');
-        template::setInlineCss(get_module_path('order') . '/assets/order.css');
+        //template::setInlineCss(get_module_path('order') . '/assets/order.css');
 
         include_model('order/shipping');
         include_model('order/shippingfree');
@@ -61,8 +61,12 @@ class order  {
      * method for validating shipping form
      */
     public function validateShippingForm (){
+        
         $_POST = html::specialEncode($_POST);
 
+        $num_types = orderShipping::getCountTypes();
+        if ($num_types == 0 || $num_types == 1 ) return true;
+        
         if (!empty($_POST['order_shipping_type'])) {
             $shipping_types = orderShipping::getTypes();
             

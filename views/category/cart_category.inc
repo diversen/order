@@ -8,7 +8,8 @@ $per_row = config::getModuleIni('order_items_per_row');
 
 
 foreach ($vars as $val){
-    echo "<td class='order-align-top'>";
+
+    echo "<td class=\"order_align_top\">\n";
 
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
@@ -23,21 +24,19 @@ foreach ($vars as $val){
                 strings::utf8Slug("/order/item/$val[id]", $val['item_name']),
                 $image_url, $options);
         echo $link;
-        // USED this to be able to edit exact item rawurlencode($item['item_name']) . "?order_item=$key",
-
     } else {
         echo "&nbsp;";
     }
     
     if (!empty($val['file'])){
-        echo create_image_link(
+        echo html::createHrefImage(
             "/order/item/$val[id]/" . rawurlencode($val['item_name']),
             "/order/download/$val[id]/thumb/$val[md5]", $options
         );
     }
     
-    echo "<td/>\n";
-    echo "<td class='order-align-top'>\n";
+    echo "</td>\n";
+    echo "<td class=\"order_align_top\">\n";
     
     $link = html::createLink(
         strings::utf8Slug("/order/item/$val[id]", $val['item_name']),
@@ -54,8 +53,7 @@ foreach ($vars as $val){
         echo "</div>";
     }
 
-    echo order::getCurrencySymbol() . ' ' .
-    format_float_mon($val['price']) . 
+    echo order::getCurrencyShort($val['price']) . 
           "<br />\n";
 
     templateView::includeModuleView('order', 'admin_options_item', &$val);

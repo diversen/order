@@ -10,6 +10,9 @@ $shipping_types = array ();
 $default = array ('id' => '', 'name' => lang::translate('order_shipping_checkout_select_shipping')); 
 $shipping_types = orderShipping::getTypes();
 
+$num_shipping_types = orderShipping::getCountTypes();
+
+
 array_unshift($shipping_types, $default);
 $shipping_dropdown = html::selectClean(
         'order_shipping_type', 
@@ -24,7 +27,10 @@ $shipping_dropdown = html::selectClean(
 
 
 <table class="checkout">
-    
+
+<?php 
+
+if ($num_shipping_types != 1 && $num_shipping_types != 0) { ?> 
 <tr>
     <td colspan="2">* <?=lang::translate('order_legend_select_shipping')?></td>
 </tr>
@@ -33,7 +39,7 @@ $shipping_dropdown = html::selectClean(
     <td><?=$shipping_dropdown?></td>
     <td class="status"></td>
 </tr>
-
+<? } ?>
 <tr>
     <td colspan="2"><?=lang::translate('order_legend_company')?></td>
 </tr>

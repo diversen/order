@@ -2,29 +2,14 @@
 
 
 
-function locfloat_to_sysfloat($value)
-{
-    /*
-    $larr = localeconv();
-    $search = array(
-        $larr['mon_decimal_point'],
-    );
-
-    $replace = array('.');
-    $res = str_replace($search, $replace, $value);
-    return $res; */
+function locfloat_to_sysfloat($value){
     return intl::formatDecimalFromLocale(config::getMainIni('locale'), $value);
-
 }
 
 
 
 function format_float_mon ($value) {
-    //return money_format('%i', $value) . "\n";
     return intl::formatCurrency(config::getMainIni('locale'), $value);
-    return $value = number_format($value, 2, ',' , '.');
-    
-    //return sysfloat_to_locfloat($value);
 }
 
 

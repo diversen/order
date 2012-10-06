@@ -24,7 +24,7 @@ echo "</td>";
 echo "<td>\n";
 echo lang::translate('order_amount_total');
 echo "</td>";
-echo "<td>&nbsp;</td>";
+//echo "<td>&nbsp;</td>";
 echo "</tr>\n";
 $weight = $total = $sub_total = 0;
 $full = order::getFullCartInfo();
@@ -44,11 +44,15 @@ foreach ($all_items as $key => $val){
     $options['alt'] = $item['item_name_alt'];
 
     $image_url = gallery::getDefaultImageUrl($item['id'], 'small');
-    $link =
-        html::createHrefImage(
-            strings::utf8Slug("/order/item/$item[id]", $item['item_name']),
-            $image_url, $options);
-    echo $link;
+    
+    $image_link = '';
+    if (!empty($image_url)) {
+        $image_link =
+            html::createHrefImage(
+                strings::utf8Slug("/order/item/$item[id]", $item['item_name']),
+                $image_url, $options);
+    } 
+    echo $image_link;
     echo "</td>";
     echo "<td>";
 
@@ -76,7 +80,7 @@ foreach ($all_items as $key => $val){
 
     echo "</td>\n";
     echo "<td>&nbsp;</td>";
-    echo "<td>&nbsp;</td>\n";
+    //echo "<td>&nbsp;</td>\n";
     echo "</tr>\n";
 
 }
@@ -85,9 +89,10 @@ echo "<td colspan=\"4\">";
 echo lang::translate('order_basket_total_price_items');
 echo "</td>";
 echo "<td>";
-echo order::getCurrencySymbol() . '&nbsp;' . format_float_mon($total);
+echo order::getCurrencyShort($total);
+
 echo "</td>\n";
-echo "<td>&nbsp;</td>\n";
+//echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
 
 echo "<tr>\n";
@@ -95,10 +100,10 @@ echo "<td colspan=\"4\">";
 echo lang::translate('order_amount_value_added_tax');
 echo "</td>";
 echo "<td>";
-echo order::getCurrencySymbol() . '&nbsp;';
-echo format_float_mon($total * config::getModuleIni('order_added_tax'));
+//echo order::getCurrencySymbol() . '&nbsp;';
+echo order::getCurrencyShort($total * config::getModuleIni('order_added_tax'));
 echo "</td>\n";
-echo "<td>&nbsp;</td>\n";
+//echo "<td>&nbsp;</td>\n";
 echo "</tr>\n";
 // calculate shipping row
 $order_items = order::getBasketItems();    

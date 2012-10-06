@@ -1,3 +1,24 @@
+table.order_cart tbody tr {
+    background-color: #eee;
+}
+
+table.order_cart {
+    background-color: #000;
+}
+
+.order_cart input[type=text] {
+    width: 30px;
+}
+
+.order_cart input[type=submit] {
+    width: 65px;
+}
+
+table.order_basket_full tbody tr {
+    background-color: #eee;
+}
+
+
 #order_item
 {
     margin: 0px 10px 0px 0px;
@@ -17,14 +38,14 @@ td.order_cart {
     top:0;
 }
 
-.order-align-top {  
+.order_align_top {  
     margin-top: 0px;
     
     vertical-align: top;
     background-color: #fff;
 }
 
-.order-align-top p {  
+.order_align_top p {  
     margin-top: 0px;
     vertical-align: top;
     background-color: #fff;
@@ -45,7 +66,7 @@ td.order_cart {
 }
 
 .border_box {
-           -moz-border-radius: 1px 1px 1px 1px;
+    -moz-border-radius: 1px 1px 1px 1px;
     -moz-box-sizing: border-box;
     background: none repeat scroll 0 0 #fff;
     border-color: #aaa #ddd #aaa;

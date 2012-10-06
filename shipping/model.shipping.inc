@@ -240,6 +240,12 @@ class orderShipping {
         return $types;
     }
     
+    public static function getCountTypes () {
+        $types = self::getTypes();
+        return count($types);
+        
+    }
+    
     /**
      *
      * returns all types of shipping
