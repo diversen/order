@@ -1,13 +1,16 @@
 <?php
 
-echo "<table class=\"order_cart\">";
+/**
+ * displays single item
+ */
+echo "<table class=\"order_cart_item\">";
 echo "<tr><td colspan=2>\n";
-echo $vars['item_name'] . "<br />";
+echo headline_message($vars['item_name']); // . "<br />";
 
 echo order::getCurrencyShort($vars['price']);
 
 echo "</td></tr>\n";
-echo "<tr><td colspan=2>\n";
+echo "<tr><td colspan=2 class=\"order_align_top\">\n";
 
 if ($vars['stock'] != '0') {
 

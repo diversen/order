@@ -1,6 +1,6 @@
 <?php
 
-echo "<table class = \"order_cart\">\n";
+echo "<table class = \"order_cart_category\">\n";
 $i = 0;
 echo "<tr>\n";
 
@@ -10,7 +10,6 @@ $per_row = config::getModuleIni('order_items_per_row');
 foreach ($vars as $val){
 
     echo "<td class=\"order_align_top\">\n";
-
     $options = array ();
     $options['alt'] = $val['item_name_alt'];
     $options['width'] = config::getModuleIni('gallery_small_size');

@@ -1,14 +1,16 @@
 <?php
 
+/**
+ * display all categories
+ */
 echo "<table class = \"order_cart\">\n";
 $i = 0;
 echo "<tr>\n";
 
 $per_row = config::getModuleIni('order_items_per_row');
 
-foreach ($vars as $key => $val){
+foreach ($vars as $val){
     echo "<td class=\"order_align_top\">\n";
-
     $options = array ();
     $options['alt'] = $val['description'];
     $options['title'] = $val['description'];
@@ -16,7 +18,7 @@ foreach ($vars as $key => $val){
 
     
     $url = strings::utf8Slug("/order/cart/$val[id]", $val['name']);
-    echo "<h3>" . html::createLink($url, $val['name']) . "</h3>";
+    echo html::createLink($url, $val['name']) . "";
     
     if (!empty($val['file'])){
         echo create_image_link(
