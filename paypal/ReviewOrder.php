@@ -117,11 +117,12 @@ if(! isset($token)) {
            
            //$items_url = orderPaypal::$itemsURL;//orderPaypal::itemsToPaypalURL();           
            $itemamt = orderPaypal::getTotalPrice();
+           //die('doh');
            $shipping_cost = orderPaypal::getShippingCost();          
            $amt = $itemamt + $shipping_cost;
            $maxamt= $amt;
            
-           $nvpstr='';
+           $nvpstr = '';
            
            
 		   
@@ -138,9 +139,11 @@ if(! isset($token)) {
            //$shiptoAddress = "&SHIPTONAME=$personName&SHIPTOSTREET=$SHIPTOSTREET&SHIPTOCITY=$SHIPTOCITY&SHIPTOSTATE=$SHIPTOSTATE&SHIPTOCOUNTRYCODE=$SHIPTOCOUNTRYCODE&SHIPTOZIP=$SHIPTOZIP";
            //print $shiptoAddress; 
            //die;
-           $nvpstr = orderPaypal::getShippingURL();;
+           $nvpstr = orderPaypal::getShippingURL();
            
            $nvpstr.= orderPaypal::getItemsURL();
+           
+           $nvpstr.= orderPaypal::getLocaleURL();
             //$nvpstr.= "&L_NAME0=".$L_NAME0."&L_NAME1=".$L_NAME1;
            //$nvpstr.= "&L_AMT0=".$L_AMT0."&L_AMT1=".$L_AMT1;
            //$nvpstr.= "&L_QTY0=".$L_QTY0."&L_QTY1=".$L_QTY1;

@@ -2,7 +2,7 @@
 
 $ini = config::getModuleIni('order_menu_items');
 
-$_INSTALL['VERSION'] = 1.422;
+$_INSTALL['VERSION'] = 1.71;
 
 if (in_array('order_shop', $ini)) {
     $_INSTALL['MAIN_MENU_ITEMS'][0] = array (

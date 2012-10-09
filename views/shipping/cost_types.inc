@@ -11,7 +11,7 @@ foreach ($vars as $key => $val) {
     echo "<tr>\n";
 
     echo "<td>" . html::createLink("/order/shipping/edit_type_table/$val[id]", 
-            lang::translate('order_shipping_menu_edit_table')) . 
+            lang::translate('order_shipping_menu_edit_table')) . MENU_SUB_SEPARATOR .
 
             "</td>";
     echo "<td>" . html::createLink("/order/shipping/delete_type/$val[id]", 

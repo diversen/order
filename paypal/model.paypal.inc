@@ -44,18 +44,23 @@ class orderPaypal {
     public static $itemsURL = '';
     public static $shippingURL = '';
     public static $shippingInfoURL = '';
+    public static $localeURL = '';
     
     
     public static function getTotalPrice () {
-        return locfloat_to_sysfloat(self::$totalPrice);
+        return self::$totalPrice;
     }
     
     public static function getShippingCost () {
-        return locfloat_to_sysfloat(self::$shippingCost);
+        return self::$shippingCost;
     }
     
     public static function getItemsURL () {
         return self::$itemsURL;
+    }
+    
+    public static function getLocaleURL () {
+        return self::$localeURL;
     }
     
     public static function getShippingURL () {
@@ -79,19 +84,25 @@ class orderPaypal {
            $str.= "&L_QTY$i=$val[num_items]";
            $str.= "&L_NUMBER$i=$item[id]";
            $str.= "&L_DESC$i=" . urlencode($item['item_name_alt']);
-               $total_price = $total_price + ($val['num_items'] * $item['price']);
+           $total_price = $total_price + ($val['num_items'] * $item['price']);
            $total_weight = $total_weight + ($val['num_items'] * $item['weight']);
            $order_items= $order_items + $val['num_items']; 
            $i++;          
         }
         
-        self::$totalPrice = $total_price;
+        echo self::$totalPrice = $total_price;
         self::$itemsURL = $str;
         $shipping_info = orderShipping::getShippingInfo($order_items, $total_price, $total_weight);        
         //print_r($shipping_info); die;
         self::$shippingCost = $shipping_info['shipping_cost'];       
         self::setShippingURL();     
         self::setShippingInfoURL();
+        self::setLocaleURL();
+    }
+    
+    public function setLocaleURL () {
+        $ary = config::getLanguageAry();
+        self::$localeURL = "&LOCALECODE=$ary[1]";
     }
             
     public static function setShippingURL () {
