@@ -30,12 +30,12 @@ class orderPaypal {
         }
              
         headline_message(lang::translate('order_payment_select_payment_overview'));       
-        $options = array ('payment_url' => '/order/paypal/ReviewOrder');    
-        templateView::includeModuleView('order', 'confirm_button', $options);
-        echo "<h3>" . lang::translate('order_display_confirm_details') . "</h3>\n";
-        templateView::includeModuleView('order', 'display_basket', $vars);          
-        templateView::includeModuleView('order', 'confirm_form');        
-        templateView::includeModuleView('order', 'confirm_button', $options);
+        $options = array ('payment_url' => '/order/paypal/ReviewOrder');
+        echo view::get('order', 'confirm_button', $options);
+        headline_message(lang::translate('order_display_confirm_details'));
+        echo view::get('order', 'display_basket', $vars);          
+        echo view::get('order', 'confirm_form');        
+        echo view::get('order', 'confirm_button', $options);
     }
 
     
@@ -168,11 +168,7 @@ class orderPaypal {
             $error = "Could not send order email to $_POST[email]\n";
             error_log($error);
         }
-        
-        //header("Location: /order/done");
-        //die;
     }
-    // }}}
     
     /** 
      * displays an order email 
@@ -187,8 +183,8 @@ class orderPaypal {
         }
 
         $vars['order_items'] = $order_items;
-        templateView::includeModuleView('order', 'display_email', $vars);
-        templateView::includeModuleView ('order', 'confirm_form_email');
+        echo view::get('order', 'display_email', $vars);
+        echo view::get ('order', 'confirm_form_email');
 
         echo "\n\n";
 
@@ -196,5 +192,4 @@ class orderPaypal {
         echo lang::translate('order_checkout_greeting') . " http://$_SERVER[SERVER_NAME]";
         return;
     }
-    // }}}
 }

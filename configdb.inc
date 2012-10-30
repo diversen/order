@@ -8,4 +8,7 @@ $db_config = array (
            'auth' => 'admin',
             // how to display it when getting config. 
            'filters' => array ('markdown')),
+    
+
+
 );

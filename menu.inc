@@ -26,5 +26,11 @@ $_MODULE_MENU = array (
         'url' => '/order/sales/index',
         'auth' => 'admin'
     ),
+    
+    array(
+        'title' => lang::system('config'),
+        'url' => '/order/config/index',
+        'auth' => 'admin'
+    ),
 
 );

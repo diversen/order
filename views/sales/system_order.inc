@@ -3,7 +3,6 @@
 // create email
 
 $order_items = $vars['order_items'];
-
 //echo "\n\n";
 
 $weight = $total = $sub_total = 0;

@@ -46,9 +46,7 @@ class order  {
         
         $lang = config::getMainIni('language');
         template::setInlineJs(get_module_path('order') . "/lang/$lang/$lang.js");
-
         template::setInlineJs(get_module_path('order') . '/assets/order.js');
-        //template::setInlineCss(get_module_path('order') . '/assets/order.css');
 
         include_model('order/shipping');
         include_model('order/shippingfree');
@@ -72,7 +70,6 @@ class order  {
             
             $ret = false;
             foreach ($shipping_types as $key => $val) {
-
                 if ($val['id'] == $_POST['order_shipping_type']) {
                     $ret = true;
                     break;
@@ -141,7 +138,6 @@ class order  {
         return config::getModuleIni('order_item_modules');
     }
 
-
     /**
      * method for displaying checkout. 
      */
@@ -161,8 +157,7 @@ class order  {
                 save_post('order_form');
                 unset($_POST['submit']);
                 self::setShippingCookie($_POST);
-                header("Location: /order/payment");
-                die();
+                http::locationHeader("/order/payment");
             }
         } else {            
             if (!load_post('order_form')) {
@@ -205,7 +200,12 @@ class order  {
             return array();
         }
                 
-        $shipping_info = cache::get('order_shipping_info', $_COOKIE['order_client_id'], config::getModuleIni('order_cookie_time'));
+        $shipping_info = 
+            cache::get(
+                'order_shipping_info', 
+                $_COOKIE['order_client_id'], 
+                config::getModuleIni('order_cookie_time')
+            );
         if (!isset($shipping_info)) {
             $shipping_info = array ();
         }
@@ -229,11 +229,11 @@ class order  {
                 save_post('order_form');
                 unset($_POST['submit']);
                 $cookie = serialize($_POST);
-                $res = setcookie(
+                setcookie(
                     'order_form_cookie',
-                $cookie, config::getModuleIni('order_cookie_time') +time(), "/");
-                header("Location: /order/payment");
-                die();
+                    $cookie, config::getModuleIni('order_cookie_time') +time(), 
+                     "/");
+                http::locationHeader("/order/payment");
             }
         } else {            
             if (!load_post('order_form')) {
@@ -246,10 +246,9 @@ class order  {
         $payment_modules = config::getModuleIni('order_payment_modules');
         moduleLoader::includeModules($payment_modules);
         
-        echo templateView::includeModuleView(
-            'order', 'payment/display_payment_options', $payment_modules, 1
+        echo view::get(
+            'order', 'payment/display_payment_options', $payment_modules
         );
-        
     }
     
     /**
@@ -287,11 +286,9 @@ class order  {
             $error = "Could not send order email to $_POST[email]\n";
             error_log($error);
         }
-        
-        //setcookie ("order_items", "", time() - 3600, "/");
+
         self::clearBasketItems();
-        header("Location: /order/done");
-        die;
+        http::locationHeader("/order/done");
     }
         
     /**
@@ -301,8 +298,6 @@ class order  {
      */
     public static function getCurrencyShort ($value, $sep = "&nbsp;") {
         return intl::formatCurrency(config::getMainIni('locale'), $value);
-        return money_format('%i', $value);
-        //return order::getCurrencySymbol() . $sep . format_float_mon($value);
     }
     
     /**
@@ -336,8 +331,6 @@ class order  {
      */
     public static function getFullCartInfo () {
         $order_items = order::getBasketItems();
-
-
         $total = $sub_total = $weight = $num_items = 0;
 
         $full_info = array ();
@@ -373,11 +366,13 @@ class order  {
     
     /**
      * 
-     * display all items in a shopping category
+     * display all items in a shopping cart
      */
     public static function displayAllCartItems (){
         $db = new db();
-        $all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
+        
+        $all_items = dbQ::setSelect('order_items')->order('item_order')->fetch();
+        //$all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
         echo view::get('order', 'category/cart_category', $all_items);
     }
     

@@ -278,3 +278,10 @@ $_COS_LANG_MODULE['order_shipping_error_no_title'] = 'Ingen tiel';
 $_COS_LANG_MODULE['order_item_form_error_only_one_decimal_sep'] = 'Sæt kun et komma';
 $_COS_LANG_MODULE['price_order_item_form_error_not_numeric'] = 'Prisen skal være et tal';
 $_COS_LANG_MODULE['weight_order_item_form_error_not_numeric'] = 'Vægt skal være et tal';
+
+$_COS_LANG_MODULE['order_payment_method_bank_transfer'] = 'Bank overførelse.';
+$_COS_LANG_MODULE['order_checkout_overview'] = 'Overblik';
+//$_COS_LANG_MODULE['submit'] = 'submit';
+
+$_COS_LANG_MODULE['order_payment_bank_transfer_info'] = 'Ved valg af denne metode vil en forhånds email blive sendt. 
+    Når vi har set ordren vil vi sende en endelig faktura og bestillingen vil blive gennemført når vi har modaget betalingen';

@@ -39,3 +39,5 @@ $_COS_LANG_MODULE['/modules/order/blocks/order_cart.inc-human'] = 'Shop info';
 
 
 $_COS_LANG_MODULE['order_category_edit_items'] = 'Ret kategorier';
+
+
