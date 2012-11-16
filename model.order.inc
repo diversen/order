@@ -369,10 +369,7 @@ class order  {
      * display all items in a shopping cart
      */
     public static function displayAllCartItems (){
-        $db = new db();
-        
         $all_items = dbQ::setSelect('order_items')->order('item_order')->fetch();
-        //$all_items = $db->selectAll('order_items', null, null, null, null, 'item_order', true);
         echo view::get('order', 'category/cart_category', $all_items);
     }
     

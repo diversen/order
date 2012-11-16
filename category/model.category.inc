@@ -94,7 +94,7 @@ class orderCategory {
      */
     public static function getAll ($fields = null) {
         $db = new db();
-        return $db->selectAll(self::$table, $fields, null, null, null, 'order', true);        
+        return $db->selectAll(self::$table, $fields, null, null, null, 'sort_order', true);        
     }
     
     /**
@@ -102,7 +102,7 @@ class orderCategory {
      */
     public static function displayHTMLMenu () {
         $vars = self::getAll(array('id, name', 'description'));
-        templateView::includeModuleView('order', 'category/top_menu', $vars);
+        echo view::get('order', 'category/top_menu', $vars);
     }
     
     /**
@@ -274,7 +274,7 @@ class orderCategory {
         $options = array ();
         $options['table'] = self::$table;
         
-        $options['field'] = 'order';
+        $options['field'] = 'sort_order';
         $options['title'] = 'name';
         //jquerysort::setTable(self::$table);
         jquerysort::setOptions($options);

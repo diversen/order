@@ -1,0 +1,1 @@
+ALTER table order_category change `sort_order` `order` int(10) NOT NULL DEFAULT '0';
