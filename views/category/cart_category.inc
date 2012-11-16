@@ -55,7 +55,7 @@ foreach ($vars as $val){
     echo order::getCurrencyShort($val['price']) . 
           "<br />\n";
 
-    templateView::includeModuleView('order', 'admin_options_item', &$val);
+    echo view::get('order', 'admin_options_item', $val);
     echo "</td>\n";
     $i++;
     $t = $i % $per_row;
