@@ -145,7 +145,7 @@ class orderShipping {
 
     static function displayAll ($type) {
         $rows = self::getAll($type);
-        echo templateView::includeModuleView('order', 'shipping/shipping_list_all', $rows);
+        echo view::includeModuleView('order', 'shipping/shipping_list_all', $rows);
         //include_view('order/shipping', '');
     }
 
@@ -261,7 +261,7 @@ class orderShipping {
     
     public static function index() {
         $rows = self::getTypes();
-        echo templateView::get('order', 'shipping/cost_types', $rows);
+        echo view::get('order', 'shipping/cost_types', $rows);
     }
 
     public static function editTypeControl() {

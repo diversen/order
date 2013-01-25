@@ -6,7 +6,7 @@ echo "<h3>" . lang::translate("order_details") . "</h3>\n";
 
 
 $vars['disable_item_edit_buttons'] = true;
-templateView::includeModuleView('order', 'display_basket', $vars);
+view::includeModuleView('order', 'display_basket', $vars);
 
 /*
 echo "<table class=\"order_cart\">\n";

@@ -27,7 +27,7 @@ class orderSelect {
         $item_id = URI::getInstance()->fragment($item_frag);
         $select_id = URI::getInstance()->fragment($select_frag);
         
-        templateView::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
+        view::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
         if (!isset($item_id)) {
             self::$errors[] = lang::translate('order_select_need_item_id');
         }
@@ -59,7 +59,7 @@ class orderSelect {
     public static function indexSelectControl ($frag = 3)  {
 
         $item_id = URI::getInstance()->fragment($frag);
-        templateView::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
+        view::includeModuleView('order/products', 'admin_menu', array('id' => $item_id));
         if (!isset($item_id)) {
             self::$errors[] = lang::translate('order_select_need_item_id');
         }
@@ -110,7 +110,7 @@ class orderSelect {
         echo html::getStr();   
 
         $selects = self::getSelectsAsObject($item_id);
-        echo templateView::includeModuleView('order', 'select/select_list_admin', $selects, 1);
+        echo view::includeModuleView('order', 'select/select_list_admin', $selects, 1);
         
     }
     
@@ -328,7 +328,7 @@ class orderSelect {
      */
     public static function getSelectListsAsDropDowns ($item_id, $selected = array()) {
         $obj = self::getSelectsAsObject($item_id, $selected);
-        echo templateView::includeModuleView('order', 'select/select_list', $obj, 1);
+        echo view::includeModuleView('order', 'select/select_list', $obj, 1);
         /*
         $childs = orderSelect::getSelectChilds($item_id, $selected);
         if (!empty($childs->allChildOptions)) {
@@ -344,7 +344,7 @@ class orderSelect {
      */
     public static function getSelectListAsHiddenFields ($item_id, $selected = array()) {
         $obj = self::getSelectsAsObject($item_id, $selected);
-        echo templateView::includeModuleView('order', 'select/select_list_basket', $obj, 1);
+        echo view::includeModuleView('order', 'select/select_list_basket', $obj, 1);
         //$childs = orderSelect::getSelectChilds($item_id, $selected);
         //print_r($childs); die;
         /*
@@ -374,7 +374,7 @@ class orderSelect {
         }
         //print_r($obj);
         
-        return templateView::get('order', 'select/select_list_human', $obj);
+        return view::get('order', 'select/select_list_human', $obj);
         
         /*
         $childs = orderSelect::getSelectChilds($item_id, $selected, $options);

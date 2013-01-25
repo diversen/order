@@ -79,7 +79,7 @@ class orderSales {
     public static function displayAll () {
 
         $rows = self::getAll();
-        echo templateView::get('order', 'sales/display_all', $rows);
+        echo view::get('order', 'sales/display_all', $rows);
         
     }
     
@@ -87,7 +87,7 @@ class orderSales {
         $id = uri::getInstance()->fragment(3);   
         $row = self::get($id);
         $_POST = unserialize($row['full_shipping_info']);
-        echo templateView::get('order', 'confirm_form');
+        echo view::get('order', 'confirm_form');
     }
     
     public static function get ($id) {
@@ -101,7 +101,7 @@ class orderSales {
         $id = uri::getInstance()->fragment(3);   
         $row = self::get($id);
         $row = unserialize($row['transaction_details']);
-        echo templateView::get('order', 'sales/transaction', $row);
+        echo view::get('order', 'sales/transaction', $row);
         
     }
     

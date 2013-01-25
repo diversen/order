@@ -59,6 +59,6 @@ if (isset($use_gallery) ) {
 
 echo "</td><td class=\"order_align_top\">\n";
 echo $vars['item_description'];
-echo templateView::get('order', 'admin_options_item', $vars);
+echo view::get('order', 'admin_options_item', $vars);
 echo "</td></tr>\n";
 echo "</table>\n";

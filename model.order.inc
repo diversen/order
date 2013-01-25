@@ -168,7 +168,7 @@ class order  {
                 }
             }
         }          
-        echo templateView::get('order', 'order_form');
+        echo view::get('order', 'order_form');
     }
     
     /**
@@ -423,7 +423,7 @@ class order  {
         $val['item_description'] = get_filtered_content($filters, $val['item_description']);
         $val['num_items'] = $num_items;
         
-        echo templateView::get('order', 'display_item', $val);
+        echo view::get('order', 'display_item', $val);
     }
 
     /**
@@ -588,8 +588,8 @@ class order  {
         $vars['order_items'] = order::getBasketItems();
         $vars['all_items'] = order::getItemsInBlock();
 
-        templateView::includeModuleView('order', 'display_quick_basket', $vars);
-        templateView::includeModuleView('order', 'display_checkout_submit');
+        view::includeModuleView('order', 'display_quick_basket', $vars);
+        view::includeModuleView('order', 'display_checkout_submit');
         return;
     }
 
@@ -605,8 +605,8 @@ class order  {
             http::locationHeader('/order/cart');
         }
 
-        templateView::includeModuleView('order', 'display_basket', $vars);
-        templateView::includeModuleView('order', 'display_checkout_submit');
+        view::includeModuleView('order', 'display_basket', $vars);
+        view::includeModuleView('order', 'display_checkout_submit');
 
     }
 
@@ -629,8 +629,8 @@ class order  {
             return;
         }
 
-        templateView::includeModuleView('order', 'display_basket', $vars);       
-        templateView::includeModuleView('order', 'confirm_form');
+        view::includeModuleView('order', 'display_basket', $vars);       
+        view::includeModuleView('order', 'confirm_form');
     }
 
     /** 
@@ -645,8 +645,8 @@ class order  {
         }
 
         $vars['order_items'] = $order_items;
-        templateView::includeModuleView('order', 'display_email', $vars);
-        templateView::includeModuleView ('order', 'confirm_form_email');
+        view::includeModuleView('order', 'display_email', $vars);
+        view::includeModuleView ('order', 'confirm_form_email');
 
         echo "\n\n";
 
@@ -668,6 +668,6 @@ class order  {
         }
 
         $vars['order_items'] = $order_items;
-        return templateView::get('order', 'sales/system_order', $vars);
+        return view::get('order', 'sales/system_order', $vars);
     }
 }

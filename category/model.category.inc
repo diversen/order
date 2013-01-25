@@ -110,7 +110,7 @@ class orderCategory {
      */
     public static function displayBlockMenu () {
         $vars = self::getAll(array('id, name', 'description'));
-        templateView::includeModuleView('order', 'category/block', $vars);
+        view::includeModuleView('order', 'category/block', $vars);
     }
    
     /**
@@ -118,7 +118,7 @@ class orderCategory {
      */
     public static function displayCats () {
         $vars = self::getAll(array('id, name', 'description'));
-        templateView::includeModuleView('order', 'category/admin_list', $vars);
+        view::includeModuleView('order', 'category/admin_list', $vars);
     }
     
     public static function redirect () {
@@ -154,7 +154,7 @@ class orderCategory {
         template::setMeta(array ('description' => $cat['description'] ));
         
         $all_items = $db->selectAll('order_items', null, $search, null, null, 'item_order', true);
-        echo templateView::includeModuleView('order', $template, $all_items, 1);
+        echo view::includeModuleView('order', $template, $all_items, 1);
     }
 
     /**
@@ -263,7 +263,7 @@ class orderCategory {
      */
     public static function displayCatsFull () {
         $vars = self::getAll();
-        templateView::includeModuleView('order', 'category/cart_all', $vars);       
+        view::includeModuleView('order', 'category/cart_all', $vars);       
     }
 
     /**
