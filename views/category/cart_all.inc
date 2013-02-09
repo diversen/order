@@ -21,7 +21,8 @@ foreach ($vars as $val){
     echo html::createLink($url, $val['name']) . "";
     
     if (!empty($val['file'])){
-        echo create_image_link(
+        //html::createHrefImage($href, $image_src, $options);
+        echo html::createHrefImage(
             $url,
             "/order/download/$val[id]/category/$val[md5]", $options
         );

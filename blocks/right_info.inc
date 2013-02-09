@@ -23,7 +23,7 @@ function block_right_info(){
     $str.= "<br />";
 
     $options['width'] = 100;
-    $str.= create_image_link($smiley, "/templates/mandlen/kr.gif", $options);
+    $str.= html::createHrefImage($smiley, "/templates/mandlen/kr.gif", $options);
     $str.= "<br />\n";
 
     $info = '<hr />';
