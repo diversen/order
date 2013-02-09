@@ -275,13 +275,13 @@ class order  {
 
         ob_end_clean();
 
-        $res_consumer = mail_utf8($_POST['email'], $subject, $message, $from, $order_reply_to);
+        $res_consumer = cosMail::text($_POST['email'], $subject, $message, $from, $order_reply_to);
         if (!$res_consumer) {
             $error = "Could not send order email to $_POST[email]\n";
             error_log($error);
         }
         
-        $res_invoice = mail_utf8($order_invoice_to, $subject, $message, $from, $order_reply_to);
+        $res_invoice = cosMail::text($order_invoice_to, $subject, $message, $from, $order_reply_to);
         if (!$res_invoice) {
             $error = "Could not send order email to $_POST[email]\n";
             error_log($error);
