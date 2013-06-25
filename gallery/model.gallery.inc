@@ -2,7 +2,7 @@
 
 include_module('gallery/admin');
 
-class orderGallery {
+class order_gallery {
     
     public static $errors = array();
     
