@@ -1,6 +1,6 @@
 <?php
 
-class orderBanktransfer {
+class order_banktransfer {
     
     static function displayMethodLink () {
         $text = lang::translate('order_payment_method_bank_transfer'); //"Bankoverførsel (forudbetaling)";
@@ -9,7 +9,7 @@ class orderBanktransfer {
     } 
     
     public static function displayConfirm (){
-    $order_items = order::getBasketItems();
+        $order_items = order::getBasketItems();
         if (empty($order_items)){
             echo lang::translate('order_no_items_in_basket');
             return;

@@ -1,7 +1,7 @@
 <?php
 
 
-class orderPaypal {
+class order_paypal {
     
     static function displayMethodLink () {
         $text = "Paypal";
@@ -101,7 +101,7 @@ class orderPaypal {
     }
     
     public function setLocaleURL () {
-        $ary = config::getLanguageAry();
+        $ary = config::getMainIni('language');
         self::$localeURL = "&LOCALECODE=$ary[1]";
     }
             

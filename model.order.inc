@@ -244,11 +244,14 @@ class order  {
         }
                 
         $payment_modules = config::getModuleIni('order_payment_modules');
-        moduleLoader::includeModules($payment_modules);
+        
+        moduleloader::includeModules($payment_modules);
         
         echo view::get(
             'order', 'payment/display_payment_options', $payment_modules
         );
+        
+        //die;
     }
     
     /**
@@ -369,7 +372,7 @@ class order  {
      * display all items in a shopping cart
      */
     public static function displayAllCartItems (){
-        $all_items = dbQ::setSelect('order_items')->order('item_order')->fetch();
+        $all_items = db_q::setSelect('order_items')->order('item_order')->fetch();
         echo view::get('order', 'category/cart_category', $all_items);
     }
     

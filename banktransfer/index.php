@@ -7,4 +7,4 @@ $options = array ();
 $options['redirect'] = '/order/banktransfer/index';
 order::addToBasket($options);
 
-orderBanktransfer::displayConfirm();
+order_banktransfer::displayConfirm();

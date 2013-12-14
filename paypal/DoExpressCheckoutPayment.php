@@ -80,7 +80,7 @@ $sale = new orderSales();
 $sale->insert($ary);
 
 // send emails
-orderPaypal::sendOrderMails();
+order_paypal::sendOrderMails();
 
 // clear basket items
 order::clearBasketItems();

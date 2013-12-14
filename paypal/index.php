@@ -6,4 +6,4 @@ $cart = new order();
 $options = array ();
 $options['redirect'] = '/order/paypal/index';
 order::addToBasket($options);
-orderPaypal::displayConfirm();
+order_paypal::displayConfirm();

@@ -57,7 +57,7 @@ class orderSales {
     }
     
     public static function countAll () {
-        $db = new dbQ();
+        $db = new db_q();
 
         echo $db->numRows(self::$table);
     }
@@ -66,7 +66,7 @@ class orderSales {
     
     public static function getAll($from = 0, $limit = 10) {
 
-        $db = new dbQ();
+        $db = new db_q();
         $db->setSelect(self::$table);
         $db->order('id', 'DESC');
         $db->limit($from, $limit);

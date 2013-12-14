@@ -113,12 +113,12 @@ if(! isset($token)) {
            
            //$amt = 5.00+2.00+1.00+$itemamt;
            //$maxamt= $amt+25.00;
-           orderPaypal::init();
+           order_paypal::init();
            
            //$items_url = orderPaypal::$itemsURL;//orderPaypal::itemsToPaypalURL();           
-           $itemamt = orderPaypal::getTotalPrice();
+           $itemamt = order_paypal::getTotalPrice();
            //die('doh');
-           $shipping_cost = orderPaypal::getShippingCost();          
+           $shipping_cost = order_paypal::getShippingCost();          
            $amt = $itemamt + $shipping_cost;
            $maxamt= $amt;
            
@@ -139,11 +139,11 @@ if(! isset($token)) {
            //$shiptoAddress = "&SHIPTONAME=$personName&SHIPTOSTREET=$SHIPTOSTREET&SHIPTOCITY=$SHIPTOCITY&SHIPTOSTATE=$SHIPTOSTATE&SHIPTOCOUNTRYCODE=$SHIPTOCOUNTRYCODE&SHIPTOZIP=$SHIPTOZIP";
            //print $shiptoAddress; 
            //die;
-           $nvpstr = orderPaypal::getShippingURL();
+           $nvpstr = order_paypal::getShippingURL();
            
-           $nvpstr.= orderPaypal::getItemsURL();
+           $nvpstr.= order_paypal::getItemsURL();
            
-           $nvpstr.= orderPaypal::getLocaleURL();
+           $nvpstr.= order_paypal::getLocaleURL();
             //$nvpstr.= "&L_NAME0=".$L_NAME0."&L_NAME1=".$L_NAME1;
            //$nvpstr.= "&L_AMT0=".$L_AMT0."&L_AMT1=".$L_AMT1;
            //$nvpstr.= "&L_QTY0=".$L_QTY0."&L_QTY1=".$L_QTY1;
@@ -173,7 +173,7 @@ if(! isset($token)) {
            */
            //$nvpstr.= "&L_ITEMWEIGHTVALUE1=0.5&L_ITEMWEIGHTUNIT1=lbs";
            
-           $nvpstr.= orderPaypal::getShippingInfoURL();
+           $nvpstr.= order_paypal::getShippingInfoURL();
            
            $nvpstr.= "&ReturnUrl=".$returnURL;
            $nvpstr.= "&CANCELURL=".$cancelURL;
